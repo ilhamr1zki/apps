@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+Options All -Indexes
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html
+
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ Admin-Rekap-Absensi-Kelas.php?kelas=$1&bulan=$2&tahun=$3&re=$4
+
+DirectoryIndex Admin-Rekap-Absensi-Kelas.php
+
+</IfModule>
