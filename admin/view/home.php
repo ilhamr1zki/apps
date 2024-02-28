@@ -91,7 +91,7 @@ $kelkel=mysqli_query($con,"SELECT * FROM kelas ");$jkelkel=mysqli_num_rows($kelk
   <div class="col-xs-12 col-md-9 col-lg-9">
     <div class="box">
       <div class="box-header with-border bg-maroon">
-        <h3 class="box-title"> <i class="glyphicon glyphicon-star-empty"></i> Peringkat Disetiap Kelas</h3>
+        <h3 class="box-title"> <i class="glyphicon glyphicon-star-empty"></i> Peringkat Disetiap Kelas 123</h3>
       </div>
       <div class="box-body table-responsive">
         <table id="" class="table table-bordered table-hover">
