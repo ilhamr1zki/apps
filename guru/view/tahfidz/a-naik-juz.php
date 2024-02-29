@@ -102,7 +102,10 @@ order by seqjilid"); ?>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Bagian</label>
-                    <input class="form-control" id="_bagianjilidcur2" name="_bagianjilidcur2" disabled/>
+                    <select class="form-control">
+                        <option> Bagian Awal </option>
+                        <option> Bagian Akhir </option>
+                    </select>
                 </div>
             </div>
             
