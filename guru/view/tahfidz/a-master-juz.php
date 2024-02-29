@@ -67,49 +67,67 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
             <thead>
             <tr>
                 <th width="5%">NO</th>
-                <th>NAMA JUZ</th>
-                <th>URUTAN</th>
+                <th>JUZ</th>
+                <th>Nama Surah</th>
                 <th style="text-align:center;">OPSI</th>
             </tr>
             </thead>
             <tbody>
-            <?php 
-            $vr=1;
-            while($akh=mysqli_fetch_array($smk)){?>
                 <tr>
-                  <td><?php echo $vr; ?></td>
-                  <td><?php echo $akh['nmjilid']; ?>
-                
-                
-                </td>
-                  <td><?php echo $akh['seqjilid']; ?></td>
-                  <td align="center">
-                    <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                    <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                  </td>
+                    <td> 1 </td>
+                    <td> 30 </td>
+                    <td> 78 - An-Naba </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td> Bagian Awal  </td>
+                    <td>  </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td> Bagian Akhir  </td>
+                    <td>  </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td> 2 </td>
+                    <td> 29 </td>
+                    <td> 78 - Al-Mulk </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td> Bagian Awal  </td>
+                    <td>  </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>  </td>
+                    <td> Bagian Akhir  </td>
+                    <td>  </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
                 </tr>
 
-                <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = ".$akh['id']." order by seqjilid asc ");
-                while($akh2=mysqli_fetch_array($smk2)){?>
-                        <tr>
-                            <td></td>
-                            <td style="background-color:#F0F8FD">
-                            <?php echo $akh2['nmjilid']; ?>
-                            </td>
-                            <td style="background-color:#F0F8FD">
-                            <?php echo $akh2['seqjilid']; ?>
-                            </td>
-                            <td align="center" style="background-color:#F0F8FD">
-                            <?php $smkpar=mysqli_query($con,"SELECT * FROM tbl_jilid where id = ".$akh2['parentid']." limit 1 ");$parval=mysqli_fetch_array($smkpar); ?>
-                                <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh2['id'] ?>', '<?php echo $akh2['nmjilid'] ?>', '<?php echo $akh2['seqjilid'] ?>','<?php echo $akh2['parentid'] ?>','<?php echo $parval['nmjilid'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh2['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                            </td>
-                        </tr>
-                <?php 
-                }?>
-
-            <?php $vr++;
-            }?>
             </tbody>
 
         </table>
@@ -123,7 +141,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Edit Data Jilid</h4>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Edit Data Juz</h4>
             </div>
             
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid asc "); ?>
@@ -133,16 +151,26 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
             <div class="row">
                     <input type="hidden" id="_idedit" name="_idedit" class="form-control">
 
-                    <div class="col-sm-6">
+                    <!-- <div class="col-sm-6">
                         <div class="form-group">
                             <label>Nama Jilid</label>
                             <input type="text" id="_nmjilidedit" name="_nmjilidedit" class="form-control">
                         </div>
-                    </div>  
+                    </div> -->  
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label>Urutan</label>
+                            <label>Juz</label>
                             <input type="number" min=0 id="_seqjilidedit" name="_seqjilidedit" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label> Nama Surah </label>
+                            <select class="form-control">
+                                <option> Al-Fatihah </option>
+                                <option> Al-Baqarah </option>
+                                <option> Al-Imran </option>
+                            </select>
                         </div>
                     </div>  
                     <!-- <div class="col-sm-4">
@@ -174,7 +202,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Tambah Data Jilid</h4>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Tambah Data Juz</h4>
             </div>
 
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
@@ -182,21 +210,15 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
             <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjilid'); ?>/access" method="post">
             <div class="modal-body">  
             <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Nama Jilid</label>
-                            <input type="text" id="_nmjilidadd" name="_nmjilidadd" class="form-control">
-                        </div>
-                    </div>  
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label>Urutan</label>
+                            <label>Juz</label>
                             <input type="number" min=0 id="_seqjilidadd" name="_seqjilidadd" class="form-control">
                         </div>
                     </div>  
                     <div class="col-sm-4">
                       <div class="form-group">
-                        <label>PARENT JILID</label>
+                        <label>NAMA SURAH</label>
                         <select class="form-control" id="_jlparselect" name="_jlparselect">
                         <option value="0">--Pilih--</option>
                         <?php 
