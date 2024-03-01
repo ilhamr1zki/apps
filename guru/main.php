@@ -43,6 +43,9 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo $base; ?>theme/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/iCheck/square/blue.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
   <script type="text/javascript">
       $(document).ready(function() {
         $("#cari").keyup(function(){
@@ -72,8 +75,59 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   <style type="text/css">
-    body{font-family:arial;}
-    .judul{width: 100%; background-color: #FFF; padding: 10px;margin-bottom: 10px; }
+    
+    body {
+      font-family: arial;
+    }
+
+    .judul {
+      width: 100%; 
+      background-color: #FFF; 
+      padding: 10px;
+      margin-bottom: 10px; 
+    }
+
+    
+
+    /* The Modal (background) */
+    .modal-error {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 9999; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content-error {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%;
+    }
+
+    /* The Close Button */
+    .close-popup-err {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close-popup-err:hover,
+    .close-popup-err:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
   </style>
   <link rel="stylesheet" href="<?php echo $base; ?>theme/dist/css/overridecss.css">
 </head>

@@ -1,6 +1,11 @@
 <?php 
 
-$smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
+    $smk = mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); 
+    $getDatasurah = mysqli_query($con, 
+        "SELECT * FROM kumpulan_surah ORDER BY id"
+    );
+
+?>
 
 <script language="javascript" type="text/javascript">
     var _id = 0;
@@ -12,13 +17,19 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
 
         //alert(parennm);
 
-        $('#editmjilid').modal("show");
+        $('#editmjuz').modal("show");
     }
+
+    function OpenEditSementara() {
+        $('#editmjuz').modal("show");
+    }
+
     function OpenAddModal(){
         $('#_nmjilidadd').val('');
         $('#_seqjilidadd').val(0);
 
-        $('#addmjilid').modal("show");
+        $('#addmjuz').modal("show");
+        document.getElementById("juz").focus();
     }
     function OpenDeleteModal(id){
         _id = id;
@@ -31,6 +42,47 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
         return _id;
     }
 </script>
+
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css"> -->
+
+<style type="text/css">
+    
+    .formAddJuz,
+    .formAddNamaSurah {
+      margin:10px;
+    }
+
+    .juz {
+      /*padding:5px;*/
+      /*width:250px;*/
+      border: #cdcdcd solid 1px;
+      box-shadow: inset 1px 1px 3px #f6f6f6;
+      -moz-box-shadow: inset 1px 1px 3px #f6f6f6;
+      -webkit-box-shadow: inset 1px 1px 3px #f6f6f6;
+    }
+
+    .juz:focus {
+      outline:none;
+      border-color: #3da6ff;
+      box-shadow: 0 0 0 transparent;
+      -moz-box-shadow: 0 0 0 transparent;
+      -webkit-box-shadow: 0 0 0 transparent;
+      color: #333;
+    }
+
+    #errmsg {
+      background : #ff5757;
+      color :#fff;
+      padding :4px;
+      display :none;
+      width : 250px;
+    }
+
+    span .select2-container {
+      width: 100%;
+    }
+
+</style>
 
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
@@ -68,7 +120,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
             <tr>
                 <th width="5%">NO</th>
                 <th>JUZ</th>
-                <th>Nama Surah</th>
+                <th>Isi Surah</th>
                 <th style="text-align:center;">OPSI</th>
             </tr>
             </thead>
@@ -78,7 +130,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> 30 </td>
                     <td> 78 - An-Naba </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -87,7 +140,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> Bagian Awal  </td>
                     <td>  </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -96,7 +150,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> Bagian Akhir  </td>
                     <td>  </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -105,7 +160,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> 29 </td>
                     <td> 78 - Al-Mulk </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -114,7 +170,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> Bagian Awal  </td>
                     <td>  </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -123,7 +180,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <td> Bagian Akhir  </td>
                     <td>  </td>
                     <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -136,7 +194,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
 </div>
 
 
-<div id="editmjilid" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="editmjuz" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -146,7 +204,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
             
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid asc "); ?>
 
-            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('editmjilid'); ?>/access" method="post">
+            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('editmjuz'); ?>/access" method="post">
             <div class="modal-body">  
             <div class="row">
                     <input type="hidden" id="_idedit" name="_idedit" class="form-control">
@@ -166,10 +224,8 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label> Nama Surah </label>
-                            <select class="form-control">
-                                <option> Al-Fatihah </option>
-                                <option> Al-Baqarah </option>
-                                <option> Al-Imran </option>
+                            <select class="form-control" name="edit_kumpulan_surah">
+                               
                             </select>
                         </div>
                     </div>  
@@ -197,7 +253,7 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
     </div>
 </div>
 
-<div id="addmjilid" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="addmjuz" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -207,25 +263,25 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
 
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
             
-            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjilid'); ?>/access" method="post">
+            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjuz'); ?>/access" method="post">
             <div class="modal-body">  
             <div class="row">
                     <div class="col-sm-2">
-                        <div class="form-group">
+                        <div class="form-group formAddJuz">
                             <label>Juz</label>
-                            <input type="number" min=0 id="_seqjilidadd" name="_seqjilidadd" class="form-control">
+                            <input type="text" class="form-control juz" id="juz">
+                            <br>
+                            <div id="errmsg"></div>
                         </div>
                     </div>  
                     <div class="col-sm-4">
-                      <div class="form-group">
-                        <label>NAMA SURAH</label>
-                        <select class="form-control" id="_jlparselect" name="_jlparselect">
-                        <option value="0">--Pilih--</option>
-                        <?php 
-                        while($jlpar=mysqli_fetch_array($smk2))
-                        {?>
-                            <option value="<?php  echo $jlpar['id']; ?>"> <?php echo $jlpar['nmjilid']; ?></option>
-                        <?php } ?>
+                      <div class="form-group formAddNamaSurah">
+                        <label>NAMA SURAH </label>
+                        <select class="form-control" id="addNamaSurah" name="addNamaSurah">
+                            <option> -- Pilih -- </option>
+                            <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                <option> value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                            <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -263,8 +319,120 @@ $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqj
     </div>
 </div>
 
+<!-- Modal Jika Terdapat Error -->
+
+<!-- The Modal -->
+<div id="myModal" class="modal-error">
+
+  <!-- Modal content -->
+  <div class="modal-content-error" id="content-err" style="background-color: red;">
+    <span class="close-popup-err" style="margin-top: -20px;margin-right: -10px;">&times;</span>
+    <p style="text-align: center;" id="texterror"> </p>
+  </div>
+
+</div>
+<!-- Akhir Modal -->
+
+<!-- <script src="../../../jquery.js"></script> -->
 <script language="javascript" type="text/javascript">
-function SelesaiChanged(selesaival) {
-    alert( $('#_jlparselect').val());
-}
+    
+    function SelesaiChanged(selesaival) {
+        alert( $('#_jlparselect').val());
+    }
+
+
+    $(document).ready(function() {
+
+        const fieldJuz  = $(".juz");
+
+        let modal       = document.getElementById("myModal");
+        let spans       = document.getElementsByClassName("close-popup-err")[0];
+        let txtErr      = $("#texterror");
+        let mdlErr      = $("#content-err");
+
+        $(".juz").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                // $("#errmsg").html("Isi Juz hanya boleh di isi oleh angka").stop().show().fadeOut(4000, function() {
+                //     $(".juz").val("");
+                // });
+                $(".juz").attr('disabled','disabled');
+                fieldJuz.css("background-color", "white");
+                modal.style.display = "block";
+                mdlErr.css("background-color", "aquamarine");
+                mdlErr.css("color", "#000");
+                mdlErr.css("width", "350px");
+                mdlErr.css("font-family", "calibri");
+                mdlErr.css("font-size", "19px");
+                txtErr.html("Isi Juz Hanya Boleh Di Isi dengan Angka")
+                txtErr.css("margin-top", "25px");
+
+                spans.onclick = function() {
+                    modal.style.display = "none";
+                    $("#juz").removeAttr('disabled'); 
+                    document.getElementById("juz").focus();
+                    $("#juz").val("")
+                }
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                  if (event.target == modal) {
+                    modal.style.display = "none";
+                    $("#juz").removeAttr('disabled'); 
+                    document.getElementById("juz").focus();
+                    $("#juz").val("")
+                  }
+                }
+
+            }
+
+            $('.juz').on("input", function() {
+                let dataInputJuz = this.value;
+                if (dataInputJuz > 30 ) {
+                 
+                    $(".juz").attr('disabled','disabled');
+                    fieldJuz.css("background-color", "white");
+                    modal.style.display = "block";
+                    mdlErr.css("background-color", "aquamarine");
+                    mdlErr.css("color", "#000");
+                    mdlErr.css("width", "350px");
+                    mdlErr.css("font-family", "calibri");
+                    mdlErr.css("font-size", "19px");
+                    txtErr.css("margin-top", "25px");
+                    fieldJuz.css("background-color", "white");
+                    modal.style.display = "block";
+                    txtErr.html("Juz hanya ada 30")
+
+                    // When the user clicks on <span> (x), close the modal
+                    spans.onclick = function() {
+                        modal.style.display = "none";
+                        $("#juz").removeAttr('disabled'); 
+                        document.getElementById("juz").focus();
+                        $("#juz").val("")
+                    }
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function(event) {
+                      if (event.target == modal) {
+                        modal.style.display = "none";
+                        $("#juz").removeAttr('disabled'); 
+                        document.getElementById("juz").focus();
+                        $("#juz").val("")
+                      }
+                    }
+
+                    // $("#errmsg").html("Juz Hanya ada 30").stop().show().fadeOut(4000, function() {
+                    //     $(".juz").val("");
+                    // });
+                }
+            });
+
+        });
+
+        $("#addNamaSurah").select2({
+            multiple : true
+        })
+
+    })
+
 </script>
