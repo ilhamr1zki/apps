@@ -87,7 +87,7 @@
     }
 
     .select2-container {
-      width: 200% !important;
+      width: 240% !important;
     }
 
     @media only screen and (max-width: 600px) {
