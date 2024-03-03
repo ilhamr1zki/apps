@@ -1,4 +1,5 @@
 <?php date_default_timezone_set('Asia/Jakarta');
+
 class action{
 
 #region jilid
@@ -78,6 +79,24 @@ function setupmanualnaikjilid($con, $idjilid,$seqjilid,$c_siswa, $nmsiswa, $tgln
 
 }
 #endregion jilid
+
+// region juz
+
+function addmasterjuz($con, $juz, $addIsiSurah) {
+
+  foreach ($addIsiSurah as $isiSurah) {
+
+    $akh = mysqli_query($con,"INSERT INTO tbl_juz set juz = '$juz', isi_surah = '$isiSurah' ");
+
+  }
+
+  session_start();
+  $_SESSION['pesan']='tambah';
+  header('location:../../masterjuz');
+  exit;
+}
+
+// endregion juz
 
 //region pustaka
 function addpustaka($con,$nama_dokumen,$deskripsi,$file_dokumen, $user_dokumen){

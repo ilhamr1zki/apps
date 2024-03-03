@@ -1,9 +1,65 @@
 <?php 
 
-    $smk = mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); 
+    $smk = mysqli_query($con, "SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); 
+    
     $getDatasurah = mysqli_query($con, 
         "SELECT * FROM kumpulan_surah ORDER BY id"
     );
+
+    $dataViewMasterJuz30 = mysqli_query($con, "
+        SELECT 
+        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+        FROM tbl_juz
+        LEFT JOIN 
+        kumpulan_surah
+        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+        WHERE juz = 30
+        ORDER BY nomer_surah ASC
+    ");
+
+    $dataViewMasterJuz29 = mysqli_query($con, "
+        SELECT 
+        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+        FROM tbl_juz
+        LEFT JOIN 
+        kumpulan_surah
+        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+        WHERE juz = 29
+        ORDER BY nomer_surah ASC
+    ");
+
+    $dataJuz = mysqli_query($con, "SELECT DISTINCT juz FROM tbl_juz;");
+
+    $no = 1;
+
+    $dataSurah30      = [];
+    $dataNomerSurah30 = [];
+
+    foreach ($dataViewMasterJuz30 as $masterJuz30) {
+        $dataSurah30[]       = $masterJuz30['nama_surah'];
+        $dataNomerSurah30[]  = $masterJuz30['nomer_surah'];
+        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    }
+
+    foreach ($dataViewMasterJuz29 as $masterJuz) {
+        $dataSurah[]       = $masterJuz['nama_surah'];
+        $dataNomerSurah[]  = $masterJuz['nomer_surah'];
+        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    }
+
+    // var_dump($dataNomerSurah);
+
+    // First Data
+    // echo $dataSurah30[array_key_first($dataSurah30)] . "<br>";
+
+    // Nomer Surah Pertama dalam juz
+    // echo $dataNomerSurah30[array_key_first($dataNomerSurah30)] . "<br>";
+
+    // Last data
+    // echo end($dataSurah30) . "<br>";
+
+    // Nomer Surah Terakhir dalam juz
+    // echo end($dataNomerSurah30);
 
 ?>
 
@@ -48,7 +104,7 @@
 <style type="text/css">
     
     .formAddJuz,
-    .formAddNamaSurah {
+    .formAddIsiSurah {
       margin:10px;
     }
 
@@ -78,10 +134,6 @@
       width : 250px;
     }
 
-    select .tes #addNamaSurah {
-        width: 200%;
-    }
-
 </style>
 
 <div class="row">
@@ -109,13 +161,14 @@
 </div>
 
 <?php $_SESSION['pesan'] = '';?>
+
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title"> <i class="glyphicon glyphicon-calendar"></i> Data Juz</h3><span style="float:right;"><a class="btn btn-primary" onclick="OpenAddModal()"><i class="glyphicon glyphicon-plus"></i> Tambah Juz</a></span>
     </div>
 
     <div class="box-body table-responsive">
-            <table id="example111" class="table table-bordered table-hover">
+            <table id="masterJuzxs" class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th width="5%">NO</th>
@@ -128,9 +181,8 @@
                 <tr>
                     <td> 1 </td>
                     <td> 30 </td>
-                    <td> 78 - An-Naba </td>
+                    <td> QS (78) An-Naba - QS (114) An-Nas </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
@@ -140,7 +192,6 @@
                     <td> Bagian Awal  </td>
                     <td>  </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
@@ -150,7 +201,6 @@
                     <td> Bagian Akhir  </td>
                     <td>  </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
@@ -160,7 +210,6 @@
                     <td> 29 </td>
                     <td> 78 - Al-Mulk </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
@@ -170,7 +219,6 @@
                     <td> Bagian Awal  </td>
                     <td>  </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
@@ -180,11 +228,26 @@
                     <td> Bagian Akhir  </td>
                     <td>  </td>
                     <td align="center">
-                        <!-- <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a> -->
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
+
+                <!-- <?php foreach ( $dataJuz as $masterJuz ) : ?>
+                <tr>
+                        <td> <?= $no++; ?> </td>
+                        <td> <?= $masterJuz['juz']; ?> </td>
+                        <td> QS (<?= $dataNomerSurah30[array_key_first($dataNomerSurah30)]; ?>) <?= $dataSurah30[array_key_first($dataSurah30)] ; ?> - QS (<?= end($dataNomerSurah30); ?>) <?= end($dataSurah30); ?> </td>
+                        <td align="center">
+                            <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
+                            <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                        </td>
+                </tr>
+                <?php endforeach; ?>
+
+                <tr>
+                    <td>  </td>
+                </tr> -->
 
             </tbody>
 
@@ -192,7 +255,6 @@
     </div>
 
 </div>
-
 
 <div id="editmjuz" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
@@ -264,34 +326,36 @@
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
             
             <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjuz'); ?>/access" method="post">
-            <div class="modal-body">  
-            <div class="row">
-                    <div class="col-sm-2">
-                        <div class="form-group formAddJuz">
-                            <label>Juz</label>
-                            <input type="text" class="form-control juz" id="juz">
+
+                <div class="modal-body">  
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group formAddJuz">
+                                <label>Juz</label>
+                                <input type="text" class="form-control juz" name="juz" id="juz">
+                                <br>
+                                <div id="errmsg"></div>
+                            </div>
+                        </div>  
+                        <div class="col-sm-4">
+                          <div class="form-group formAddIsiSurah">
+                            <label>ISI SURAH </label>
                             <br>
-                            <div id="errmsg"></div>
+                            <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                                <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select>
+                          </div>
                         </div>
-                    </div>  
-                    <div class="col-sm-4">
-                      <div class="form-group formAddNamaSurah">
-                        <label>ISI SURAH </label>
-                        <br>
-                        <select class="form-control mb-3 js-example-basic-multiple tes" multiple="multiple" id="addNamaSurah" name="addNamaSurah[]">
-                            <?php foreach( $getDatasurah as $data_surah ) : ?>
-                                <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
-                            <?php endforeach; ?>
-                        </select>
-                      </div>
                     </div>
                 </div>
-            
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
-                <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
-            </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
+                    <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
+                </div>
+
             </form>
         </div>
     </div>
@@ -430,6 +494,8 @@
         });
 
         $('.js-example-basic-multiple').select2();
+
+        $("#masterJuz").DataTable();
 
     })
 
