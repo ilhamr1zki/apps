@@ -1,7 +1,8 @@
 <?php
 $dbhost ='localhost';
 $dbuser ='u415776667_apps';
-$dbpass ='apps123';
+// $dbpass ='apps123';
+$dbpass ='Admin@2023';
 $dbname ='u415776667_apps';
 $db_dsn = "mysql:dbname=$dbname;host=$dbhost";
 try {

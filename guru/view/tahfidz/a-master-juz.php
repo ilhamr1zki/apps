@@ -78,8 +78,8 @@
       width : 250px;
     }
 
-    span .select2-container {
-      width: 100%;
+    select .tes #addNamaSurah {
+        width: 200%;
     }
 
 </style>
@@ -276,11 +276,11 @@
                     </div>  
                     <div class="col-sm-4">
                       <div class="form-group formAddNamaSurah">
-                        <label>NAMA SURAH </label>
-                        <select class="form-control" id="addNamaSurah" name="addNamaSurah">
-                            <option> -- Pilih -- </option>
+                        <label>ISI SURAH </label>
+                        <br>
+                        <select class="form-control mb-3 js-example-basic-multiple tes" multiple="multiple" id="addNamaSurah" name="addNamaSurah[]">
                             <?php foreach( $getDatasurah as $data_surah ) : ?>
-                                <option> value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
                             <?php endforeach; ?>
                         </select>
                       </div>
@@ -429,9 +429,7 @@
 
         });
 
-        $("#addNamaSurah").select2({
-            multiple : true
-        })
+        $('.js-example-basic-multiple').select2();
 
     })
 

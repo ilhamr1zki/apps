@@ -43,9 +43,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo $base; ?>theme/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/iCheck/square/blue.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+
   <script type="text/javascript">
       $(document).ready(function() {
         $("#cari").keyup(function(){
@@ -65,7 +63,8 @@
   <!-- Pace style -->
   <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/pace/pace.min.css">
   <!-- Select2 -->
-  <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/select2/select2.min.css">
+  <!-- <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/select2/select2.min.css"> -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   
   <!-- datetime -->
   
@@ -87,7 +86,15 @@
       margin-bottom: 10px; 
     }
 
-    
+    .select2-container {
+      width: 200% !important;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .select2-container {
+        width: 100% !important;
+      }
+    }
 
     /* The Modal (background) */
     .modal-error {
@@ -452,7 +459,9 @@ $presentase=number_format($hjn*$persenan);
     });
 </script>
 <!-- Select2 -->
-<script src="<?php echo $base; ?>theme/plugins/select2/select2.full.min.js"></script>
+<!-- <script src="<?php echo $base; ?>theme/plugins/select2/select2.full.min.js"></script> -->
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
   $(function () {
     //Initialize Select2 Elements
