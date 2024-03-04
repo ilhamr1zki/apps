@@ -82,25 +82,95 @@ function setupmanualnaikjilid($con, $idjilid,$seqjilid,$c_siswa, $nmsiswa, $tgln
 
 // region juz
 
-function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $parentIsiJuzAwalAtauAkhir = "0", $ketAyatSurahAwal = "kosong", $ketAyatSurahAkhir = "kosong") {
+function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiKetSrhAwl, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $isiKetSrhAkr = "kosong") {
 
-  // Isi ke tabel isi_juz_awal
+  if ($isiKetSrhAwl == 'kosong' && $isiKetSrhAkr == 'kosong') {
+    
     mysqli_query($con,"
       INSERT INTO isi_juz_awal 
       set 
       juz = '$juz', 
-      surah_awal_pertama = '$isiSurahAwalPertama',
-      surah_awal_terakhir = '$isiSurahAwalTerakhir'
+      surah_awal_pertama    = '$isiSurahAwalPertama',
+      surah_awal_terakhir   = '$isiSurahAwalTerakhir'
     ");
 
-  // Isi ke tabel isi_juz_akhir
     mysqli_query($con,"
       INSERT INTO isi_juz_akhir 
       set 
       juz = '$juz', 
-      surah_akhir_pertama = '$isiSurahAkhirPertama',
-      surah_akhir_terakhir = '$isiSurahAkhirTerakhir'
+      surah_akhir_pertama   = '$isiSurahAkhirPertama',
+      surah_akhir_terakhir  = '$isiSurahAkhirTerakhir'
     ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_ayat_pada_surah_awal 
+      set 
+      juz_surah_awal        = '$juz',
+      keterangan_ayat       = '-' 
+    ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_ayat_pada_surah_akhir
+      set 
+      juz_surah_akhir       = '$juz',
+      keterangan_ayat       = '-' 
+    ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_surat_ayat
+      set 
+      juz                         = '$juz',
+      id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
+      id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
+      id_juz_ket_srh_awl          = '-',
+      id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
+      id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
+      id_juz_ket_srh_akr          = '-'
+    ");
+
+  }
+
+  mysqli_query($con,"
+    INSERT INTO isi_juz_awal 
+    set 
+    juz = '$juz', 
+    surah_awal_pertama    = '$isiSurahAwalPertama',
+    surah_awal_terakhir   = '$isiSurahAwalTerakhir'
+  ");
+
+  mysqli_query($con,"
+    INSERT INTO isi_juz_akhir 
+    set 
+    juz = '$juz', 
+    surah_akhir_pertama   = '$isiSurahAkhirPertama',
+    surah_akhir_terakhir  = '$isiSurahAkhirTerakhir'
+  ");
+
+  mysqli_query($con,"
+    INSERT INTO keterangan_ayat_pada_surah_awal 
+    set 
+    juz_surah_awal        = '$juz',
+    keterangan_ayat       = '$isiKetSrhAwl' 
+  ");
+
+  mysqli_query($con,"
+    INSERT INTO keterangan_ayat_pada_surah_akhir
+    set 
+    juz_surah_akhir       = '$juz',
+    keterangan_ayat       = '$isiKetSrhAkr' 
+  ");
+
+  mysqli_query($con,"
+    INSERT INTO keterangan_surat_ayat
+    set 
+    juz                         = '$juz',
+    id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
+    id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
+    id_juz_ket_srh_awl          = '$isiKetSrhAwl',
+    id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
+    id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
+    id_juz_ket_srh_akr          = '$isiKetSrhAkr'
+  ");
 
   session_start();
   $_SESSION['pesan']='tambah';

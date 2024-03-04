@@ -144,10 +144,7 @@ else if ( $akh == md5('addmjuz') ) {
 
   if (isset($_POST['keteranganAyatSrhAwl']) && isset($_POST['keteranganAyatSrhAkr'])) {
 
-    echo "Ada " . $_POST['keteranganAyatSrhAwl'];exit;
-
-    $keteranganAyatSurahAwal  = $_POST['keteranganAyatSrhAwl'];
-    $keteranganAyatSurahAkhir = $_POST['keteranganAyatSrhAkr'];
+    // echo "Ada " . $_POST['keteranganAyatSrhAkr'];exit;    
 
     // get data juz surah awal
     foreach ($dataIsiSurahAwal as $dataSurahAwal) {
@@ -169,14 +166,20 @@ else if ( $akh == md5('addmjuz') ) {
     $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
     $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
 
+    // Keterangan Ayat pada bagian surah awal
+    $keteranganAyatSurahAwal  = $_POST['keteranganAyatSrhAwl'];
+
     // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
 
     // Data untuk isi ke tabel isi_juz_akhir
     $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
     $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
 
+    // Keterangan Ayat pada bagian surah akhir
+    $keteranganAyatSurahAkhir = $_POST['keteranganAyatSrhAkr'];
+
     // var_dump($_POST['addIsiSurahAkhir']);exit;
-    $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, );
+    $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $keteranganAyatSurahAwal, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $keteranganAyatSurahAkhir);
 
   }
 

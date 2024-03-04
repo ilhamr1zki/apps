@@ -6,6 +6,42 @@
         "SELECT * FROM kumpulan_surah ORDER BY id"
     );
 
+    $queryDataView = "
+        SELECT 
+        keterangan_surat_ayat.juz,
+        kumpulan_surah_awal_pertama.nama_surah AS surah_awal_pertama,
+        kumpulan_surah_awal_terakhir.nama_surah AS surah_awal_terakhir,
+        keterangan_ayat_pada_surah_awal.keterangan_ayat AS keterangan_ayat_awal,
+        kumpulan_surah_akhir_pertama.nama_surah AS surah_akhir_pertama,
+        kumpulan_surah_akhir_terakhir.nama_surah AS surah_akhir_terakhir,
+        keterangan_ayat_pada_surah_akhir.keterangan_ayat AS keterangan_ayat_akhir
+        FROM keterangan_surat_ayat
+        LEFT JOIN isi_juz_awal
+        ON isi_juz_awal.juz = keterangan_surat_ayat.juz
+        LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_pertama
+        ON keterangan_surat_ayat.id_juz_surah_awal_pertama = kumpulan_surah_awal_pertama.nomer_surah
+        LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_terakhir
+        ON keterangan_surat_ayat.id_juz_surah_awal_terakhir = kumpulan_surah_awal_terakhir.nomer_surah
+        LEFT JOIN keterangan_ayat_pada_surah_awal
+        ON keterangan_surat_ayat.id_juz_ket_srh_awl = keterangan_ayat_pada_surah_awal.id
+        LEFT JOIN isi_juz_akhir
+        ON keterangan_surat_ayat.id_juz_surah_akhir_pertama = isi_juz_akhir.surah_akhir_pertama
+        LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_pertama
+        ON isi_juz_akhir.surah_akhir_pertama = kumpulan_surah_akhir_pertama.nomer_surah
+        LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_terakhir
+        ON isi_juz_akhir.surah_akhir_terakhir = kumpulan_surah_akhir_terakhir.nomer_surah
+        LEFT JOIN keterangan_ayat_pada_surah_akhir
+        ON keterangan_surat_ayat.id_juz_ket_srh_akr = keterangan_ayat_pada_surah_akhir.id
+    ";
+
+    $dataView = mysqli_query($con, $queryDataView);
+
+    // foreach ($dataView as $view) {
+    //     echo $view['surah_awal_pertama'];
+    // }
+
+    // exit;
+
     $dataViewMasterJuz30 = mysqli_query($con, "
         SELECT 
         kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
@@ -197,7 +233,7 @@
             </thead>
             <tbody>
 
-                <tr>
+                <!-- <tr>
                     <td> 1 </td>
                     <td> 30 </td>
                     <td> An - Nas - Al - Balad </td>
@@ -217,7 +253,18 @@
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
-                </tr>
+                </tr> -->
+
+                <?php foreach ($dataView as $view) : ?>
+                        
+                        <tr>
+                            <td> <?= $no++; ?> </td>
+                            <td> <?= $view['juz']; ?> </td>
+                            <td> <?= $view['surah_awal_pertama']; ?> - <?= $view['surah_awal_terakhir']; ?> <?= $view['keterangan_ayat_awal']; ?> </td>
+                            <td> <?= $view['surah_akhir_pertama']; ?> - <?= $view['surah_akhir_terakhir']; ?> <?= $view['keterangan_ayat_akhir']; ?> </td>
+                        </tr>
+
+                <?php endforeach; ?>
 
                 <!-- <tr>
                     <td> 1 </td>
@@ -421,7 +468,7 @@
                         <div class="col-sm-4">
                             <div class="form-group formKeteranganAyatSrhAwal">
                                 <label> Keterangan ayat untuk surah Awal </label>
-                                <input type="text" class="form-control keteranganAyatSrhAwl" placeholder="Optional" name="keteranganAyatSrhAwl" id="keteranganAyatSrhAwl">
+                                <input type="text" style="width: 100%;" class="form-control keteranganAyatSrhAwl" placeholder="Optional" name="keteranganAyatSrhAwl" id="keteranganAyatSrhAwl">
                                 <br>
                                 <div id="errmsg"></div>
                             </div>
@@ -430,7 +477,7 @@
                         <div class="col-sm-4">
                             <div class="form-group formKeteranganAyatSrhAkhir">
                                 <label> Keterangan ayat untuk surah Akhir </label>
-                                <input type="text" class="form-control keteranganAyatSrhAkr" name="keteranganAyatSrhAkr" placeholder="Optional" id="keteranganAyatSrhAkr">
+                                <input type="text" style="width: 100%;" class="form-control keteranganAyatSrhAkr" name="keteranganAyatSrhAkr" placeholder="Optional" id="keteranganAyatSrhAkr">
                                 <br>
                                 <div id="errmsg"></div>
                             </div>
