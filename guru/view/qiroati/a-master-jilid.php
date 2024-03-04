@@ -72,7 +72,8 @@
             <tbody>
             <?php 
             $vr=1;
-            while($akh=mysqli_fetch_array($smk)){?>
+            while($akh=mysqli_fetch_array($smk)) {
+            ?>
                 <tr>
                   <td><?php echo $vr; ?></td>
                   <td><?php echo $akh['nmjilid']; ?>
@@ -86,24 +87,28 @@
                   </td>
                 </tr>
 
-                <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = ".$akh['id']." order by seqjilid asc ");
-                while($akh2=mysqli_fetch_array($smk2)){?>
-                        <tr>
-                            <td></td>
-                            <td style="background-color:#F0F8FD">
-                            <?php echo $akh2['nmjilid']; ?>
-                            </td>
-                            <td style="background-color:#F0F8FD">
-                            <?php echo $akh2['seqjilid']; ?>
-                            </td>
-                            <td align="center" style="background-color:#F0F8FD">
-                            <?php $smkpar=mysqli_query($con,"SELECT * FROM tbl_jilid where id = ".$akh2['parentid']." limit 1 ");$parval=mysqli_fetch_array($smkpar); ?>
-                                <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh2['id'] ?>', '<?php echo $akh2['nmjilid'] ?>', '<?php echo $akh2['seqjilid'] ?>','<?php echo $akh2['parentid'] ?>','<?php echo $parval['nmjilid'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh2['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                            </td>
-                        </tr>
                 <?php 
-                }?>
+
+                $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = ".$akh['id']." order by seqjilid asc ");
+                while($akh2=mysqli_fetch_array($smk2)) {
+                ?>
+                    <tr>
+                        <td></td>
+                        <td style="background-color:#F0F8FD">
+                        <?php echo $akh2['nmjilid']; ?>
+                        </td>
+                        <td style="background-color:#F0F8FD">
+                        <?php echo $akh2['seqjilid']; ?>
+                        </td>
+                        <td align="center" style="background-color:#F0F8FD">
+                        <?php $smkpar=mysqli_query($con,"SELECT * FROM tbl_jilid where id = ".$akh2['parentid']." limit 1 ");$parval=mysqli_fetch_array($smkpar); ?>
+                            <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh2['id'] ?>', '<?php echo $akh2['nmjilid'] ?>', '<?php echo $akh2['seqjilid'] ?>','<?php echo $akh2['parentid'] ?>','<?php echo $parval['nmjilid'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                            <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh2['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                        </td>
+                    </tr>
+                <?php 
+                }
+                ?>
 
             <?php $vr++;
             }?>

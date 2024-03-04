@@ -87,13 +87,23 @@
     }
 
     .select2-container {
-      width: 240% !important;
+      width: 110% !important;
+    }
+
+    .keterangan_juz {
+      width: 200%;
     }
 
     @media only screen and (max-width: 600px) {
+      
       .select2-container {
         width: 100% !important;
       }
+
+      .keteranganAyat {
+        width: 100%
+      }
+
     }
 
     /* The Modal (background) */

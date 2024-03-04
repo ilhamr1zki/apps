@@ -104,8 +104,24 @@
 <style type="text/css">
     
     .formAddJuz,
-    .formAddIsiSurah {
+    .formAddIsiSurah,
+    .formKeteranganAyat,
+    .formKeteranganAyatSrhAwal,
+    .formKeteranganAyatSrhAkhir {
       margin:10px;
+    }
+
+    .keteranganAyatSrhAwl,
+    .keteranganAyatSrhAkr {
+        width: 105%;
+    }
+
+    @media only screen and (max-width: 600px) {
+
+      .keteranganAyat {
+        width: 100%
+      }
+
     }
 
     .juz {
@@ -173,12 +189,37 @@
             <tr>
                 <th width="5%">NO</th>
                 <th>JUZ</th>
-                <th>Isi Surah</th>
+                <th>Surah Awal</th>
+                <th>Surah Akhir</th>
+
                 <th style="text-align:center;">OPSI</th>
             </tr>
             </thead>
             <tbody>
+
                 <tr>
+                    <td> 1 </td>
+                    <td> 30 </td>
+                    <td> An - Nas - Al - Balad </td>
+                    <td> Al - Alaq - An - Naba' </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 2 </td>
+                    <td> 1 </td>
+                    <td> Al - Baqarah (ayat 1 - 76) </td>
+                    <td> Al - Baqarah (ayat 77 - 141) </td>
+                    <td align="center">
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
+                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    </td>
+                </tr>
+
+                <!-- <tr>
                     <td> 1 </td>
                     <td> 30 </td>
                     <td> QS (78) An-Naba - QS (114) An-Nas </td>
@@ -231,7 +272,7 @@
                         <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
                         <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
-                </tr>
+                </tr> -->
 
                 <!-- <?php foreach ( $dataJuz as $masterJuz ) : ?>
                 <tr>
@@ -328,27 +369,75 @@
             <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjuz'); ?>/access" method="post">
 
                 <div class="modal-body">  
+                    
                     <div class="row">
+
                         <div class="col-sm-2">
                             <div class="form-group formAddJuz">
-                                <label>Juz</label>
+                                <label> Juz</label>
                                 <input type="text" class="form-control juz" name="juz" id="juz">
                                 <br>
                                 <div id="errmsg"></div>
                             </div>
-                        </div>  
-                        <div class="col-sm-4">
+                        </div> 
+
+                        <div class="col-sm-3">
                           <div class="form-group formAddIsiSurah">
-                            <label>ISI SURAH </label>
+                            <label> Surah Awal </label>
                             <br>
-                            <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
                                 <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select> -->
+                            <select class="form-control mb-3 js-example-basic-multiple" id="addIsiSurahAwal" multiple="multiple" name="addIsiSurahAwal[]">
+                                <?php foreach($getDatasurah as $data_surah) : ?>
                                     <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
                                 <?php endforeach; ?>
                             </select>
                           </div>
                         </div>
+
+                        <div class="col-sm-3">
+                          <div class="form-group formAddIsiSurah">
+                            <label> Surah Akhir </label>
+                            <br>
+                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                                <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select> -->
+                            <select class="form-control mb-3 js-example-basic-multiple" id="addIsiSurahAkhir" multiple="multiple" name="addIsiSurahAkhir[]">
+                                <?php foreach($getDatasurah as $data_surah) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
+
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group formKeteranganAyatSrhAwal">
+                                <label> Keterangan ayat untuk surah Awal </label>
+                                <input type="text" class="form-control keteranganAyatSrhAwl" placeholder="Optional" name="keteranganAyatSrhAwl" id="keteranganAyatSrhAwl">
+                                <br>
+                                <div id="errmsg"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group formKeteranganAyatSrhAkhir">
+                                <label> Keterangan ayat untuk surah Akhir </label>
+                                <input type="text" class="form-control keteranganAyatSrhAkr" name="keteranganAyatSrhAkr" placeholder="Optional" id="keteranganAyatSrhAkr">
+                                <br>
+                                <div id="errmsg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="modal-footer">

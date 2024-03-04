@@ -72,6 +72,8 @@
 
   <!-- Pace style -->
   <link rel="stylesheet" href="<?php echo $base; ?>theme/plugins/pace/pace.min.css">
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   
   <!-- datetime -->
   <link href="<?php echo $base; ?>theme/datetime/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -93,8 +95,38 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   <style type="text/css">
-    body{font-family:arial;}
-    .judul{width: 100%; background-color: #FFF; padding: 10px;margin-bottom: 10px; }
+    
+    body {
+      font-family:arial;
+    }
+
+    .judul {
+      width: 100%; 
+      background-color: #FFF; 
+      padding: 10px;
+      margin-bottom: 10px; 
+    }
+
+    .select2-container {
+      width: 110% !important;
+    }
+
+    .keterangan_juz {
+      width: 200%;
+    }
+
+    @media only screen and (max-width: 600px) {
+      
+      .select2-container {
+        width: 100% !important;
+      }
+
+      .keteranganAyat {
+        width: 100%
+      }
+
+    }
+
   </style>
 </head>
 <body class="skin-blue hold-transition fixed" 
@@ -503,6 +535,9 @@ oncontextmenu="return false">
         }});
     });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- Select2 -->
 <script src="<?php echo $base; ?>theme/plugins/select2/select2.full.min.js"></script>
 <script>

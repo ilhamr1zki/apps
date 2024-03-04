@@ -82,18 +82,31 @@ function setupmanualnaikjilid($con, $idjilid,$seqjilid,$c_siswa, $nmsiswa, $tgln
 
 // region juz
 
-function addmasterjuz($con, $juz, $addIsiSurah) {
+function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $parentIsiJuzAwalAtauAkhir = "0", $ketAyatSurahAwal = "kosong", $ketAyatSurahAkhir = "kosong") {
 
-  foreach ($addIsiSurah as $isiSurah) {
+  // Isi ke tabel isi_juz_awal
+    mysqli_query($con,"
+      INSERT INTO isi_juz_awal 
+      set 
+      juz = '$juz', 
+      surah_awal_pertama = '$isiSurahAwalPertama',
+      surah_awal_terakhir = '$isiSurahAwalTerakhir'
+    ");
 
-    $akh = mysqli_query($con,"INSERT INTO tbl_juz set juz = '$juz', isi_surah = '$isiSurah' ");
-
-  }
+  // Isi ke tabel isi_juz_akhir
+    mysqli_query($con,"
+      INSERT INTO isi_juz_akhir 
+      set 
+      juz = '$juz', 
+      surah_akhir_pertama = '$isiSurahAkhirPertama',
+      surah_akhir_terakhir = '$isiSurahAkhirTerakhir'
+    ");
 
   session_start();
   $_SESSION['pesan']='tambah';
   header('location:../../masterjuz');
   exit;
+
 }
 
 // endregion juz

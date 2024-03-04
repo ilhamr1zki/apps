@@ -96,16 +96,14 @@ else if($akh==md5('hapusimtas')){
 }
 #endregion imtas
 
-//region master juz
-else if ( $akh == md5('addmjuz') ) { 
-  // var_dump($_POST['addIsiSurah']);exit;
-  $smk->addmasterjuz($con, $_POST['juz'], $_POST['addIsiSurah']);
-}
-else if($akh==md5('editmjilid')){
+//region master jilid
+else if($akh==md5('addmjilid')){ 
+  $smk->addmasterjilid($con, $_POST['_nmjilidadd'],$_POST['_seqjilidadd'], "00",$_POST['_jlparselect']);
+} else if($akh==md5('editmjilid')){
   $smk->editmasterjilid($con, $_POST['_nmjilidedit'], $_POST['_seqjilidedit'], "00", $_POST['_idedit']);
 }
  //hapus m jilid
- else if($akh==md5('hapusmjilid')){
+else if($akh==md5('hapusmjilid')){
   $smk->hapusmjilid($con,$_POST['_idhapus']);
 }
 
@@ -131,6 +129,87 @@ else if($akh==md5('addnaikjilid')){
 
 }
 //endregion master jilid
+
+#region juz
+else if ( $akh == md5('addmjuz') ) { 
+
+  // var_dump($_POST['addIsiSurahAwal']);exit;
+
+  $dataIsiSurahAwal      = $_POST['addIsiSurahAwal'];
+  $dataIsiSurahAkhir     = $_POST['addIsiSurahAkhir'];
+
+  // Taro data 
+  $dataSurahAwalPertama  = [];
+  $dataSurahAwalTerakhir = [];
+
+  if (isset($_POST['keteranganAyatSrhAwl']) && isset($_POST['keteranganAyatSrhAkr'])) {
+
+    echo "Ada " . $_POST['keteranganAyatSrhAwl'];exit;
+
+    $keteranganAyatSurahAwal  = $_POST['keteranganAyatSrhAwl'];
+    $keteranganAyatSurahAkhir = $_POST['keteranganAyatSrhAkr'];
+
+    // get data juz surah awal
+    foreach ($dataIsiSurahAwal as $dataSurahAwal) {
+
+      $dataSurahAwalPertama[] = $dataSurahAwal;
+      
+    }
+
+    // get data juz surah akhir
+    foreach ($dataIsiSurahAkhir as $dataSurahAkhir) {
+
+      $dataSurahAwalTerakhir[] = $dataSurahAkhir;
+      
+    }
+
+    // var_dump($dataSurahAwalPertama);exit;
+
+    // Data untuk isi ke tabel isi_juz_awal
+    $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
+    $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
+
+    // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
+
+    // Data untuk isi ke tabel isi_juz_akhir
+    $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
+    $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
+
+    // var_dump($_POST['addIsiSurahAkhir']);exit;
+    $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, );
+
+  }
+
+  // get data juz surah awal
+  foreach ($dataIsiSurahAwal as $dataSurahAwal) {
+
+    $dataSurahAwalPertama[] = $dataSurahAwal;
+    
+  }
+
+  // get data juz surah akhir
+  foreach ($dataIsiSurahAkhir as $dataSurahAkhir) {
+
+    $dataSurahAwalTerakhir[] = $dataSurahAkhir;
+    
+  }
+
+  // var_dump($dataSurahAwalPertama);exit;
+
+  // Data untuk isi ke tabel isi_juz_awal
+  $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
+  $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
+
+  // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
+
+  // Data untuk isi ke tabel isi_juz_akhir
+  $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
+  $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
+
+  // var_dump($_POST['addIsiSurahAkhir']);exit;
+  $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir);
+}
+#endregion master juz
 
 #region pustaka
 else if($akh==md5('addpustaka')){ 

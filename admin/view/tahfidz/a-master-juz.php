@@ -1,6 +1,53 @@
 <?php
 
-    $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
+    $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); 
+
+    $getDatasurah = mysqli_query($con, 
+        "SELECT * FROM kumpulan_surah ORDER BY id"
+    );
+
+    $dataViewMasterJuz30 = mysqli_query($con, "
+        SELECT 
+        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+        FROM tbl_juz
+        LEFT JOIN 
+        kumpulan_surah
+        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+        WHERE juz = 30
+        ORDER BY nomer_surah ASC
+    ");
+
+    $dataViewMasterJuz29 = mysqli_query($con, "
+        SELECT 
+        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+        FROM tbl_juz
+        LEFT JOIN 
+        kumpulan_surah
+        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+        WHERE juz = 29
+        ORDER BY nomer_surah ASC
+    ");
+
+    $dataJuz = mysqli_query($con, "SELECT DISTINCT juz FROM tbl_juz;");
+
+    $no = 1;
+
+    $dataSurah30      = [];
+    $dataNomerSurah30 = [];
+
+    foreach ($dataViewMasterJuz30 as $masterJuz30) {
+        $dataSurah30[]       = $masterJuz30['nama_surah'];
+        $dataNomerSurah30[]  = $masterJuz30['nomer_surah'];
+        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    }
+
+    foreach ($dataViewMasterJuz29 as $masterJuz) {
+        $dataSurah[]       = $masterJuz['nama_surah'];
+        $dataNomerSurah[]  = $masterJuz['nomer_surah'];
+        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    }
+
+?>
 
     <script language="javascript" type="text/javascript">
 
