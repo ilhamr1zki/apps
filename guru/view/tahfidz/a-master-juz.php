@@ -262,6 +262,10 @@
                             <td> <?= $view['juz']; ?> </td>
                             <td> <?= $view['surah_awal_pertama']; ?> - <?= $view['surah_awal_terakhir']; ?> <?= $view['keterangan_ayat_awal']; ?> </td>
                             <td> <?= $view['surah_akhir_pertama']; ?> - <?= $view['surah_akhir_terakhir']; ?> <?= $view['keterangan_ayat_akhir']; ?> </td>
+                            <td align="center">
+                                <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
+                                <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                            </td>
                         </tr>
 
                 <?php endforeach; ?>
@@ -408,7 +412,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Tambah Data Juz</h4>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Tambah Data Juz </h4>
             </div>
 
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>

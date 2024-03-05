@@ -138,50 +138,12 @@ else if ( $akh == md5('addmjuz') ) {
   $dataIsiSurahAwal      = $_POST['addIsiSurahAwal'];
   $dataIsiSurahAkhir     = $_POST['addIsiSurahAkhir'];
 
+  $keteranganAyatSrhAwl  = $_POST['keteranganAyatSrhAwl'];
+  $keteranganAyatSrhAkr  = $_POST['keteranganAyatSrhAkr'];
+
   // Taro data 
   $dataSurahAwalPertama  = [];
-  $dataSurahAwalTerakhir = [];
-
-  if (isset($_POST['keteranganAyatSrhAwl']) && isset($_POST['keteranganAyatSrhAkr'])) {
-
-    // echo "Ada " . $_POST['keteranganAyatSrhAkr'];exit;    
-
-    // get data juz surah awal
-    foreach ($dataIsiSurahAwal as $dataSurahAwal) {
-
-      $dataSurahAwalPertama[] = $dataSurahAwal;
-      
-    }
-
-    // get data juz surah akhir
-    foreach ($dataIsiSurahAkhir as $dataSurahAkhir) {
-
-      $dataSurahAwalTerakhir[] = $dataSurahAkhir;
-      
-    }
-
-    // var_dump($dataSurahAwalPertama);exit;
-
-    // Data untuk isi ke tabel isi_juz_awal
-    $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
-    $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
-
-    // Keterangan Ayat pada bagian surah awal
-    $keteranganAyatSurahAwal  = $_POST['keteranganAyatSrhAwl'];
-
-    // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
-
-    // Data untuk isi ke tabel isi_juz_akhir
-    $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
-    $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
-
-    // Keterangan Ayat pada bagian surah akhir
-    $keteranganAyatSurahAkhir = $_POST['keteranganAyatSrhAkr'];
-
-    // var_dump($_POST['addIsiSurahAkhir']);exit;
-    $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $keteranganAyatSurahAwal, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $keteranganAyatSurahAkhir);
-
-  }
+  $dataSurahAkhirPertama = [];
 
   // get data juz surah awal
   foreach ($dataIsiSurahAwal as $dataSurahAwal) {
@@ -193,24 +155,84 @@ else if ( $akh == md5('addmjuz') ) {
   // get data juz surah akhir
   foreach ($dataIsiSurahAkhir as $dataSurahAkhir) {
 
-    $dataSurahAwalTerakhir[] = $dataSurahAkhir;
+    $dataSurahAkhirPertama[] = $dataSurahAkhir;
     
   }
 
-  // var_dump($dataSurahAwalPertama);exit;
+  $banyakDataSurahAwal   = count($dataSurahAwalPertama);
+  $banyakDataSurahAkhir  = count($dataSurahAkhirPertama);
 
-  // Data untuk isi ke tabel isi_juz_awal
-  $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
-  $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
+  // echo $banyakDataSurahAwal;exit;
 
-  // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
+  $isiSurahAwal  = '';
+  $isiSurahAkhir = '';
 
-  // Data untuk isi ke tabel isi_juz_akhir
-  $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
-  $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
+  // echo $banyakDataSurahAwal;exit;
 
-  // var_dump($_POST['addIsiSurahAkhir']);exit;
-  $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir);
+  // Check jika pilihan surah awal dan surah akhir hanya ada 1 surat
+  if ($banyakDataSurahAwal < 2 && $banyakDataSurahAkhir < 2) {
+
+    // echo $banyakDataSurahAwal . $banyakDataSurahAkhir;exit;
+
+    // check jika keterangan ayat pada surah awal dan surah akhir kosong
+    if ($keteranganAyatSrhAwl == '' && $keteranganAyatSrhAkr == '') {
+
+      // echo "NULL";exit;
+
+      // ambil data surah awal dan surah akhir di array index ke 0
+      $isiSurahAwal   = $dataSurahAwalPertama[0];
+      $isiSurahAkhir  = $dataSurahAkhirPertama[0];     
+      // echo $isiSurahAkhir;exit;
+
+      // insert database
+      $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwal, 'kosong', 'kosong', $isiSurahAkhir, 'kosong', 'kosong');
+      exit;
+
+    } else {
+
+      echo "tidak null";exit;
+
+      $isiSurahAwal   = $dataSurahAwalPertama[0];
+      $isiSurahAkhir  = $dataSurahAwalTerakhir[0];
+
+      $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, $keteranganAyatSurahAwal, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $keteranganAyatSurahAkhir);
+
+    }
+
+  } else {
+
+    // Jika surah awal dan surah akhir lebih dari 1 surah
+
+    // Jika surah awal dan surah akhir lebih dari 1 surah dan tidak ada keterangan
+    if ($keteranganAyatSrhAwl == '' && $keteranganAyatSrhAkr == '') {
+
+      echo "lengkap 2 surah awal dan akkhir tanpa keterangan ayat";exit;
+
+      // Data untuk isi ke tabel isi_juz_awal
+      $isiSurahAwalPertama  = $dataSurahAwalPertama[1];
+      $isiSurahAwalTerakhir = $dataSurahAwalPertama[0];
+
+      // Keterangan Ayat pada bagian surah awal
+      $keteranganAyatSurahAwal  = $_POST['keteranganAyatSrhAwl'];
+
+      // echo $isiSurahAwalPertama . ' - ' . $isiSurahAwalTerakhir;exit;
+
+      // Data untuk isi ke tabel isi_juz_akhir
+      $isiSurahAkhirPertama  = $dataSurahAwalTerakhir[1];
+      $isiSurahAkhirTerakhir = $dataSurahAwalTerakhir[0];
+
+      // Keterangan Ayat pada bagian surah akhir
+      $keteranganAyatSurahAkhir = $_POST['keteranganAyatSrhAkr'];
+
+      // var_dump($_POST['addIsiSurahAkhir']);exit;
+      $smk->addmasterjuz($con, $_POST['juz'], $isiSurahAwalPertama, $isiSurahAwalTerakhir, 'kosong', $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, 'kosong');
+
+    }
+
+
+  }
+
+  
 }
 #endregion master juz
 

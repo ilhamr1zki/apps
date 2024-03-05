@@ -84,7 +84,55 @@ function setupmanualnaikjilid($con, $idjilid,$seqjilid,$c_siswa, $nmsiswa, $tgln
 
 function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiKetSrhAwl, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $isiKetSrhAkr = "kosong") {
 
+  if ($isiSurahAwalTerakhir == 'kosong' && $isiSurahAkhirTerakhir == 'kosong') {
+
+    echo "dua dua nya kosong";exit;
+
+    // insert table isi_juz_awal
+    mysqli_query($con,"
+      INSERT INTO isi_juz_awal 
+      set 
+      juz = '$juz', 
+      surah_awal_pertama    = '$isiSurahAwalPertama'
+    ");
+
+    // insert table isi_juz_akhir
+    mysqli_query($con,"
+      INSERT INTO isi_juz_akhir 
+      set 
+      juz = '$juz', 
+      surah_akhir_pertama   = '$isiSurahAkhirPertama'
+    ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_ayat_pada_surah_awal 
+      set 
+      juz_surah_awal        = '$juz'
+    ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_ayat_pada_surah_akhir
+      set 
+      juz_surah_akhir       = '$juz'
+    ");
+
+    mysqli_query($con,"
+      INSERT INTO keterangan_surat_ayat
+      set 
+      juz                         = '$juz',
+      id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
+      id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
+      id_juz_ket_srh_awl          = '-',
+      id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
+      id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
+      id_juz_ket_srh_akr          = '-'
+    ");
+
+  }
+
   if ($isiKetSrhAwl == 'kosong' && $isiKetSrhAkr == 'kosong') {
+
+    echo $isiKetSrhAwl;exit;
     
     mysqli_query($con,"
       INSERT INTO isi_juz_awal 
@@ -105,15 +153,13 @@ function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $
     mysqli_query($con,"
       INSERT INTO keterangan_ayat_pada_surah_awal 
       set 
-      juz_surah_awal        = '$juz',
-      keterangan_ayat       = '-' 
+      juz_surah_awal        = '$juz'
     ");
 
     mysqli_query($con,"
       INSERT INTO keterangan_ayat_pada_surah_akhir
       set 
-      juz_surah_akhir       = '$juz',
-      keterangan_ayat       = '-' 
+      juz_surah_akhir       = '$juz'
     ");
 
     mysqli_query($con,"
@@ -129,6 +175,8 @@ function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $
     ");
 
   }
+
+  echo $isiKetSrhAwl;exit;
 
   mysqli_query($con,"
     INSERT INTO isi_juz_awal 
