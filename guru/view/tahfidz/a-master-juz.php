@@ -1,13 +1,13 @@
 <?php 
 
-    $smk = mysqli_query($con, "SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); 
+    $getDataJuz = mysqli_query($con, "SELECT * FROM tbl_juz where parentid = 0 order by seqjuz, id ASC "); 
     
     $getDatasurah = mysqli_query($con, 
         "SELECT * FROM kumpulan_surah ORDER BY id"
     );
 
     $daftar_juz = mysqli_query($con, 
-        "SELECT * FROM daftar_juz ORDER BY id"
+        "SELECT * FROM parent_juz ORDER BY id"
     );
 
     // $queryDataView = "
@@ -59,7 +59,7 @@
         ON view_mastertahfidz.surat_akhir_terakhir = surah_akhir_terakhir.nomer_surah
     ";
 
-    $dataView = mysqli_query($con, $queryDataView);
+    // $dataView = mysqli_query($con, $queryDataView);
 
     // foreach ($dataView as $view) {
     //     echo $view['surah_awal_pertama'];
@@ -67,46 +67,46 @@
 
     // exit;
 
-    $dataViewMasterJuz30 = mysqli_query($con, "
-        SELECT 
-        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
-        FROM tbl_juz
-        LEFT JOIN 
-        kumpulan_surah
-        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
-        WHERE juz = 30
-        ORDER BY nomer_surah ASC
-    ");
+    // $dataViewMasterJuz30 = mysqli_query($con, "
+    //     SELECT 
+    //     kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+    //     FROM tbl_juz
+    //     LEFT JOIN 
+    //     kumpulan_surah
+    //     ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+    //     WHERE juz = 30
+    //     ORDER BY nomer_surah ASC
+    // ");
 
-    $dataViewMasterJuz29 = mysqli_query($con, "
-        SELECT 
-        kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
-        FROM tbl_juz
-        LEFT JOIN 
-        kumpulan_surah
-        ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
-        WHERE juz = 29
-        ORDER BY nomer_surah ASC
-    ");
+    // $dataViewMasterJuz29 = mysqli_query($con, "
+    //     SELECT 
+    //     kumpulan_surah.nama_surah, kumpulan_surah.nomer_surah, tbl_juz.juz
+    //     FROM tbl_juz
+    //     LEFT JOIN 
+    //     kumpulan_surah
+    //     ON tbl_juz.isi_surah = kumpulan_surah.nomer_surah
+    //     WHERE juz = 29
+    //     ORDER BY nomer_surah ASC
+    // ");
 
-    $dataJuz = mysqli_query($con, "SELECT DISTINCT juz FROM tbl_juz;");
+    // $dataJuz = mysqli_query($con, "SELECT DISTINCT juz FROM tbl_juz;");
 
-    $no = 1;
+    // $no = 1;
 
-    $dataSurah30      = [];
-    $dataNomerSurah30 = [];
+    // $dataSurah30      = [];
+    // $dataNomerSurah30 = [];
 
-    foreach ($dataViewMasterJuz30 as $masterJuz30) {
-        $dataSurah30[]       = $masterJuz30['nama_surah'];
-        $dataNomerSurah30[]  = $masterJuz30['nomer_surah'];
-        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
-    }
+    // foreach ($dataViewMasterJuz30 as $masterJuz30) {
+    //     $dataSurah30[]       = $masterJuz30['nama_surah'];
+    //     $dataNomerSurah30[]  = $masterJuz30['nomer_surah'];
+    //     // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    // }
 
-    foreach ($dataViewMasterJuz29 as $masterJuz) {
-        $dataSurah[]       = $masterJuz['nama_surah'];
-        $dataNomerSurah[]  = $masterJuz['nomer_surah'];
-        // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
-    }
+    // foreach ($dataViewMasterJuz29 as $masterJuz) {
+    //     $dataSurah[]       = $masterJuz['nama_surah'];
+    //     $dataNomerSurah[]  = $masterJuz['nomer_surah'];
+    //     // echo "No " . $no++ . " " . $masterJuz['nama_surah'] . "<br>";
+    // }
 
     // var_dump($dataNomerSurah);
 
@@ -256,23 +256,39 @@
             </thead>
             <tbody>
 
+                <?php  
+
+                    $nomer = 1;
+
+                    while ($data = mysqli_fetch_array($getDataJuz)) {
+
+                ?>
+
                 <tr>
-                  <td> 1 </td>
-                  <td>  1 </td>
-                  <td> 30 </td>
+                  <td> <?= $nomer; ?> </td>
+                  <td>  <?= $data['juz_atau_keterangan_ayat']; ?> </td>
+                  <td> <?= $data['seqjuz']; ?> </td>
                   <td align="center">
                     <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
                     <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                   </td>
                 </tr>
 
+                <?php  
+
+                    $getDataJuz2 = mysqli_query($con, "SELECT * FROM tbl_juz where parentid = ". $data['id'] . " order by seqjuz asc ");
+
+                    while ($data2 = mysqli_fetch_array($getDataJuz2)) {
+
+                ?>
+
                 <tr>
                     <td>  </td>
                     <td style="background-color:#F0F8FD">
-                       <strong> Bagian Awal : </strong> Al - Baqarah ayat 1 - 76
+                       <?= $data2['juz_atau_keterangan_ayat']; ?>
                     </td>
                     <td style="background-color:#F0F8FD">
-                        1
+                        <?= $data2['seqjuz']; ?>
                     </td>
                     <td align="center" style="background-color:#F0F8FD">
                         <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
@@ -280,19 +296,14 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td>  </td>
-                    <td style="background-color:#F0F8FD">
-                       <strong> Bagian Akhir : </strong> Al - Baqarah ayat 77 - 141
-                    </td>
-                    <td style="background-color:#F0F8FD">
-                        1
-                    </td>
-                    <td align="center" style="background-color:#F0F8FD">
-                        <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr>
+                <?php  
+                    }
+                ?>
+                <?php  
+
+                    $nomer++;
+                    }
+                ?>
 
             </tbody>
 
@@ -377,70 +388,54 @@
                     <div class="row">
 
                         <div class="col-sm-2">
-                            <div class="form-group formAddJuz">
-                                <label> Juz</label>
-                                <input type="text" class="form-control juz" name="juz" id="juz">
-                                <br>
-                                <div id="errmsg"></div>
-                            </div>
-                        </div> 
-
-                        <div class="col-sm-3">
-                          <div class="form-group formAddIsiSurah">
-                            <label> Surah Awal </label>
-                            <br>
-                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
-                                <?php foreach( $getDatasurah as $data_surah ) : ?>
-                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
-                                <?php endforeach; ?>
-                            </select> -->
-                            <select class="form-control mb-3 js-example-basic-multiple" id="addIsiSurahAwal" multiple="multiple" name="addIsiSurahAwal[]">
-                                <?php foreach($getDatasurah as $data_surah) : ?>
-                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
-                                <?php endforeach; ?>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group formAddIsiSurah">
-                            <label> Surah Akhir </label>
-                            <br>
-                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
-                                <?php foreach( $getDatasurah as $data_surah ) : ?>
-                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
-                                <?php endforeach; ?>
-                            </select> -->
-                            <select class="form-control mb-3 js-example-basic-multiple" id="addIsiSurahAkhir" multiple="multiple" name="addIsiSurahAkhir[]">
-                                <?php foreach($getDatasurah as $data_surah) : ?>
-                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
-                                <?php endforeach; ?>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-3">
                           <div class="form-group formAddIsiSurah">
                             <label> Parent Juz </label>
                             <br>
-                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                            <!-- <select class="form-control" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
                                 <?php foreach( $getDatasurah as $data_surah ) : ?>
                                     <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
                                 <?php endforeach; ?>
                             </select> -->
-                            <select class="form-control" id="parentjuz"  name="parentjuz">
+                            <select class="form-control" id="parentjuz" name="parentjuz">
                                 <option> -- Pilih -- </option>
                                 <?php foreach($daftar_juz as $data_juz) : ?>
-                                    <option value="<?= $data_juz['urutan_juz']; ?>"> <?= $data_juz['urutan_juz']; ?> </option>
+                                    <option value="<?= $data_juz['id']; ?>"> <?= $data_juz['juz']; ?> </option>
                                 <?php endforeach; ?>
                             </select>
                           </div>
                         </div>
 
+                        <div class="col-sm-2">
+                          <div class="form-group formAddIsiSurah">
+                            <label> Urutan </label>
+                            <br>
+                            <input type="number" class="form-control" name="urutan">
+                          </div>
+                        </div>
+                        
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-4">
+
+                        <div class="col-sm-6">
+                          <div class="form-group formAddIsiSurah">
+                            <label> Surah Awal </label>
+                            <br>
+                            <!-- <select class="form-control" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                                <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select> -->
+                            <select class="form-control js-example-basic-multiple" id="addIsiSurahAwal"  name="addIsiSurahAwal">
+                                <option> -- Pilih -- </option>
+                                <?php foreach($getDatasurah as $data_surah) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
                             <div class="form-group formKeteranganAyatSrhAwal">
                                 <label> Keterangan ayat untuk surah Awal </label>
                                 <input type="text" style="width: 100%;" class="form-control keteranganAyatSrhAwl" placeholder="Optional" name="keteranganAyatSrhAwl" id="keteranganAyatSrhAwl">
@@ -449,7 +444,30 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4">
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="col-sm-6">
+                          <div class="form-group formAddIsiSurah">
+                            <label> Surah Akhir </label>
+                            <br>
+                            <!-- <select class="form-control"  id="addIsiSurah" name="addIsiSurah[]">
+                                <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select> -->
+                            <select class="form-control js-example-basic-multiple" id="addIsiSurahAkhir"  name="addIsiSurahAkhir">
+
+                                <option> -- Pilih -- </option>
+                                <?php foreach($getDatasurah as $data_surah) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>    
+
+                        <div class="col-sm-6">
                             <div class="form-group formKeteranganAyatSrhAkhir">
                                 <label> Keterangan ayat untuk surah Akhir </label>
                                 <input type="text" style="width: 100%;" class="form-control keteranganAyatSrhAkr" name="keteranganAyatSrhAkr" placeholder="Optional" id="keteranganAyatSrhAkr">
@@ -457,8 +475,8 @@
                                 <div id="errmsg"></div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
 
                 </div>
 

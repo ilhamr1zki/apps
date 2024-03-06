@@ -87,7 +87,7 @@
     }
 
     .select2-container {
-      width: 110% !important;
+      width: 100% !important;
     }
 
     .keterangan_juz {

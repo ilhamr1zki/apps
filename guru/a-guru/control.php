@@ -135,24 +135,92 @@ else if ( $akh == md5('addmjuz') ) {
 
   // var_dump($_POST['addIsiSurahAwal']);exit;
 
-  $juz                   = $_POST['juz'];
+  // $juz                   = $_POST['juz'];
 
   $dataIsiSurahAwal      = $_POST['addIsiSurahAwal'];
   $dataIsiSurahAkhir     = $_POST['addIsiSurahAkhir'];
 
-  $keteranganAyatSrhAwl  = $_POST['keteranganAyatSrhAwl'];
-  $keteranganAyatSrhAkr  = $_POST['keteranganAyatSrhAkr'];
+  $parentJuz             = $_POST['parentjuz'];
+
+  $urutan                = $_POST['urutan'];
+
+  $keteranganAyatSrhAwl  = "";
+  $keteranganAyatSrhAkr  = "";
+
+  if ($_POST['keteranganAyatSrhAwl'] == true && $_POST['keteranganAyatSrhAkr'] == true) {
+
+    $keteranganAyatSrhAwl  = $_POST['keteranganAyatSrhAwl'];
+
+  } else {
+
+    $keteranganAyatSrhAkr  = $_POST['keteranganAyatSrhAkr'];
+
+  }
+
+  // ambil data surat dari bagian surah awal
+  $isiSurahAwal  = $dataIsiSurahAwal;
+
+  // Ambil data surat dari table kumpulan surat untuk surah awal
+  $queryGetDataSurahAwal = mysqli_query($con, "SELECT nama_surah FROM kumpulan_surah WHERE nomer_surah = '$isiSurahAwal' ");
+
+  // ambil data surat dari bagian surah akhir
+  $isiSurahAkhir  = $dataIsiSurahAkhir;
+
+  // Ambil data surat dari table kumpulan surat untuk surah akhir
+  $queryGetDataSurahAkhir = mysqli_query($con, "SELECT nama_surah FROM kumpulan_surah WHERE nomer_surah = '$isiSurahAkhir' ");
+
+  // mendapatkan data surah awal pertama
+  $getDataSurahAwal = mysqli_fetch_assoc($queryGetDataSurahAwal)['nama_surah'];
+
+  // mendapatkan data surah awal terakhir
+  $getDataSurahAkhir = mysqli_fetch_assoc($queryGetDataSurahAkhir)['nama_surah'];
+
+  if ($keteranganAyatSrhAwl == '' && $keteranganAyatSrhAkr == '') {
+    
+    // echo $getDataSurahAwal . " - " . $getDataSurahAkhir . " " . $urutan;exit;
+    $ketAyatPadaSurah = "$getDataSurahAwal" .' - '. $getDataSurahAkhir;
+// echo $ketAyatPadaSurah;exit;
+    // insert database
+
+    mysqli_query($con,"
+      INSERT INTO tbl_juz 
+      SET 
+      juz_atau_keterangan_ayat    = '$ketAyatPadaSurah',
+      seqjuz                      = '$urutan',
+      parentid                    = '$parentJuz'
+    ");
+
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;
+
+    // $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
+    // exit;
+
+  } else {
+
+    // echo $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;exit;
+
+    $ketAyatPadaSurah = $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;
+
+    // insert database
+    $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
+    exit;
+
+  }
+
 
   // Taro data 
   $arrDataSurahAwal  = [];
   $arrDataSurahAkhir = [];
 
   // get data juz surah awal
-  foreach ($dataIsiSurahAwal as $dataSurahAwal) {
+  // foreach ($dataIsiSurahAwal as $dataSurahAwal) {
 
-    $arrDataSurahAwal[] = $dataSurahAwal;
+  //   $arrDataSurahAwal[] = $dataSurahAwal;
     
-  }
+  // }
 
   // get data juz surah akhir
   foreach ($dataIsiSurahAkhir as $dataSurahAkhir) {
@@ -209,9 +277,7 @@ else if ( $akh == md5('addmjuz') ) {
 
     // Jika surah awal berisi 2 surat dan surah akhir hanya berisi 1 surat
 
-    // ambil data surat dari bagian surah awal
-    $isiSurahAwalPertama  = $arrDataSurahAwal[1];
-    $isiSurahAwalTerakhir = $arrDataSurahAwal[0]; 
+    
 
     // ambil data surat dari bagian surah akhir
     $isiSurahAkhirPertama  = $arrDataSurahAkhir[0];   

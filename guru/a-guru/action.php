@@ -82,7 +82,20 @@ function setupmanualnaikjilid($con, $idjilid,$seqjilid,$c_siswa, $nmsiswa, $tgln
 
 // region juz
 
-function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $isiKetSrhAwl, $isiSurahAkhirPertama, $isiSurahAkhirTerakhir, $isiKetSrhAkr = "kosong") {
+function addmasterjuz($con, $juzKetAyat, $urutan, $parentid) {
+
+  mysqli_query($con,"
+    INSERT INTO tbl_juz 
+    SET 
+    juz_atau_keterangan_ayat    = '$juzKetAyat',
+    seqjuz                      = '1',
+    parentid                    = '2'
+  ");
+
+  session_start();
+  $_SESSION['pesan']='tambah';
+  header('location:../../masterjuz');
+  exit;
 
   if ($isiSurahAwalTerakhir == 'kosong' && $isiSurahAkhirTerakhir == 'kosong') {
 
