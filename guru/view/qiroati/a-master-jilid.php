@@ -76,10 +76,7 @@
             ?>
                 <tr>
                   <td><?php echo $vr; ?></td>
-                  <td><?php echo $akh['nmjilid']; ?>
-                
-                
-                </td>
+                  <td><?php echo $akh['nmjilid']; ?></td>
                   <td><?php echo $akh['seqjilid']; ?></td>
                   <td align="center">
                     <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $akh['id'] ?>', '<?php echo $akh['nmjilid'] ?>', '<?php echo $akh['seqjilid'] ?>', '<?php echo $akh['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>

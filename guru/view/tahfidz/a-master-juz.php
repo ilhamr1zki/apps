@@ -6,32 +6,57 @@
         "SELECT * FROM kumpulan_surah ORDER BY id"
     );
 
-    $queryDataView = "
+    $daftar_juz = mysqli_query($con, 
+        "SELECT * FROM daftar_juz ORDER BY id"
+    );
+
+    // $queryDataView = "
+    //     SELECT 
+    //     keterangan_surat_ayat.juz,
+    //     kumpulan_surah_awal_pertama.nama_surah AS surah_awal_pertama,
+    //     kumpulan_surah_awal_terakhir.nama_surah AS surah_awal_terakhir,
+    //     keterangan_ayat_pada_surah_awal.keterangan_ayat AS keterangan_ayat_awal,
+    //     kumpulan_surah_akhir_pertama.nama_surah AS surah_akhir_pertama,
+    //     kumpulan_surah_akhir_terakhir.nama_surah AS surah_akhir_terakhir,
+    //     keterangan_ayat_pada_surah_akhir.keterangan_ayat AS keterangan_ayat_akhir
+    //     FROM keterangan_surat_ayat
+    //     LEFT JOIN isi_juz_awal
+    //     ON isi_juz_awal.juz = keterangan_surat_ayat.juz
+    //     LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_pertama
+    //     ON keterangan_surat_ayat.id_juz_surah_awal_pertama = kumpulan_surah_awal_pertama.nomer_surah
+    //     LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_terakhir
+    //     ON keterangan_surat_ayat.id_juz_surah_awal_terakhir = kumpulan_surah_awal_terakhir.nomer_surah
+    //     LEFT JOIN keterangan_ayat_pada_surah_awal
+    //     ON keterangan_surat_ayat.id_juz_ket_srh_awl = keterangan_ayat_pada_surah_awal.id
+    //     LEFT JOIN isi_juz_akhir
+    //     ON keterangan_surat_ayat.id_juz_surah_akhir_pertama = isi_juz_akhir.surah_akhir_pertama
+    //     LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_pertama
+    //     ON isi_juz_akhir.surah_akhir_pertama = kumpulan_surah_akhir_pertama.nomer_surah
+    //     LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_terakhir
+    //     ON isi_juz_akhir.surah_akhir_terakhir = kumpulan_surah_akhir_terakhir.nomer_surah
+    //     LEFT JOIN keterangan_ayat_pada_surah_akhir
+    //     ON keterangan_surat_ayat.id_juz_ket_srh_akr = keterangan_ayat_pada_surah_akhir.id
+    // ";
+
+    $queryDataView = 
+    "
         SELECT 
-        keterangan_surat_ayat.juz,
-        kumpulan_surah_awal_pertama.nama_surah AS surah_awal_pertama,
-        kumpulan_surah_awal_terakhir.nama_surah AS surah_awal_terakhir,
-        keterangan_ayat_pada_surah_awal.keterangan_ayat AS keterangan_ayat_awal,
-        kumpulan_surah_akhir_pertama.nama_surah AS surah_akhir_pertama,
-        kumpulan_surah_akhir_terakhir.nama_surah AS surah_akhir_terakhir,
-        keterangan_ayat_pada_surah_akhir.keterangan_ayat AS keterangan_ayat_akhir
-        FROM keterangan_surat_ayat
-        LEFT JOIN isi_juz_awal
-        ON isi_juz_awal.juz = keterangan_surat_ayat.juz
-        LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_pertama
-        ON keterangan_surat_ayat.id_juz_surah_awal_pertama = kumpulan_surah_awal_pertama.nomer_surah
-        LEFT JOIN kumpulan_surah AS kumpulan_surah_awal_terakhir
-        ON keterangan_surat_ayat.id_juz_surah_awal_terakhir = kumpulan_surah_awal_terakhir.nomer_surah
-        LEFT JOIN keterangan_ayat_pada_surah_awal
-        ON keterangan_surat_ayat.id_juz_ket_srh_awl = keterangan_ayat_pada_surah_awal.id
-        LEFT JOIN isi_juz_akhir
-        ON keterangan_surat_ayat.id_juz_surah_akhir_pertama = isi_juz_akhir.surah_akhir_pertama
-        LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_pertama
-        ON isi_juz_akhir.surah_akhir_pertama = kumpulan_surah_akhir_pertama.nomer_surah
-        LEFT JOIN kumpulan_surah AS kumpulan_surah_akhir_terakhir
-        ON isi_juz_akhir.surah_akhir_terakhir = kumpulan_surah_akhir_terakhir.nomer_surah
-        LEFT JOIN keterangan_ayat_pada_surah_akhir
-        ON keterangan_surat_ayat.id_juz_ket_srh_akr = keterangan_ayat_pada_surah_akhir.id
+        juz,
+        surah_awal_pertama.nama_surah AS surat_awal_pertama, 
+        surah_awal_terakhir.nama_surah AS surat_awal_terakhir, 
+        surah_akhir_pertama.nama_surah AS surat_akhir_pertama,
+        surah_akhir_terakhir.nama_surah AS surat_akhir_terakhir,
+        keterangan_ayat_surah_awal,
+        keterangan_ayat_surah_akhir
+        FROM view_mastertahfidz
+        LEFT JOIN kumpulan_surah AS surah_awal_pertama
+        ON view_mastertahfidz.surat_awal_pertama = surah_awal_pertama.nomer_surah
+        LEFT JOIN kumpulan_surah AS surah_awal_terakhir
+        ON view_mastertahfidz.surat_awal_terakhir = surah_awal_terakhir.nomer_surah
+        LEFT JOIN kumpulan_surah AS surah_akhir_pertama
+        ON view_mastertahfidz.surat_akhir_pertama = surah_akhir_pertama.nomer_surah
+        LEFT JOIN kumpulan_surah AS surah_akhir_terakhir
+        ON view_mastertahfidz.surat_akhir_terakhir = surah_akhir_terakhir.nomer_surah
     ";
 
     $dataView = mysqli_query($con, $queryDataView);
@@ -225,121 +250,49 @@
             <tr>
                 <th width="5%">NO</th>
                 <th>JUZ</th>
-                <th>Surah Awal</th>
-                <th>Surah Akhir</th>
-
+                <th>Urutan</th>
                 <th style="text-align:center;">OPSI</th>
             </tr>
             </thead>
             <tbody>
 
-                <!-- <tr>
-                    <td> 1 </td>
-                    <td> 30 </td>
-                    <td> An - Nas - Al - Balad </td>
-                    <td> Al - Alaq - An - Naba' </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                <tr>
+                  <td> 1 </td>
+                  <td>  1 </td>
+                  <td> 30 </td>
+                  <td align="center">
+                    <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                    <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                  </td>
+                </tr>
+
+                <tr>
+                    <td>  </td>
+                    <td style="background-color:#F0F8FD">
+                       <strong> Bagian Awal : </strong> Al - Baqarah ayat 1 - 76
+                    </td>
+                    <td style="background-color:#F0F8FD">
+                        1
+                    </td>
+                    <td align="center" style="background-color:#F0F8FD">
+                        <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
 
                 <tr>
-                    <td> 2 </td>
-                    <td> 1 </td>
-                    <td> Al - Baqarah (ayat 1 - 76) </td>
-                    <td> Al - Baqarah (ayat 77 - 141) </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    <td>  </td>
+                    <td style="background-color:#F0F8FD">
+                       <strong> Bagian Akhir : </strong> Al - Baqarah ayat 77 - 141
                     </td>
-                </tr> -->
-
-                <?php foreach ($dataView as $view) : ?>
-                        
-                        <tr>
-                            <td> <?= $no++; ?> </td>
-                            <td> <?= $view['juz']; ?> </td>
-                            <td> <?= $view['surah_awal_pertama']; ?> - <?= $view['surah_awal_terakhir']; ?> <?= $view['keterangan_ayat_awal']; ?> </td>
-                            <td> <?= $view['surah_akhir_pertama']; ?> - <?= $view['surah_akhir_terakhir']; ?> <?= $view['keterangan_ayat_akhir']; ?> </td>
-                            <td align="center">
-                                <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                                <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                            </td>
-                        </tr>
-
-                <?php endforeach; ?>
-
-                <!-- <tr>
-                    <td> 1 </td>
-                    <td> 30 </td>
-                    <td> QS (78) An-Naba - QS (114) An-Nas </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    <td style="background-color:#F0F8FD">
+                        1
+                    </td>
+                    <td align="center" style="background-color:#F0F8FD">
+                        <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
-                <tr>
-                    <td>  </td>
-                    <td> Bagian Awal  </td>
-                    <td>  </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>  </td>
-                    <td> Bagian Akhir  </td>
-                    <td>  </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td> 2 </td>
-                    <td> 29 </td>
-                    <td> 78 - Al-Mulk </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>  </td>
-                    <td> Bagian Awal  </td>
-                    <td>  </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>  </td>
-                    <td> Bagian Akhir  </td>
-                    <td>  </td>
-                    <td align="center">
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                        <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                    </td>
-                </tr> -->
-
-                <!-- <?php foreach ( $dataJuz as $masterJuz ) : ?>
-                <tr>
-                        <td> <?= $no++; ?> </td>
-                        <td> <?= $masterJuz['juz']; ?> </td>
-                        <td> QS (<?= $dataNomerSurah30[array_key_first($dataNomerSurah30)]; ?>) <?= $dataSurah30[array_key_first($dataSurah30)] ; ?> - QS (<?= end($dataNomerSurah30); ?>) <?= end($dataSurah30); ?> </td>
-                        <td align="center">
-                            <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditSementara()"> Edit </a>
-                            <a class="btn btn-circle btn-danger btn-sm"  onclick="OpenDeleteModal('<?php echo $akh['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
-                        </td>
-                </tr>
-                <?php endforeach; ?>
-
-                <tr>
-                    <td>  </td>
-                </tr> -->
 
             </tbody>
 
@@ -461,6 +414,24 @@
                             <select class="form-control mb-3 js-example-basic-multiple" id="addIsiSurahAkhir" multiple="multiple" name="addIsiSurahAkhir[]">
                                 <?php foreach($getDatasurah as $data_surah) : ?>
                                     <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                          <div class="form-group formAddIsiSurah">
+                            <label> Parent Juz </label>
+                            <br>
+                            <!-- <select class="form-control mb-3 js-example-basic-multiple" multiple="multiple" id="addIsiSurah" name="addIsiSurah[]">
+                                <?php foreach( $getDatasurah as $data_surah ) : ?>
+                                    <option value="<?= $data_surah['nomer_surah']; ?>"> QS (<?= $data_surah['nomer_surah']; ?>) <?= $data_surah['nama_surah']; ?> </option>
+                                <?php endforeach; ?>
+                            </select> -->
+                            <select class="form-control" id="parentjuz"  name="parentjuz">
+                                <option> -- Pilih -- </option>
+                                <?php foreach($daftar_juz as $data_juz) : ?>
+                                    <option value="<?= $data_juz['urutan_juz']; ?>"> <?= $data_juz['urutan_juz']; ?> </option>
                                 <?php endforeach; ?>
                             </select>
                           </div>

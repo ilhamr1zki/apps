@@ -86,144 +86,98 @@ function addmasterjuz($con, $juz, $isiSurahAwalPertama, $isiSurahAwalTerakhir, $
 
   if ($isiSurahAwalTerakhir == 'kosong' && $isiSurahAkhirTerakhir == 'kosong') {
 
-    echo "dua dua nya kosong";exit;
+    // echo "dua dua nya kosong";exit;
 
-    // insert table isi_juz_awal
+    // insert table view_mastertahfidz
     mysqli_query($con,"
-      INSERT INTO isi_juz_awal 
-      set 
-      juz = '$juz', 
-      surah_awal_pertama    = '$isiSurahAwalPertama'
+      INSERT INTO view_mastertahfidz 
+      SET 
+      juz = '$juz',
+      surat_awal_pertama          = '$isiSurahAwalPertama',
+      surat_akhir_pertama         = '$isiSurahAkhirPertama',
+      keterangan_ayat_surah_awal  = '$isiKetSrhAwl',
+      keterangan_ayat_surah_akhir = '$isiKetSrhAkr'
     ");
 
-    // insert table isi_juz_akhir
-    mysqli_query($con,"
-      INSERT INTO isi_juz_akhir 
-      set 
-      juz = '$juz', 
-      surah_akhir_pertama   = '$isiSurahAkhirPertama'
-    ");
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_ayat_pada_surah_awal 
-      set 
-      juz_surah_awal        = '$juz'
-    ");
+  }
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_ayat_pada_surah_akhir
-      set 
-      juz_surah_akhir       = '$juz'
-    ");
+  if ($isiSurahAkhirTerakhir == 'kosong') {
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_surat_ayat
-      set 
+    // echo "TES " . $juz . "<br>" . $isiSurahAwalPertama . " & " . $isiSurahAwalTerakhir . "<br>" . $isiSurahAkhirPertama . "<br>" . $isiKetSrhAwl . $isiKetSrhAkr ;exit;
+
+    // insert table view_mastertahfidz
+    $queryInsert = "
+    INSERT INTO view_mastertahfidz 
+      SET 
       juz                         = '$juz',
-      id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
-      id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
-      id_juz_ket_srh_awl          = '-',
-      id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
-      id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
-      id_juz_ket_srh_akr          = '-'
-    ");
+      surat_awal_pertama          = '$isiSurahAwalPertama',
+      surat_awal_terakhir         = '$isiSurahAwalTerakhir',
+      surat_akhir_pertama         = '$isiSurahAkhirPertama',
+      surat_akhir_terakhir        = NULL,
+      keterangan_ayat_surah_awal  = '$isiKetSrhAwl',
+      keterangan_ayat_surah_akhir = '$isiKetSrhAkr'
+
+    ";
+
+    mysqli_query($con, $queryInsert);
+
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;
 
   }
 
   if ($isiKetSrhAwl == 'kosong' && $isiKetSrhAkr == 'kosong') {
 
-    echo $isiKetSrhAwl;exit;
-    
+    // insert table view_mastertahfidz
     mysqli_query($con,"
-      INSERT INTO isi_juz_awal 
-      set 
-      juz = '$juz', 
-      surah_awal_pertama    = '$isiSurahAwalPertama',
-      surah_awal_terakhir   = '$isiSurahAwalTerakhir'
+      INSERT INTO view_mastertahfidz 
+      SET 
+      juz = '$juz',
+      surat_awal_pertama       = '$isiSurahAwalPertama',
+      surat_awal_terakhir      = '$isiSurahAwalTerakhir',
+      surat_akhir_pertama      = '$isiSurahAkhirPertama',
+      surat_akhir_terakhir     = '$isiSurahAkhirTerakhir'
     ");
 
-    mysqli_query($con,"
-      INSERT INTO isi_juz_akhir 
-      set 
-      juz = '$juz', 
-      surah_akhir_pertama   = '$isiSurahAkhirPertama',
-      surah_akhir_terakhir  = '$isiSurahAkhirTerakhir'
-    ");
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_ayat_pada_surah_awal 
-      set 
-      juz_surah_awal        = '$juz'
-    ");
+  } 
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_ayat_pada_surah_akhir
-      set 
-      juz_surah_akhir       = '$juz'
-    ");
+  if ($isiSurahAwalTerakhir == "kosong") {
 
-    mysqli_query($con,"
-      INSERT INTO keterangan_surat_ayat
-      set 
+    // echo "TES " . $juz . "<br>" . $isiSurahAwalPertama . "<br>" . $isiSurahAkhirPertama . " & " . $isiSurahAkhirTerakhir  . "<br>" . $isiKetSrhAwl . " " . $isiKetSrhAkr ;exit;
+
+    $queryInsert = "
+    INSERT INTO view_mastertahfidz 
+      SET 
       juz                         = '$juz',
-      id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
-      id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
-      id_juz_ket_srh_awl          = '-',
-      id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
-      id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
-      id_juz_ket_srh_akr          = '-'
-    ");
+      surat_awal_pertama          = '$isiSurahAwalPertama',
+      surat_awal_terakhir         = NULL,
+      surat_akhir_pertama         = '$isiSurahAkhirPertama',
+      surat_akhir_terakhir        = '$isiSurahAkhirTerakhir',
+      keterangan_ayat_surah_awal  = '$isiKetSrhAwl',
+      keterangan_ayat_surah_akhir = '$isiKetSrhAkr'
+
+    ";
+
+    mysqli_query($con, $queryInsert);
+
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;    
 
   }
-
-  echo $isiKetSrhAwl;exit;
-
-  mysqli_query($con,"
-    INSERT INTO isi_juz_awal 
-    set 
-    juz = '$juz', 
-    surah_awal_pertama    = '$isiSurahAwalPertama',
-    surah_awal_terakhir   = '$isiSurahAwalTerakhir'
-  ");
-
-  mysqli_query($con,"
-    INSERT INTO isi_juz_akhir 
-    set 
-    juz = '$juz', 
-    surah_akhir_pertama   = '$isiSurahAkhirPertama',
-    surah_akhir_terakhir  = '$isiSurahAkhirTerakhir'
-  ");
-
-  mysqli_query($con,"
-    INSERT INTO keterangan_ayat_pada_surah_awal 
-    set 
-    juz_surah_awal        = '$juz',
-    keterangan_ayat       = '$isiKetSrhAwl' 
-  ");
-
-  mysqli_query($con,"
-    INSERT INTO keterangan_ayat_pada_surah_akhir
-    set 
-    juz_surah_akhir       = '$juz',
-    keterangan_ayat       = '$isiKetSrhAkr' 
-  ");
-
-  mysqli_query($con,"
-    INSERT INTO keterangan_surat_ayat
-    set 
-    juz                         = '$juz',
-    id_juz_surah_awal_pertama   = '$isiSurahAwalPertama',
-    id_juz_surah_awal_terakhir  = '$isiSurahAwalTerakhir',
-    id_juz_ket_srh_awl          = '$isiKetSrhAwl',
-    id_juz_surah_akhir_pertama  = '$isiSurahAkhirPertama',
-    id_juz_surah_akhir_terakhir = '$isiSurahAkhirTerakhir',
-    id_juz_ket_srh_akr          = '$isiKetSrhAkr'
-  ");
-
-  session_start();
-  $_SESSION['pesan']='tambah';
-  header('location:../../masterjuz');
-  exit;
 
 }
 
