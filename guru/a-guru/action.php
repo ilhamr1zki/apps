@@ -88,8 +88,8 @@ function addmasterjuz($con, $juzKetAyat, $urutan, $parentid) {
     INSERT INTO tbl_juz 
     SET 
     juz_atau_keterangan_ayat    = '$juzKetAyat',
-    seqjuz                      = '1',
-    parentid                    = '2'
+    seqjuz                      = '$urutan',
+    parentid                    = '$parentid'
   ");
 
   session_start();

@@ -150,10 +150,11 @@ else if ( $akh == md5('addmjuz') ) {
   if ($_POST['keteranganAyatSrhAwl'] == true && $_POST['keteranganAyatSrhAkr'] == true) {
 
     $keteranganAyatSrhAwl  = $_POST['keteranganAyatSrhAwl'];
-
-  } else {
-
     $keteranganAyatSrhAkr  = $_POST['keteranganAyatSrhAkr'];
+
+  } else if ($_POST['keteranganAyatSrhAwl'] == true && $_POST['keteranganAyatSrhAkr'] == false) {
+
+    $keteranganAyatSrhAwl  = $_POST['keteranganAyatSrhAwl'];
 
   }
 
@@ -175,38 +176,38 @@ else if ( $akh == md5('addmjuz') ) {
   // mendapatkan data surah awal terakhir
   $getDataSurahAkhir = mysqli_fetch_assoc($queryGetDataSurahAkhir)['nama_surah'];
 
+  // Jika tidak ada keterangan ayat di surah awal dan surah akhir
   if ($keteranganAyatSrhAwl == '' && $keteranganAyatSrhAkr == '') {
     
     // echo $getDataSurahAwal . " - " . $getDataSurahAkhir . " " . $urutan;exit;
     $ketAyatPadaSurah = "$getDataSurahAwal" .' - '. $getDataSurahAkhir;
-// echo $ketAyatPadaSurah;exit;
+
     // insert database
 
-    mysqli_query($con,"
-      INSERT INTO tbl_juz 
-      SET 
-      juz_atau_keterangan_ayat    = '$ketAyatPadaSurah',
-      seqjuz                      = '$urutan',
-      parentid                    = '$parentJuz'
-    ");
-
-    session_start();
-    $_SESSION['pesan']='tambah';
-    header('location:../../masterjuz');
+    $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
     exit;
 
-    // $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
-    // exit;
-
-  } else {
+  // Jika ada keterangan ayat di surah awal saja 
+  } else if ( $keteranganAyatSrhAwl !== '' && $keteranganAyatSrhAkr == '' ) {
 
     // echo $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;exit;
+
+    $ketAyatPadaSurah = $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" ;
+
+    // insert database
+    $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
+    exit;
+
+  // Jika semua nya ada dan lengkap 
+  } else {
+
+    // echo "bawah" . "<br>" . $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")";exit;
 
     $ketAyatPadaSurah = $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;
 
     // insert database
     $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
-    exit;
+    exit;    
 
   }
 

@@ -126,11 +126,12 @@
 
 <script language="javascript" type="text/javascript">
     var _id = 0;
+
     function OpenEdit(id, nm, seq, parentval, parennm) {
         _id = id;
         $('#_idedit').val(_id);
         $('#_nmjilidedit').val(nm);
-        $('#_seqjilidedit').val(seq);
+        $('#_seqjuzedit').val(seq);
 
         //alert(parennm);
 
@@ -269,7 +270,8 @@
                   <td>  <?= $data['juz_atau_keterangan_ayat']; ?> </td>
                   <td> <?= $data['seqjuz']; ?> </td>
                   <td align="center">
-                    <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+  
+                    <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $data['id'] ?>', '<?php echo $data['juz_atau_keterangan_ayat'] ?>', '<?php echo $data['seqjuz'] ?>', '<?php echo $data['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
                     <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                   </td>
                 </tr>
@@ -285,13 +287,35 @@
                 <tr>
                     <td>  </td>
                     <td style="background-color:#F0F8FD">
-                       <?= $data2['juz_atau_keterangan_ayat']; ?>
+                        <!-- <?php  
+
+                            $dicariNaba  = "Naba";
+                            $dicariSaba  = "Saba";
+                            $dicariAbasa = "Abasa";
+
+                            if(preg_match("/$dicariNaba/i", $data2['juz_atau_keterangan_ayat'])) {
+                                echo $data2['juz_atau_keterangan_ayat'] . "' ";
+                            } else if (preg_match("/$dicariSaba/i", $data2['juz_atau_keterangan_ayat']))  {  
+                                echo $data2['juz_atau_keterangan_ayat'] . "' ";
+                            } else if (preg_match("/$dicariAbasa/i", $data2['juz_atau_keterangan_ayat'])) {
+                                echo " '" . $data2['juz_atau_keterangan_ayat'];
+                            } else {
+                                echo $data2['juz_atau_keterangan_ayat'];
+                            }
+
+                        ?> -->
+                        <?= $data2['juz_atau_keterangan_ayat']; ?>
+
                     </td>
                     <td style="background-color:#F0F8FD">
                         <?= $data2['seqjuz']; ?>
                     </td>
                     <td align="center" style="background-color:#F0F8FD">
-                        <a class="btn btn-circle btn-primary btn-sm" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <?php 
+                            $juzparent      = mysqli_query($con,"SELECT * FROM tbl_juz where id = ".$data2['parentid']." limit 1 ");
+                            $parentvalue    = mysqli_fetch_array($juzparent); 
+                        ?>
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $data2['id'] ?>', '<?php echo $data2['juz_atau_keterangan_ayat'] ?>', '<?php echo $data2['seqjuz'] ?>','<?php echo $data2['parentid'] ?>','<?php echo $parentvalue['juz_atau_keterangan_ayat'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
                         <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -335,11 +359,11 @@
                     </div> -->  
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label>Juz</label>
-                            <input type="number" min=0 id="_seqjilidedit" name="_seqjilidedit" class="form-control">
+                            <label> Urutan </label>
+                            <input type="number" id="_seqjuzedit" name="_seqjuzedit" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             <label> Nama Surah </label>
                             <select class="form-control" name="edit_kumpulan_surah">
