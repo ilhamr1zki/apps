@@ -104,6 +104,10 @@
         width: 100%
       }
 
+      .row .editformjuz {
+        display: flex !important;
+      }
+
     }
 
     /* The Modal (background) */

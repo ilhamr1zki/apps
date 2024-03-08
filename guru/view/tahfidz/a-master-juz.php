@@ -129,13 +129,26 @@
 
     function OpenEdit(id, nm, seq, parentval, parennm) {
         _id = id;
-        $('#_idedit').val(_id);
-        $('#_nmjilidedit').val(nm);
-        $('#_seqjuzedit').val(seq);
+        $('#idjuzedit').val(_id);
+        $('#isijuzedit').val(nm);
+        $('#seqjuzedit').val(seq);
+        $('#idparentjuzedit').val(parentval)
 
         //alert(parennm);
 
         $('#editmjuz').modal("show");
+    }
+
+    function OpenEditKetSurah(id, nm, seq, parentval, parennm) {
+        _id = id;
+        $('#idketsurahedit').val(_id);
+        $('#ketsurahedit').val(nm);
+        $('#seqketsurahedit').val(seq);
+        $('#idparentjuzedit').val(parentval);
+
+        //alert(parennm);
+
+        $('#editmketsurah').modal("show");
     }
 
     function OpenEditSementara() {
@@ -149,11 +162,12 @@
         $('#addmjuz').modal("show");
         document.getElementById("juz").focus();
     }
+
     function OpenDeleteModal(id){
         _id = id;
 
-        $('#_idhapus').val(id);
-        $('#hapusmjilid').modal("show");
+        $('#idhapusjuz').val(id);
+        $('#hapusmjuz').modal("show");
     }
     function GetId()
     {
@@ -272,7 +286,7 @@
                   <td align="center">
   
                     <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $data['id'] ?>', '<?php echo $data['juz_atau_keterangan_ayat'] ?>', '<?php echo $data['seqjuz'] ?>', '<?php echo $data['parentid'] ?>', '')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                    <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                    <a class="btn btn-circle btn-danger btn-sm" onclick="OpenDeleteModal('<?php echo $data['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                   </td>
                 </tr>
 
@@ -315,8 +329,8 @@
                             $juzparent      = mysqli_query($con,"SELECT * FROM tbl_juz where id = ".$data2['parentid']." limit 1 ");
                             $parentvalue    = mysqli_fetch_array($juzparent); 
                         ?>
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEdit('<?php echo $data2['id'] ?>', '<?php echo $data2['juz_atau_keterangan_ayat'] ?>', '<?php echo $data2['seqjuz'] ?>','<?php echo $data2['parentid'] ?>','<?php echo $parentvalue['juz_atau_keterangan_ayat'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditKetSurah('<?php echo $data2['id'] ?>', '<?php echo $data2['juz_atau_keterangan_ayat'] ?>', '<?php echo $data2['seqjuz'] ?>','<?php echo $data2['parentid'] ?>','<?php echo $parentvalue['juz_atau_keterangan_ayat'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal" onclick="OpenDeleteModal('<?php echo $data2['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
 
@@ -336,61 +350,113 @@
 
 </div>
 
-<div id="editmjuz" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
+<!-- Edit Juz -->
+<div id="editmjuz" class="modal" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Edit Data Juz</h4>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Edit Data Juz </h4>
             </div>
             
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid asc "); ?>
 
             <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('editmjuz'); ?>/access" method="post">
-            <div class="modal-body">  
-            <div class="row">
-                    <input type="hidden" id="_idedit" name="_idedit" class="form-control">
 
-                    <!-- <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Nama Jilid</label>
-                            <input type="text" id="_nmjilidedit" name="_nmjilidedit" class="form-control">
+                <div class="modal-body">  
+                
+                    <div class="row editformjuz" style="display: flex; margin-left: 10px; margin-right: 10px !important;">
+                        
+                        <input type="hidden" id="idjuzedit" name="idjuzedit" class="form-control">
+                        <input type="hidden" id="idparentjuzedit" name="idparentjuzedit" class="form-control">
+
+                            <!-- <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Nama Jilid</label>
+                                    <input type="text" id="_nmjilidedit" name="_nmjilidedit" class="form-control">
+                                </div>
+                            </div> -->  
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label> Juz </label>
+                                <input type="number" style="width: 75px;" id="isijuzedit" name="isijuzedit" class="form-control">
+                            </div>
+                        </div>  
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label> Urutan </label>
+                                <input type="number" style="width: 75px;" id="seqjuzedit" name="seqjuzedit" class="form-control">
+                            </div>
                         </div>
-                    </div> -->  
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label> Urutan </label>
-                            <input type="number" id="_seqjuzedit" name="_seqjuzedit" class="form-control">
-                        </div>
+                            <!-- <div class="col-sm-4">
+                              <div class="form-group">
+                                <label>PARENT JILID</label>
+                                <select class="form-control" id="_jlparselectedit" name="_jlparselectedit" onchange="SelesaiChanged()">
+                                <?php 
+                                //while($jlpar=mysqli_fetch_array($smk2))
+                                //{?>
+                                    <option value="<?php // echo $jlpar['id']; ?>"> <?php// echo $jlpar['nmjilid']; ?></option>
+                                <?php //} ?>
+                                </select>
+                              </div>
+                            </div> -->
                     </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label> Nama Surah </label>
-                            <select class="form-control" name="edit_kumpulan_surah">
-                               
-                            </select>
-                        </div>
-                    </div>  
-                    <!-- <div class="col-sm-4">
-                      <div class="form-group">
-                        <label>PARENT JILID</label>
-                        <select class="form-control" id="_jlparselectedit" name="_jlparselectedit" onchange="SelesaiChanged()">
-                        <?php 
-                        //while($jlpar=mysqli_fetch_array($smk2))
-                        //{?>
-                            <option value="<?php // echo $jlpar['id']; ?>"> <?php// echo $jlpar['nmjilid']; ?></option>
-                        <?php //} ?>
-                        </select>
-                      </div>
-                    </div> -->
+                
                 </div>
-            
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
-                <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
-            </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
+                    <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
+                </div>
+
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Keterangan Surah pada juz -->
+<div id="editmketsurah" class="modal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content"> 
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Edit Data Keterangan Surah </h4>
+            </div>
+
+            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('editmketsurah'); ?>/access" method="post">
+
+                <div class="modal-body">
+                    <div class="row">
+
+                        <input type="hidden" id="idketsurahedit" name="idketsurahedit" class="form-control">
+                        <input type="hidden" id="idparentjuzedit" name="idparentjuzedit" class="form-control">
+
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label> Keterangan Surah </label>
+                                <input type="text" id="ketsurahedit" style="width: 330px;" name="ketsurahedit" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label> Urutan </label>
+                                <input type="number" id="seqketsurahedit" style="width: 75px;" name="seqketsurahedit" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
+                    <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
+                </div>
+
+            </form>
+
         </div>
     </div>
 </div>
@@ -403,7 +469,7 @@
                 <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Tambah Data Juz </h4>
             </div>
 
-            <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
+            <?php $isiParentJuz = mysqli_query($con,"SELECT * FROM tbl_juz where parentid = 0 order by seqjuz, id asc "); ?>
             
             <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjuz'); ?>/access" method="post">
 
@@ -422,8 +488,9 @@
                             </select> -->
                             <select class="form-control" id="parentjuz" name="parentjuz">
                                 <option> -- Pilih -- </option>
-                                <?php foreach($daftar_juz as $data_juz) : ?>
-                                    <option value="<?= $data_juz['id']; ?>"> <?= $data_juz['juz']; ?> </option>
+                                <?php foreach($isiParentJuz as $data_juz) : ?>
+                                    <!-- <option value="<?= $data_juz['id']; ?>"> <?= $data_juz['juz']; ?> </option> -->
+                                    <option value="<?= $data_juz['id']; ?>"> <?= $data_juz['juz_atau_keterangan_ayat']; ?> </option>
                                 <?php endforeach; ?>
                             </select>
                           </div>
@@ -514,18 +581,18 @@
     </div>
 </div>
 
-<div id="hapusmjilid" class="modal" data-bs-backdrop="static" data-bs-keyboard="false">
+<div id="hapusmjuz" class="modal" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
-    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('hapusmjilid').'/access' ?>" method="post">
+    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('hapusmjuz').'/access' ?>" method="post">
         <div class="modal-content">
-            <input type="hidden" id="_idhapus" name="_idhapus" class="form-control">
+            <input type="hidden" id="idhapusjuz" name="idhapusjuz" class="form-control">
             <div class="modal-header bg-green">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">Konfirmasi Hapus Data Jilid </h4>
+                <h4 class="modal-title" id="myModalLabel">Konfirmasi Hapus Data Juz </h4>
             </div>
             <div class="modal-body">
             <p>Jika Anda Menghapus Data Ini, Akan Berpengaruh Pada</p>
-            <b>1. Data Histori siswa naik jilid<br>2. Data kenaikan jilid</b>
+            <b>1. Data Histori siswa naik juz<br>2. Data kenaikan juz</b>
             </div>
             <div class="modal-footer">
             <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Lanjutkan</button> 

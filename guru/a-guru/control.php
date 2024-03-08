@@ -355,6 +355,31 @@ else if ( $akh == md5('addmjuz') ) {
   }
 
   
+} else if ( $akh == md5('editmjuz') ) {
+
+  $id                 = $_POST['idjuzedit'];
+  $juz                = $_POST['isijuzedit'];
+  $urutan             = $_POST['seqjuzedit'];
+  $idParentJuz        = $_POST['idparentjuzedit'];
+
+  $smk->editmasterjuz($con, $id, $juz, $urutan, $idParentJuz);
+  exit;
+
+} else if ( $akh == md5('editmketsurah') ) {
+
+  $id                 = $_POST['idketsurahedit'];
+  $idParentJuz        = $_POST['idparentjuzedit'];
+  $ketAyatPadaSurah   = $_POST['ketsurahedit'];
+  $urutan             = $_POST['seqketsurahedit'];
+
+  $smk->editmasterjuz($con, $id, $ketAyatPadaSurah, $urutan, $idParentJuz);
+  exit;
+
+} else if ( $akh == md5('hapusmjuz') ) {
+
+  $smk->hapusmjuz($con, $_POST['idhapusjuz']);
+  exit;  
+
 }
 #endregion master juz
 

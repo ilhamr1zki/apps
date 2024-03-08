@@ -194,6 +194,35 @@ function addmasterjuz($con, $juzKetAyat, $urutan, $parentid) {
 
 }
 
+function editmasterjuz($con, $id, $keteranganSurahAyat, $seqjuz, $parentid) {
+
+  mysqli_query($con,"
+    UPDATE tbl_juz 
+    SET 
+    juz_atau_keterangan_ayat    = '$keteranganSurahAyat',
+    seqjuz                      = '$seqjuz',
+    parentid                    = '$parentid'
+    WHERE 
+    id                          = '$id' 
+  ");
+
+  session_start();
+  $_SESSION['pesan'] = 'edit';
+  header('location:../../masterjuz');
+  exit;
+
+}
+
+function hapusmjuz($con, $id_juz) {
+
+  mysqli_query($con,"DELETE from tbl_juz where id ='$id_juz' ");
+
+  $_SESSION['pesan']='hapus';
+  header('location:../../masterjuz');
+  exit;
+
+}
+
 // endregion juz
 
 //region pustaka
