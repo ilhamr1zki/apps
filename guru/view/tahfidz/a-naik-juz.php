@@ -129,10 +129,10 @@ order by seqjilid"); ?>
 
         <div class="row">
             <div class="col-sm-3">
-            <button id="btnsetupjilid" name="btnsetupjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Jilid</button> 
-            <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Jilid</button> 
+            <button id="btnsetupjilid" name="btnsetupjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
+            <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
             </div>
-        </div>
+        </div> 
 
         <hr/>
 

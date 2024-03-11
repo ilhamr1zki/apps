@@ -115,6 +115,10 @@
       width: 200%;
     }
 
+    #seqketsurahedit {
+      width: 60%;
+    }
+
     @media only screen and (max-width: 600px) {
       
       .select2-container {
@@ -123,6 +127,10 @@
 
       .keteranganAyat {
         width: 100%
+      }
+
+      #seqketsurahedit {
+        width: 16%;
       }
 
     }

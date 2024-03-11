@@ -436,14 +436,14 @@
                         <div class="col-sm-5">
                             <div class="form-group">
                                 <label> Keterangan Surah </label>
-                                <input type="text" id="ketsurahedit" style="width: 330px;" name="ketsurahedit" class="form-control">
+                                <input type="text" id="ketsurahedit" name="ketsurahedit" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label> Urutan </label>
-                                <input type="number" id="seqketsurahedit" style="width: 75px;" name="seqketsurahedit" class="form-control">
+                                <input type="number" id="seqketsurahedit" name="seqketsurahedit" class="form-control">
                             </div>
                         </div>
 

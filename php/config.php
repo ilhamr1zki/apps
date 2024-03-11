@@ -15,12 +15,14 @@ $con=mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 /* css.plugin.hancon <?php echo $base; ?> */
 /* $base='https://apps.aiis.sch.id/'; */
 $base='http://localhost/apps/';
+// $base='http://192.168.0.163/apps/';
 /* control(link.redirect) <?php echo $basecon; ?> */
 $basead='http://localhost/apps/admin/';
 /* $basead='https://apps.aiis.sch.id/admin/'; */
 /*kelas(link.redirect) <?php echo $basekel; ?>*/
 /* $basegu='https://apps.aiis.sch.id/guru/'; */
 $basegu='http://localhost/apps/guru/';
+// $basegu='http://192.168.0.163/apps/guru/';
 $basewa='http://localhost/apps/walikelas/';
 /* $basewa='https://apps.aiis.sch.id/walikelas/'; */
 $basewam='http://localhost/apps/walimurid/';

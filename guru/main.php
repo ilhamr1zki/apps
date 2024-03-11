@@ -94,6 +94,10 @@
       width: 200%;
     }
 
+    #seqketsurahedit {
+      width: 60%;
+    }
+
     @media only screen and (max-width: 600px) {
       
       .select2-container {
@@ -106,6 +110,10 @@
 
       .row .editformjuz {
         display: flex !important;
+      }
+
+      #seqketsurahedit {
+        width: 16%;
       }
 
     }
