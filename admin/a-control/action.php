@@ -244,6 +244,56 @@ class action{
   }
   //end master jilid
 
+  // region master juz
+
+  function addmasterjuz($con, $juzKetAyat, $urutan, $parentid) {
+
+    mysqli_query($con,"
+      INSERT INTO tbl_juz 
+      SET 
+      juz_atau_keterangan_ayat    = '$juzKetAyat',
+      seqjuz                      = '$urutan',
+      parentid                    = '$parentid'
+    ");
+
+    session_start();
+    $_SESSION['pesan']='tambah';
+    header('location:../../masterjuz');
+    exit;
+
+  }
+
+  function editmasterjuz($con, $id, $keteranganSurahAyat, $seqjuz, $parentid) {
+
+    mysqli_query($con,"
+      UPDATE tbl_juz 
+      SET 
+      juz_atau_keterangan_ayat    = '$keteranganSurahAyat',
+      seqjuz                      = '$seqjuz',
+      parentid                    = '$parentid'
+      WHERE 
+      id                          = '$id' 
+    ");
+
+    session_start();
+    $_SESSION['pesan'] = 'edit';
+    header('location:../../masterjuz');
+    exit;
+
+  }
+
+  function hapusmjuz($con, $id_juz) {
+
+    mysqli_query($con,"DELETE from tbl_juz where id ='$id_juz' ");
+
+    $_SESSION['pesan']='hapus';
+    header('location:../../masterjuz');
+    exit;
+
+  }
+
+  // endregion master juz
+
   //region pustaka
   function addpustaka($con,$nama_dokumen,$deskripsi,$file_dokumen, $user_dokumen){
     $akh=mysqli_query($con,"INSERT INTO pustaka set nama_dokumen='$nama_dokumen',deskripsi='$deskripsi',	file_dokumen='$file_dokumen', user_dokumen ='$user_dokumen' ");

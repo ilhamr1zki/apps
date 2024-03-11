@@ -127,6 +127,45 @@
 
     }
 
+    /* The Modal (background) */
+    .modal-error {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 9999; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content-error {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%;
+    }
+
+    /* The Close Button */
+    .close-popup-err {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close-popup-err:hover,
+    .close-popup-err:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body class="skin-blue hold-transition fixed" 

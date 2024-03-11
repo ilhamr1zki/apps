@@ -125,7 +125,7 @@
             
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid asc "); ?>
 
-            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('editmjilid'); ?>/access" method="post">
+            <form action="<?php echo $basead; ?>a-control/<?php echo md5('editmjilid'); ?>/access" method="post">
             <div class="modal-body">  
             <div class="row">
                     <input type="hidden" id="_idedit" name="_idedit" class="form-control">
@@ -176,41 +176,44 @@
 
             <?php $smk2=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
             
-            <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addmjilid'); ?>/access" method="post">
-            <div class="modal-body">  
-            <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>Nama Jilid</label>
-                            <input type="text" id="_nmjilidadd" name="_nmjilidadd" class="form-control">
+            <form action="<?php echo $basead; ?>a-control/<?php echo md5('addmjilid'); ?>/access" method="post">
+                
+                <div class="modal-body">  
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Nama Jilid</label>
+                                <input type="text" id="_nmjilidadd" name="_nmjilidadd" class="form-control">
+                            </div>
+                        </div>  
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>Urutan</label>
+                                <input type="number" min=0 id="_seqjilidadd" name="_seqjilidadd" class="form-control">
+                            </div>
+                        </div>  
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label>PARENT JILID</label>
+                            <select class="form-control" id="_jlparselect" name="_jlparselect">
+                            <option value="0">--Pilih--</option>
+                            <?php 
+                            while($jlpar=mysqli_fetch_array($smk2))
+                            {?>
+                                <option value="<?php  echo $jlpar['id']; ?>"> <?php echo $jlpar['nmjilid']; ?></option>
+                            <?php } ?>
+                            </select>
+                          </div>
                         </div>
-                    </div>  
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label>Urutan</label>
-                            <input type="number" min=0 id="_seqjilidadd" name="_seqjilidadd" class="form-control">
-                        </div>
-                    </div>  
-                    <div class="col-sm-4">
-                      <div class="form-group">
-                        <label>PARENT JILID</label>
-                        <select class="form-control" id="_jlparselect" name="_jlparselect">
-                        <option value="0">--Pilih--</option>
-                        <?php 
-                        while($jlpar=mysqli_fetch_array($smk2))
-                        {?>
-                            <option value="<?php  echo $jlpar['id']; ?>"> <?php echo $jlpar['nmjilid']; ?></option>
-                        <?php } ?>
-                        </select>
-                      </div>
                     </div>
+                
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
+                    <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
                 </div>
             
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> 
-                <a class="btn btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Tutup</a>
-            </div>
             </form>
         </div>
     </div>
@@ -218,7 +221,7 @@
 
 <div id="hapusmjilid" class="modal" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
-    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('hapusmjilid').'/access' ?>" method="post">
+    <form action="<?php echo $basead; ?>a-control/<?php echo md5('hapusmjilid').'/access' ?>" method="post">
         <div class="modal-content">
             <input type="hidden" id="_idhapus" name="_idhapus" class="form-control">
             <div class="modal-header bg-green">
