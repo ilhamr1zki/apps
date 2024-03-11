@@ -180,7 +180,8 @@ else if ( $akh == md5('addmjuz') ) {
   if ($keteranganAyatSrhAwl == '' && $keteranganAyatSrhAkr == '') {
     
     // echo $getDataSurahAwal . " - " . $getDataSurahAkhir . " " . $urutan;exit;
-    $ketAyatPadaSurah = "$getDataSurahAwal" .' - '. $getDataSurahAkhir;
+    $ketAyatPadaSurah = addslashes($getDataSurahAwal) .' - '. addslashes($getDataSurahAkhir);
+    // echo $ketAyatPadaSurah;exit;
 
     // insert database
 
@@ -192,7 +193,7 @@ else if ( $akh == md5('addmjuz') ) {
 
     // echo $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;exit;
 
-    $ketAyatPadaSurah = $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" ;
+    $ketAyatPadaSurah = addslashes($getDataSurahAwal)  . " (". $keteranganAyatSrhAwl .")" ;
 
     // insert database
     $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
@@ -203,7 +204,7 @@ else if ( $akh == md5('addmjuz') ) {
 
     // echo "bawah" . "<br>" . $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")";exit;
 
-    $ketAyatPadaSurah = $getDataSurahAwal  . " (". $keteranganAyatSrhAwl .")" . " - " . $getDataSurahAkhir. " (". $keteranganAyatSrhAkr .")" ;
+    $ketAyatPadaSurah =  addslashes($getDataSurahAwal) . " (". $keteranganAyatSrhAwl .")" . " - " . addslashes($getDataSurahAkhir) . " (". $keteranganAyatSrhAkr .")" ;
 
     // insert database
     $smk->addmasterjuz($con, $ketAyatPadaSurah, $urutan, $parentJuz);
@@ -368,9 +369,9 @@ else if ( $akh == md5('addmjuz') ) {
 } else if ( $akh == md5('editmketsurah') ) {
 
   $id                 = $_POST['idketsurahedit'];
-  $idParentJuz        = $_POST['idparentjuzedit'];
-  $ketAyatPadaSurah   = $_POST['ketsurahedit'];
+  $ketAyatPadaSurah   = addslashes($_POST['ketsurahedit']);
   $urutan             = $_POST['seqketsurahedit'];
+  $idParentJuz        = $_POST['idparentjuzketedit'];
 
   $smk->editmasterjuz($con, $id, $ketAyatPadaSurah, $urutan, $idParentJuz);
   exit;

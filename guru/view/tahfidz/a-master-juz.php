@@ -144,7 +144,7 @@
         $('#idketsurahedit').val(_id);
         $('#ketsurahedit').val(nm);
         $('#seqketsurahedit').val(seq);
-        $('#idparentjuzedit').val(parentval);
+        $('#idparentjuzketedit').val(parentval);
 
         //alert(parennm);
 
@@ -329,7 +329,7 @@
                             $juzparent      = mysqli_query($con,"SELECT * FROM tbl_juz where id = ".$data2['parentid']." limit 1 ");
                             $parentvalue    = mysqli_fetch_array($juzparent); 
                         ?>
-                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditKetSurah('<?php echo $data2['id'] ?>', '<?php echo $data2['juz_atau_keterangan_ayat'] ?>', '<?php echo $data2['seqjuz'] ?>','<?php echo $data2['parentid'] ?>','<?php echo $parentvalue['juz_atau_keterangan_ayat'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a class="btn btn-circle btn-primary btn-sm" onclick="OpenEditKetSurah('<?php echo $data2['id'] ?>', '<?php echo addslashes($data2['juz_atau_keterangan_ayat']) ?>', '<?php echo $data2['seqjuz'] ?>','<?php echo $data2['parentid'] ?>','<?php echo $parentvalue['juz_atau_keterangan_ayat'] ?>')" data-toggle="modal"> <i class="glyphicon glyphicon-pencil"></i> Edit</a>
                         <a class="btn btn-circle btn-danger btn-sm" data-toggle="modal" onclick="OpenDeleteModal('<?php echo $data2['id']; ?>')" data-toggle="modal"><i class="glyphicon glyphicon-remove"></i>Delete</a>
                     </td>
                 </tr>
@@ -431,7 +431,7 @@
                     <div class="row">
 
                         <input type="hidden" id="idketsurahedit" name="idketsurahedit" class="form-control">
-                        <input type="hidden" id="idparentjuzedit" name="idparentjuzedit" class="form-control">
+                        <input type="hidden" id="idparentjuzketedit" name="idparentjuzketedit" class="form-control">
 
                         <div class="col-sm-5">
                             <div class="form-group">
