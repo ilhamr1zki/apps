@@ -92,13 +92,16 @@ order by seqjilid"); ?>
                 </div>
             </div>
         </div>
+        
         <div class="row">
+
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Juz Sekarang</label>
                     <label class="form-control" id="_jilidcur2" name="_jilidcur2"> </label>
                 </div>
             </div>
+            
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Bagian</label>
@@ -121,8 +124,17 @@ order by seqjilid"); ?>
                                 <option value="<?php  echo $resJilid['id']; ?>"> <?php echo $resJilid['nmjilidall']; ?></option>
                             <?php } ?>
                         </select>
-                       <button id="btnsetupmanualjilid" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button>  
+                        <!-- <br><br> -->
+                       <!-- <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->  
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button>
                 </div>
             </div>
         </div>
