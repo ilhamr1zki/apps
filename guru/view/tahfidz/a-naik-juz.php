@@ -101,7 +101,7 @@ order by seqjilid"); ?>
                     <label class="form-control" id="_jilidcur2" name="_jilidcur2"> </label>
                 </div>
             </div>
-            
+
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Bagian</label>
@@ -135,6 +135,7 @@ order by seqjilid"); ?>
             <div class="col-sm-3">
                 <div class="form-group">
                     <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button>
+                    <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
                 </div>
             </div>
         </div>
@@ -142,7 +143,7 @@ order by seqjilid"); ?>
         <div class="row">
             <div class="col-sm-3">
             <button id="btnsetupjilid" name="btnsetupjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
-            <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
+            <!-- <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
             </div>
         </div> 
 
@@ -314,7 +315,9 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
         }
         else{
             var _btnnaikjilid = document.getElementById("btnnaikjilid");
-            _btnnaikjilid.style.display = "block";
+            _btnnaikjilid.style.display    = "block";
+            _btnnaikjilid.style.marginTop  = "-34px";
+            _btnnaikjilid.style.marginLeft = "110px";
 
             var _btnsetupjilid = document.getElementById("btnsetupjilid");
             _btnsetupjilid.style.display = "none";
