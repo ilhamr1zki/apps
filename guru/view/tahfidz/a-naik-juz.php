@@ -98,17 +98,14 @@ order by seqjilid"); ?>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Juz Sekarang</label>
-                    <label class="form-control" id="_jilidcur2" name="_jilidcur2"> </label>
+                    <label class="form-control" value="Juz 30" name="_jilidcur2"> </label>
                 </div>
             </div>
 
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Bagian</label>
-                    <select class="form-control">
-                        <option> Bagian Awal </option>
-                        <option> Bagian Akhir </option>
-                    </select>
+                    <input type="text" name="" value="An Nas - Al Fajr" readonly="">
                 </div>
             </div>
             
@@ -134,8 +131,8 @@ order by seqjilid"); ?>
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
-                    <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button>
-                    <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
+                    <!-- <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->
+                    <!-- <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
                 </div>
             </div>
         </div>
@@ -160,7 +157,7 @@ order by seqjilid"); ?>
 
             <div class="row">
                 <div class="col-sm-2">
-                <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan</button> 
+                <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan </button> 
                 </div>
             </div>
 
@@ -183,9 +180,11 @@ order by seqjilid"); ?>
                 <thead>
                 <tr>
                   <th width="5%">NO</th>
-                <?php if(empty($_GET['q'])){
-                  echo '<th width="12%">KELAS</th>';
-                } ?>
+                <?php 
+                    if(empty($_GET['q'])) {
+                        echo '<th width="12%">KELAS</th>';
+                    } 
+                ?>
                   <th>NISN</th>
                   <th>NAMA</th>
                   <th>GENDER</th>
@@ -193,55 +192,73 @@ order by seqjilid"); ?>
                 </thead>
                 <tbody>
 <?php
-if(isset($_GET['q'])){
-  $smk=mysqli_query($con,"SELECT * FROM siswa  where  c_kelas='$_GET[q]' order by nama asc ");
-}else{
-  $smk=mysqli_query($con,"SELECT * FROM siswa  order by nama asc ");
-}             $vr=1;
-while($akh=mysqli_fetch_array($smk))
-{ 
-    $kk=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
-    $sjh=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM sisjilid_h where c_siswa='$akh[c_siswa]' limit 1 "));
     
-if($sjh != null){
-    $nextSeq = $sjh['seqjilid'] + 1;
-    $idjilidselected = $sjh['idjilid'];
-    if($idjilidselected != "23") //jilid finish
-    {
-        $nextmjilid =mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tbl_jilid where seqjilid='$nextSeq' limit 1 ")); 
-        $nextnamajilidutama =mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tbl_jilid where id='$nextmjilid[parentid]' limit 1 ")); 
-    }
-    
-    $curbagian =mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tbl_jilid where id='$idjilidselected' limit 1 ")); 
+    if(isset($_GET['q'])) {
+      $smk=mysqli_query($con,"SELECT * FROM siswa  where  c_kelas='$_GET[q]' order by nama asc ");
+    } else {
+      $smk=mysqli_query($con,"SELECT * FROM siswa  order by nama asc ");
+    }  
 
-}
+    $vr = 1;
+
+    while($akh=mysqli_fetch_array($smk)) { 
+
+        $kk  = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
+        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjilid_h where c_siswa='$akh[c_siswa]' limit 1 "));
+        
+        if($sjh != null) {
+            $nextSeq = $sjh['seqjilid'] + 1;
+            $idjilidselected = $sjh['idjilid'];
+
+            if($idjilidselected != "23") { 
+                //jilid finish
+                $nextmjilid = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where seqjilid = '$nextSeq' limit 1 ")); 
+                $nextnamajilidutama = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where id='$nextmjilid[parentid]' limit 1 ")); 
+            }
+            
+            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where id='$idjilidselected' limit 1 ")); 
+        }
 
 ?>                
-                <tr onclick="OnSiswaSelectedModal('<?php echo $akh['c_siswa']; ?>', 
-                '<?php echo $akh['nama']; ?>', 
-                '<?php echo $kk['kelas']; ?>', 
-                '<?php echo $sjh['c_siswa'] ?? ''; ?>',
-                '<?php echo $sjh['nmjilid'] ?? ''; ?>', 
-                '<?php echo $sjh['idjilid'] ?? 0; ?>',
-                '<?php echo $sjh['seqjilid'] ?? 0; ?>',
-                '<?php echo $nextSeq ?? 0; ?>', 
-                '<?php echo $nextmjilid['nmjilid'] ?? ''; ?>',
-                '<?php echo $nextmjilid['id'] ?? 0; ?>',
-                '<?php echo $sjh['nmbagian'] ?? '';?> ',
-                '<p><br/></p>',
-                '<?php echo $nextnamajilidutama['nmjilid'] ?? '';?> '
-                )">
-                  <td><?php echo $vr; ?></td>
-                <?php if(empty($_GET['q'])){
-                  echo '<td>'.$kk['kelas'].'</td>';
-                }?>
-                  <td><?php echo $akh['nisn']; ?></td>
-                  <td><?php echo $akh['nama']; ?></td>
-                  <td><?php if($akh['jk']=='L'){echo 'Laki - Laki';}elseif($akh['jk']=='P'){echo 'Perempuan';} ?></td>
-                </tr>
+        <tr onclick="OnSiswaSelectedModal('<?php echo $akh['c_siswa']; ?>', 
+            '<?php echo $akh['nama']; ?>', 
+            '<?php echo $kk['kelas']; ?>', 
+            '<?php echo $sjh['c_siswa'] ?? ''; ?>',
+            '<?php echo $sjh['nmjilid'] ?? ''; ?>', 
+            '<?php echo $sjh['idjilid'] ?? 0; ?>',
+            '<?php echo $sjh['seqjilid'] ?? 0; ?>',
+            '<?php echo $nextSeq ?? 0; ?>', 
+            '<?php echo $nextmjilid['nmjilid'] ?? ''; ?>',
+            '<?php echo $nextmjilid['id'] ?? 0; ?>',
+            '<?php echo $sjh['nmbagian'] ?? '';?> ',
+            '<p><br/></p>',
+            '<?php echo $nextnamajilidutama['nmjilid'] ?? '';?> '
+            )">
+            <td> <?php echo $vr; ?> </td>
+            <?php 
+                if(empty($_GET['q'])) {
+                    echo '<td>' . $kk['kelas'] . '</td>';
+                }
+            ?>
+            <td> <?php echo $akh['nisn']; ?> </td>
+            <td> <?php echo $akh['nama']; ?> </td>
+            <td> 
+                <?php 
+                    if($akh['jk'] == 'L') {
+                        echo 'Laki - Laki';
+                    } elseif ($akh['jk'] == 'P') {
+                        echo 'Perempuan';
+                    } 
+                ?>
+            </td>
+        </tr>
 
-<?php $vr++; 
-} ?>
+<?php 
+    $vr++; 
+    
+    } 
+
+?>
 </tbody>
 </table>
                 </div>
@@ -255,7 +272,7 @@ if($sjh != null){
 <script language="javascript" type="text/javascript">
 
 $(document).ready(function() {
-    
+
     $('#_idsiswa').val("");
     $('#_nmsiswa').val("");
     $('#_nmsiswa2').text("");
@@ -296,8 +313,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
         //$('#editorcatatan').summernote('reset');
         $('#editorcatatan').summernote('code', '<p><br></p>');
 
-        if(c_siswa == undefined || c_siswa == null || c_siswa == '')
-        {
+        if(c_siswa == undefined || c_siswa == null || c_siswa == '') {
             var _btnnaikjilid = document.getElementById("btnnaikjilid");
             _btnnaikjilid.style.display = "none";
 
@@ -312,8 +328,8 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
             $('#_idjilid').val("16");
             $('#_seqnext').val(1);
             
-        }
-        else{
+        } else {
+
             var _btnnaikjilid = document.getElementById("btnnaikjilid");
             _btnnaikjilid.style.display    = "block";
             _btnnaikjilid.style.marginTop  = "-34px";
@@ -341,7 +357,8 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
                 return response.json(); // Parse the JSON data.
             })
             .then((data) => {
-                const myJSON = JSON.stringify(data.catatan);
+                // console.log(data.catatan)
+                const myJSON          = JSON.stringify(data.catatan);
                 const nmjilidsekarang = JSON.stringify(data.nmjilid);
                 const idjilidsekarang = JSON.stringify(data.idjilid);
 
