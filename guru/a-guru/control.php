@@ -384,6 +384,18 @@ else if ( $akh == md5('addmjuz') ) {
 }
 #endregion master juz
 
+// kenaikan juz
+else if( $akh == md5('addnaikjuz') ) { 
+
+  $_tglnaikjuz = date('Y-m-d', strtotime($_POST['_tglnaikjuz']));
+
+  if (isset($_POST['naikjuz'])) {
+    $smk->updatenaikjuz($con, $_POST['_idjuz'] ?? 0,$_POST['_seqnext'] ?? 0, $_POST['_idsiswa'] ?? "", $_POST['_nmsiswa'] ?? "", $_tglnaikjuz , $_POST['_juzcur'] ?? "", $_POST['_entryby'] ?? "", $_POST['_nmjuznext'] ?? "",  $_POST['editorcatatan'] ?? "",  $_POST['_juzutama'] ?? "");
+  }
+
+}
+// akhir kenaikan juz
+
 #region pustaka
 else if($akh==md5('addpustaka')){ 
 $targetDir = "../../wwwupload/"; 

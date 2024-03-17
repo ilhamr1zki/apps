@@ -1,26 +1,35 @@
 <?php 
 
-$sqlJilid=mysqli_query($con,"select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall
-order by seqjilid"); ?>
+    $sqlJuz = mysqli_query($con,
+    "select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
+    (
+        select tbl1.* from
+        (
+            select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz 
+            left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+            on tj.parentid  = tbl1.id
+            where tj.parentid != 0
+            
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl1
+    union 
+        select tbl2.* from
+        ( 
+            select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz  
+            where tj.parentid = 0 and tj.seqjuz  > 14
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl2
+   ) as tblall
+   order by seqjuz"); 
+
+?>
+
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
 
@@ -51,22 +60,22 @@ order by seqjilid"); ?>
         <h3 class="box-title"> <i class="glyphicon glyphicon-new-window"></i> Naik Juz</h3><span style="float:right;"><a class="btn btn-primary" onclick="OpenCarisiswaModal()"><i class="glyphicon glyphicon-plus"></i> Cari Siswa</a></span>
        
     </div>
-    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addnaikjilid'); ?>/access" method="post">
+    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addnaikjuz'); ?>/access" method="post">
     <div class="box-body table-responsive">
         <input type="hidden" id="_entryby" name="_entryby" class="form-control" value="<?php echo $na['nama'] ?>">
         <input type="hidden" id="_idsiswa" name="_idsiswa" class="form-control">
-        <input type="hidden" id="_idjilid" name="_idjilid" class="form-control">
-        <input type="hidden" id="_idjilidnext" name="_idjilidnext" class="form-control">
-        <input type="hidden" id="_nmjilidnext" name="_nmjilidnext" class="form-control">
+        <input type="hidden" id="_idjuz" name="_idjuz" class="form-control">
+        <input type="hidden" id="_idjuznext" name="_idjuznext" class="form-control">
+        <input type="hidden" id="_nmjuznext" name="_nmjuznext" class="form-control">
         <input type="hidden" id="_seqnext" name="_seqnext" class="form-control">
 
         <input type="hidden" class="form-control" id="_nmsiswa" name="_nmsiswa">
-        <input type="hidden" class="form-control" id="_jilidcur" name="_jilidcur"/>
-        <input type="hidden" class="form-control" id="_namajilidutama" name="_namajilidutama"/>
+        <input type="hidden" class="form-control" id="_juzcur" name="_juzcur"/>
+        <input type="hidden" class="form-control" id="_juzutama" name="_juzutama"/>
 
-        <input type="hidden" id="_idjilidmanual" name="_idjilidmanual" class="form-control">
+        <input type="hidden" id="_idjuzmanual" name="_idjuzmanual" class="form-control">
         <input type="hidden" id="_seqnextmanual" name="_seqnextmanual" class="form-control">
-        <input type="hidden" id="_nmjilidmanual" name="_nmjilidmanual" class="form-control">
+        <input type="hidden" id="_nmjuzmanual" name="_nmjuzmanual" class="form-control">
         <input type="hidden" id="_nmbagianmanual" name="_nmbagianmanual" class="form-control">
 
         <div class="row">
@@ -86,7 +95,7 @@ order by seqjilid"); ?>
                 <div class="form-group">
                     <label>Tgl Naik Juz</label>
                     <div class="controls input-append date form_date" data-date="1998-10-14" data-date-format="dd-m-yyyy" data-link-field="dtp_input1">
-                        <input id="_tglnaikjilid" name="_tglnaikjilid" class="form-control form-select" type="text" value="<?php echo date('d-m-Y'); ?>"  required="">
+                        <input id="_tglnaikjuz" name="_tglnaikjuz" class="form-control form-select" type="text" value="<?php echo date('d-m-Y'); ?>"  required="">
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
                 </div>
@@ -98,14 +107,14 @@ order by seqjilid"); ?>
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Juz Sekarang</label>
-                    <label class="form-control" value="Juz 30" name="_jilidcur2"> </label>
+                    <input class="form-control" type="text" name="_juzcur2" id="isijuzsekarang" readonly="">
                 </div>
             </div>
 
             <div class="col-sm-3">
                 <div class="form-group">
                     <label>Bagian</label>
-                    <input type="text" name="" value="An Nas - Al Fajr" readonly="">
+                    <input type="text" class="form-control" name="_bagianjuzcur2" id="_bagianjuzcur2" readonly="">
                 </div>
             </div>
             
@@ -113,16 +122,16 @@ order by seqjilid"); ?>
                 <div class="form-group">
                     <label>Setting Manual Juz</label>
                     <div class="input-group">
-                        <select class="form-control form-select input-group-sm" id="_setmanualjilidselect" name="_setmanualjilidselect" onchange="SelectilidChanged()">
-                            <option value="">--Pilih--</option>
+                        <select class="form-control form-select input-group-sm" id="_setmanualjuzselect" name="_setmanualjuzselect" onchange="SelectilidChanged()">
+                            <option value="">-- Pilih --</option>
                             <?php 
-                            while($resJilid=mysqli_fetch_array($sqlJilid))
+                            while($resJuz=mysqli_fetch_array($sqlJuz))
                             {?>
-                                <option value="<?php  echo $resJilid['id']; ?>"> <?php echo $resJilid['nmjilidall']; ?></option>
+                                <option value="<?php  echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
                             <?php } ?>
                         </select>
                         <!-- <br><br> -->
-                       <!-- <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->  
+                       <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Manual Juz</button> -->  
                     </div>
                 </div>
             </div>
@@ -131,16 +140,16 @@ order by seqjilid"); ?>
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
-                    <!-- <button id="btnsetupmanualjilid" style="margin-top: 15px;" name="btnsetupmanualjilid" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->
-                    <!-- <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
+                    <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->
+                    <button id="btnnaikjuz" style="display: none;" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-3">
-            <button id="btnsetupjilid" name="btnsetupjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
-            <!-- <button id="btnnaikjilid" name="btnnaikjilid" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
+            <button id="btnsetupjuz" name="btnsetupjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
+            <!-- <button id="btnnaikjuz" name="btnnaikjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
             </div>
         </div> 
 
@@ -155,12 +164,20 @@ order by seqjilid"); ?>
                 </div>
             </div>
 
+            <!-- <div class="row" style="width: 85%; display: flex;">
+                <div class="col-sm-2">
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
+                </div>
+                <div class="col-sm-2">
+                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
+                </div>
+            </div> -->
+
             <div class="row">
                 <div class="col-sm-2">
-                <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan </button> 
+                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
                 </div>
             </div>
-
         
     </div>
     </form>
@@ -204,19 +221,21 @@ order by seqjilid"); ?>
     while($akh=mysqli_fetch_array($smk)) { 
 
         $kk  = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
-        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjilid_h where c_siswa='$akh[c_siswa]' limit 1 "));
+        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjuz_h where c_siswa='$akh[c_siswa]' limit 1 "));
+
+        // var_dump($sjh);
         
         if($sjh != null) {
-            $nextSeq = $sjh['seqjilid'] + 1;
-            $idjilidselected = $sjh['idjilid'];
+            $nextSeq = $sjh['seqjuz'] + 1;
+            $idjuzselected = $sjh['idjuz'];
 
-            if($idjilidselected != "23") { 
-                //jilid finish
-                $nextmjilid = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where seqjilid = '$nextSeq' limit 1 ")); 
-                $nextnamajilidutama = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where id='$nextmjilid[parentid]' limit 1 ")); 
+            if($idjuzselected != "23") { 
+                //juz finish
+                $nextmjuz       = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where seqjuz = '$nextSeq' limit 1 ")); 
+                $nextjuzutama   = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id = '$nextmjuz[parentid]' limit 1 ")); 
             }
             
-            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_jilid where id='$idjilidselected' limit 1 ")); 
+            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id='$idjuzselected' limit 1 ")); 
         }
 
 ?>                
@@ -224,15 +243,15 @@ order by seqjilid"); ?>
             '<?php echo $akh['nama']; ?>', 
             '<?php echo $kk['kelas']; ?>', 
             '<?php echo $sjh['c_siswa'] ?? ''; ?>',
-            '<?php echo $sjh['nmjilid'] ?? ''; ?>', 
-            '<?php echo $sjh['idjilid'] ?? 0; ?>',
-            '<?php echo $sjh['seqjilid'] ?? 0; ?>',
+            '<?php echo $sjh['juz'] ?? ''; ?>', 
+            '<?php echo $sjh['idjuz'] ?? 0; ?>',
+            '<?php echo $sjh['seqjuz'] ?? 0; ?>',
             '<?php echo $nextSeq ?? 0; ?>', 
-            '<?php echo $nextmjilid['nmjilid'] ?? ''; ?>',
-            '<?php echo $nextmjilid['id'] ?? 0; ?>',
-            '<?php echo $sjh['nmbagian'] ?? '';?> ',
+            '<?php echo $nextmjuz['juz_atau_keterangan_ayat'] ?? ''; ?>',
+            '<?php echo $nextmjuz['id'] ?? 0; ?>',
+            '<?php echo $sjh['ketjuzsurah'] ?? '';?> ',
             '<p><br/></p>',
-            '<?php echo $nextnamajilidutama['nmjilid'] ?? '';?> '
+            '<?php echo $nextjuzutama['juz_atau_keterangan_ayat'] ?? '';?> '
             )">
             <td> <?php echo $vr; ?> </td>
             <?php 
@@ -284,71 +303,56 @@ $(document).ready(function() {
         height: 150
       });
 
-    var _btnsetupjilid = document.getElementById("btnsetupjilid");
-    _btnsetupjilid.style.display = "none";
+    var _btnsetupjuz = document.getElementById("btnsetupjuz");
+    _btnsetupjuz.style.display = "none";
 
-    var _btnnaikjilid = document.getElementById("btnnaikjilid");
-            _btnnaikjilid.style.display = "none";
-
-            $("#myeditor").summernote({
-            placeholder: "Write your content here",
-            height: 200,
-        });
+    
 
 });
 
-function OpenCarisiswaModal(){
+    function OpenCarisiswaModal(){
 
         $('#datamassiswa').modal("show");
     }
 
-function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, seqjilid, 
-    nextSeq, nextnmjilid, nextidjilid, nmbagian, catatan, nextnamajilidutama){
+    function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjuz, idcurjuz, seqjuz, 
+    nextSeq, nextnmjuz, nextidjuz, nmbagian, catatan, nextjuzutama){
 
         $('#_idsiswa').val(kode);
         $('#_nmsiswa').val(nama);
-        $('#_nmsiswa2').text(nama);
+        $('#_nmsiswa2').text(nama + " Halo");
         $('#_kelassiswa').text(kelas);
 
         //$('#editorcatatan').summernote('reset');
         $('#editorcatatan').summernote('code', '<p><br></p>');
 
         if(c_siswa == undefined || c_siswa == null || c_siswa == '') {
-            var _btnnaikjilid = document.getElementById("btnnaikjilid");
-            _btnnaikjilid.style.display = "none";
 
-            var _btnsetupjilid = document.getElementById("btnsetupjilid");
-            _btnsetupjilid.style.display = "none";
+            var _btnsetupjuz = document.getElementById("btnsetupjuz");
+            _btnsetupjuz.style.display = "none";
 
-            var _btnsetupmanualjilid = document.getElementById("btnsetupmanualjilid");
+            var _btnsetupmanualjuz = document.getElementById("btnsetupmanualjuz");
 
-            $('#_jilidcur').val("PRA TK");
-            $('#_jilidcur2').text("PRA TK");
-            $('#_bagianjilidcur2').val("BAGIAN A. Buku Hal. 1-17");
-            $('#_idjilid').val("16");
+            $('#_juzcur').val("An Nas - Al Fajr");
+            $('#isijuzsekarang').text("JUZ 30");
+            $('#_bagianjuzcur2').val("An Nas - Al Fajr");
+            $('#_idjuz').val("16");
             $('#_seqnext').val(1);
             
         } else {
 
-            var _btnnaikjilid = document.getElementById("btnnaikjilid");
-            _btnnaikjilid.style.display    = "block";
-            _btnnaikjilid.style.marginTop  = "-34px";
-            _btnnaikjilid.style.marginLeft = "110px";
-
-            var _btnsetupjilid = document.getElementById("btnsetupjilid");
-            _btnsetupjilid.style.display = "none";
-
-            var _btnsetupmanualjilid = document.getElementById("btnsetupmanualjilid");
+            let btnnaikjuz = document.getElementById("btnnaikjuz");
+            btnnaikjuz.style.display   = "block";
+            btnnaikjuz.style.marginTop = "10px";
             
-            
-            $('#_idjilid').val(nextidjilid);
+            $('#_idjuz').val(nextidjuz);
             $('#_seqnext').val(nextSeq);
-            $('#_bagianjilidcur2').val(nmbagian ?? "");
-            $('#_nmjilidnext').val(nextnmjilid ?? "");
+            $('#_bagianjuzcur2').val(nmbagian ?? "");
+            $('#_nmjuznext').val(nextnmjuz ?? "");
             
-            $('#_namajilidutama').val(nextnamajilidutama ?? "");
+            $('#_juzutama').val(nextjuzutama ?? "");
             
-            fetch("view/qiroati/singledatajilid_h.php?c_siswa=" + c_siswa)
+            fetch("view/tahfidz/singledatajuz_h.php?c_siswa=" + c_siswa)
             .then((response) => {
                 if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
                     throw new Error("Terjadi kesalahan!");
@@ -358,18 +362,20 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
             })
             .then((data) => {
                 // console.log(data.catatan)
-                const myJSON          = JSON.stringify(data.catatan);
-                const nmjilidsekarang = JSON.stringify(data.nmjilid);
-                const idjilidsekarang = JSON.stringify(data.idjilid);
+                const myJSON                = JSON.stringify(data.catatan);
+                const ketjuzsurahsekarang   = JSON.stringify(data.juz);
+                const idjuzsekarang         = JSON.stringify(data.idjuz);
+                document.getElementById("isijuzsekarang").value = ketjuzsurahsekarang.slice(1, -1).trim()
+                alert(ketjuzsurahsekarang.slice(1, -1).trim())
 
                 // This is where you handle what to do with the response.
                 $('#editorcatatan').summernote('pasteHTML', myJSON.slice(1, -1).trim());
-                $('#_jilidcur').val(nmjilidsekarang.slice(1, -1).trim());
-                $('#_jilidcur2').text(nmjilidsekarang.slice(1, -1).trim());
+                $('#_juzcur').val(ketjuzsurahsekarang.slice(1, -1).trim());
+                $('#isijuzsekarang').text(ketjuzsurahsekarang.slice(1, -1).trim());
 
-                if(idjilidsekarang.slice(1, -1).trim() == "23")
+                if(idjuzsekarang.slice(1, -1).trim() == "23")
                 {
-                    _btnnaikjilid.style.display = "none";
+                    _btnnaikjuz.style.display = "none";
                 }
 
             })
@@ -382,15 +388,15 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
         $('#datamassiswa').modal("hide");
     }
 
-    function SelectilidChanged(jilidval) {
+    function SelectilidChanged(juzval) {
 
         if($('#_idsiswa').val() == null || $('#_idsiswa').val() == "")
         {
             alert("Silahkan pilih siswa");
-            return $('#_setmanualjilidselect').val("");
+            return $('#_setmanualjuzselect').val("");
         }
 
-        fetch("view/qiroati/apiservicemasterjilid.php?idjilid=" + $('#_setmanualjilidselect').val())
+        fetch("view/tahfidz/apiservicemasterjuz.php?idjuz=" + $('#_setmanualjuzselect').val())
             .then((response) => {
                 if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
                     throw new Error("Terjadi kesalahan!");
@@ -399,24 +405,23 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
                 return response.json(); // Parse the JSON data.
             })
             .then((data) => {
-                var valnmjilid = JSON.stringify(data.nmjilid2);
+                var valjuz = JSON.stringify(data.nmjuz2);
                 var valnmbagian = JSON.stringify(data.nmbagian);
-                var valseq = JSON.stringify(data.seqjilid);
+                var valseq = JSON.stringify(data.seqjuz);
 
-                $('#_idjilidmanual').val($('#_setmanualjilidselect').val());
+                $('#_idjuzmanual').val($('#_setmanualjuzselect').val());
                 $('#_seqnextmanual').val(valseq.slice(1, -1).trim());
-                $('#_nmjilidmanual').val(valnmjilid.slice(1, -1).trim());
+                $('#_nmjuzmanual').val(valjuz.slice(1, -1).trim());
                 $('#_nmbagianmanual').val(valnmbagian.slice(1, -1).trim());
 
 
-                //alert("id: " + $('#_setmanualjilidselect').val() + "- jilid: " + valnmjilid + "- bagian: " + valnmbagian);
+                //alert("id: " + $('#_setmanualjuzselect').val() + "- jilid: " + valjuz + "- bagian: " + valnmbagian);
             })
             .catch((error) => {
                 // This is where you handle errors.
             });
 
-    
-} 
+    } 
 
 </script>
 

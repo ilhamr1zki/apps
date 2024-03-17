@@ -223,6 +223,42 @@ function hapusmjuz($con, $id_juz) {
 
 }
 
+function updatenaikjuz($con,$idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $nmjuz, $entryby, $nmbagian, $catatan, $juzutama) {
+
+  $akh = mysqli_query($con, 
+    "
+    UPDATE sisjuz_h 
+    set 
+    idjuz        = '$idjuz',
+    seqjilid     = '$seqjuz', 
+    tglnaikjilid = '$tglnaikjuz', 
+    nmjilid      = '$juzutama', 
+    updateby     = '$entryby', 
+    updatedate   = CURRENT_DATE(), 
+    nmbagian     = '$nmbagian', 
+    catatan      = '$catatan' 
+    where 
+    c_siswa      = '$c_siswa' 
+    ");
+  
+  $akh2 = mysqli_query($con,
+    "
+    INSERT INTO sisjuz_d 
+    set 
+    idfk         = '$idjuz', 
+    idjuz        = '$idjuz',  
+    tglnaikjilid = '$tglnaikjuz', 
+    nmjilid      = '$nmbagian', 
+    c_siswa      = '$c_siswa' 
+    ");
+
+  session_start();
+  $_SESSION['pesan'] = 'edit';
+  header('location:../../naikjuz');
+  exit;
+
+}
+
 // endregion juz
 
 //region pustaka
