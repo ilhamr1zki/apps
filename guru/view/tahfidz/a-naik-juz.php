@@ -320,7 +320,7 @@ $(document).ready(function() {
 
         $('#_idsiswa').val(kode);
         $('#_nmsiswa').val(nama);
-        $('#_nmsiswa2').text(nama + " Halo");
+        $('#_nmsiswa2').text(nama);
         $('#_kelassiswa').text(kelas);
 
         //$('#editorcatatan').summernote('reset');
