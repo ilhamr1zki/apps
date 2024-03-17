@@ -30,6 +30,8 @@ function addnaikjilid($con,$idjilid,$seqjilid,$c_siswa, $nmsiswa, $tglnaikjilid,
   header('location:../../naikjilid');
   exit;
 }
+
+// parameter $nmsiswa dan $nmjilid tidak terpakai
 function updatenaikjilid($con,$idjilid,$seqjilid,$c_siswa, $nmsiswa, $tglnaikjilid, $nmjilid, $entryby, $nmbagian, $catatan, $namajilidutama){
   $akh=mysqli_query($con,"UPDATE sisjilid_h set idjilid='$idjilid',seqjilid='$seqjilid', 
   tglnaikjilid = '$tglnaikjilid', nmjilid='$namajilidutama', updateby='$entryby', updatedate = CURRENT_DATE(), nmbagian = '$nmbagian', catatan = '$catatan' where c_siswa='$c_siswa' ");
@@ -223,22 +225,21 @@ function hapusmjuz($con, $id_juz) {
 
 }
 
-function updatenaikjuz($con,$idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $nmjuz, $entryby, $nmbagian, $catatan, $juzutama) {
+function updatenaikjuz($con, $idjuz, $seqjuz, $tglnaikjuz, $entryby, $juzsekarang, $ketjuzsurah, $catatan = '', $c_siswa) {
 
   $akh = mysqli_query($con, 
     "
     UPDATE sisjuz_h 
     set 
-    idjuz        = '$idjuz',
-    seqjilid     = '$seqjuz', 
-    tglnaikjilid = '$tglnaikjuz', 
-    nmjilid      = '$juzutama', 
-    updateby     = '$entryby', 
-    updatedate   = CURRENT_DATE(), 
-    nmbagian     = '$nmbagian', 
-    catatan      = '$catatan' 
+    idjuz         = '$idjuz',
+    seqjuz        = '$seqjuz', 
+    tglnaikjuz    = '$tglnaikjuz', 
+    updateby      = '$entryby', 
+    updatedate    = CURRENT_DATE(), 
+    juz           = '$juzsekarang', 
+    ketjuzsurah   = '$ketjuzsurah'
     where 
-    c_siswa      = '$c_siswa' 
+    c_siswa       = '$c_siswa' 
     ");
   
   $akh2 = mysqli_query($con,
@@ -247,8 +248,8 @@ function updatenaikjuz($con,$idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $nmj
     set 
     idfk         = '$idjuz', 
     idjuz        = '$idjuz',  
-    tglnaikjilid = '$tglnaikjuz', 
-    nmjilid      = '$nmbagian', 
+    tglnaikjuz   = '$tglnaikjuz', 
+    ketjuzsurah  = '$ketjuzsurah', 
     c_siswa      = '$c_siswa' 
     ");
 
@@ -257,6 +258,39 @@ function updatenaikjuz($con,$idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $nmj
   header('location:../../naikjuz');
   exit;
 
+}
+
+function setupmanualnaikjuz($con, $idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $juz, $entryby, $juzketsurah, $catatan, $juzsekarang) {
+
+  $sjh = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM sisjuz_h where c_siswa='$c_siswa' limit 1 "));
+  $ksg = "";
+
+  if($sjh != null){
+    $akh=mysqli_query($con,"UPDATE sisjuz_h set idjuz='$idjuz',seqjuz='$seqjuz', 
+    tglnaikjuz = '$tglnaikjuz', juz='$juzsekarang', updateby='$entryby', updatedate = CURRENT_DATE(), ketjuzsurah = '$juzketsurah', catatan = '$catatan' where c_siswa='$c_siswa' ");
+  }
+  else{
+    $akh=mysqli_query($con,"INSERT INTO sisjuz_h set idjuz='$idjuz',seqjuz='$seqjuz', 
+    c_siswa='$c_siswa', nmsiswa='$nmsiswa', tglnaikjuz = '$tglnaikjuz', entryby='$entryby',
+      entrydate = CURRENT_DATE(), juz='$juz', ketjuzsurah = '$juzketsurah', catatan = '$catatan' ");
+    
+    $akh2=mysqli_query($con,"INSERT INTO sisjuz_d set idfk='$idjuz',idjuz='$idjuz',  tglnaikjuz= '$tglnaikjuz', juz = '$juzketsurah', c_siswa='$c_siswa' ");
+  }
+
+  session_start();
+  $_SESSION['pesan']='edit';
+  header('location:../../naikjilid');
+  exit;
+
+}
+
+function updateCatatanNaikJuz($con,$c_siswa, $catatan){
+  $akh=mysqli_query($con,"UPDATE sisjuz_h set catatan = '$catatan' where c_siswa='$c_siswa' ");
+
+  session_start();
+  $_SESSION['pesan']='edit';
+  header('location:../../naikjuz');
+  exit;
 }
 
 // endregion juz

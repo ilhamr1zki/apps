@@ -21,7 +21,7 @@
 		union 
 		select tbl2.* from
 		(
-			select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+			select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
 			left join sisjuz_h sh on tj.id = sh.idjuz  
 			where tj.parentid = 0 and tj.seqjuz  > 14
 			and coalesce(sh.flag, 'N') = 'N'

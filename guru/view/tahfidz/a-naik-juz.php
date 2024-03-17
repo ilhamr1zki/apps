@@ -28,6 +28,15 @@
    ) as tblall
    order by seqjuz"); 
 
+    $queryGetDataSeqJuz1 = mysqli_query($con, 
+        "SELECT id, juz_atau_keterangan_ayat, seqjuz FROM tbl_juz WHERE seqjuz = '1' "
+    );
+
+    $getDataArr = mysqli_fetch_array($queryGetDataSeqJuz1);
+    
+    $getDataIdJuz  = $getDataArr['id'];
+    $getDataSeqJuz = $getDataArr['seqjuz'];
+
 ?>
 
 <div class="row">
@@ -104,7 +113,7 @@
         
         <div class="row">
 
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>Juz Sekarang</label>
                     <input class="form-control" type="text" name="_juzcur2" id="isijuzsekarang" readonly="">
@@ -123,11 +132,11 @@
                     <label>Setting Manual Juz</label>
                     <div class="input-group">
                         <select class="form-control form-select input-group-sm" id="_setmanualjuzselect" name="_setmanualjuzselect" onchange="SelectilidChanged()">
-                            <option value="">-- Pilih --</option>
+                            <option value="kosong">-- Pilih --</option>
                             <?php 
                             while($resJuz=mysqli_fetch_array($sqlJuz))
                             {?>
-                                <option value="<?php  echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
+                                <option value="<?php echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
                             <?php } ?>
                         </select>
                         <!-- <br><br> -->
@@ -175,7 +184,7 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
                 </div>
             </div>
         
@@ -211,9 +220,9 @@
 <?php
     
     if(isset($_GET['q'])) {
-      $smk=mysqli_query($con,"SELECT * FROM siswa  where  c_kelas='$_GET[q]' order by nama asc ");
+      $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
     } else {
-      $smk=mysqli_query($con,"SELECT * FROM siswa  order by nama asc ");
+      $smk=mysqli_query($con,"SELECT * FROM siswa order by nama asc ");
     }  
 
     $vr = 1;
@@ -306,8 +315,6 @@ $(document).ready(function() {
     var _btnsetupjuz = document.getElementById("btnsetupjuz");
     _btnsetupjuz.style.display = "none";
 
-    
-
 });
 
     function OpenCarisiswaModal(){
@@ -326,25 +333,28 @@ $(document).ready(function() {
         //$('#editorcatatan').summernote('reset');
         $('#editorcatatan').summernote('code', '<p><br></p>');
 
+        // Jika code siswa tidak ada di tabel sisjuz_h
         if(c_siswa == undefined || c_siswa == null || c_siswa == '') {
 
-            var _btnsetupjuz = document.getElementById("btnsetupjuz");
-            _btnsetupjuz.style.display = "none";
+            let btnnaikjuz              = document.getElementById("btnnaikjuz");
+            btnnaikjuz.style.display    = "block";
+            btnnaikjuz.style.marginTop  = "10px";
 
-            var _btnsetupmanualjuz = document.getElementById("btnsetupmanualjuz");
+            alert("Bawah");
 
+            document.getElementById("isijuzsekarang").value = 30
             $('#_juzcur').val("An Nas - Al Fajr");
-            $('#isijuzsekarang').text("JUZ 30");
             $('#_bagianjuzcur2').val("An Nas - Al Fajr");
-            $('#_idjuz').val("16");
-            $('#_seqnext').val(1);
+            $('#_idjuz').val(`<?= $getDataIdJuz; ?>`);
+            $('#_seqnext').val(`<?= $getDataSeqJuz; ?>`);
             
         } else {
 
-            let btnnaikjuz = document.getElementById("btnnaikjuz");
-            btnnaikjuz.style.display   = "block";
-            btnnaikjuz.style.marginTop = "10px";
-            
+            // Jika code siswa ada di table sisjuz_h tetapi di kolom juz dan kolom ketjuzsurah tidak ada data nya
+            let btnnaikjuz              = document.getElementById("btnnaikjuz");
+            btnnaikjuz.style.display    = "block";
+            btnnaikjuz.style.marginTop  = "10px";
+
             $('#_idjuz').val(nextidjuz);
             $('#_seqnext').val(nextSeq);
             $('#_bagianjuzcur2').val(nmbagian ?? "");
@@ -362,6 +372,7 @@ $(document).ready(function() {
             })
             .then((data) => {
                 // console.log(data.catatan)
+                alert('fetch');
                 const myJSON                = JSON.stringify(data.catatan);
                 const ketjuzsurahsekarang   = JSON.stringify(data.juz);
                 const idjuzsekarang         = JSON.stringify(data.idjuz);
@@ -371,7 +382,6 @@ $(document).ready(function() {
                 // This is where you handle what to do with the response.
                 $('#editorcatatan').summernote('pasteHTML', myJSON.slice(1, -1).trim());
                 $('#_juzcur').val(ketjuzsurahsekarang.slice(1, -1).trim());
-                $('#isijuzsekarang').text(ketjuzsurahsekarang.slice(1, -1).trim());
 
                 if(idjuzsekarang.slice(1, -1).trim() == "23")
                 {

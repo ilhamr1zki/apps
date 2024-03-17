@@ -277,6 +277,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
         //$('#editorcatatan').summernote('reset');
         $('#editorcatatan').summernote('code', '<p><br></p>');
 
+        // Jika code siswa tidak ada di tabel sisjilid_h
         if(c_siswa == undefined || c_siswa == null || c_siswa == '')
         {
             var _btnnaikjilid = document.getElementById("btnnaikjilid");
@@ -286,6 +287,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
             _btnsetupjilid.style.display = "none";
 
             var _btnsetupmanualjilid = document.getElementById("btnsetupmanualjilid");
+            alert("Bawah");
 
             $('#_jilidcur').val("PRA TK");
             $('#_jilidcur2').text("PRA TK");
@@ -295,6 +297,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
             
         }
         else{
+            // Jika code siswa ada di table sisjilid_h tetapi di kolom juz dan kolom ketjuzsurah tidak ada data nya
             var _btnnaikjilid = document.getElementById("btnnaikjilid");
             _btnnaikjilid.style.display = "block";
 
@@ -320,6 +323,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
                 return response.json(); // Parse the JSON data.
             })
             .then((data) => {
+                alert("Fetch");
                 const myJSON = JSON.stringify(data.catatan);
                 const nmjilidsekarang = JSON.stringify(data.nmjilid);
                 const idjilidsekarang = JSON.stringify(data.idjilid);

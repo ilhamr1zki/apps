@@ -115,12 +115,14 @@ else if($akh==md5('addnaikjilid')){
     $smk->addnaikjilid($con, $_POST['_idjilid'] ?? 0,$_POST['_seqnext'] ?? 0, $_POST['_idsiswa'] ?? "", $_POST['_nmsiswa'] ?? "", $_tglnaikjilid , $_POST['_jilidcur'] ?? "", $_POST['_entryby'] ?? "", $_POST['_bagianjilidcur2'] ?? "",  $_POST['editorcatatan'] ?? "");
     
   } else if (isset($_POST['btnnaikjilid'])) {
+    // echo $_POST['_nmjilidnext'];exit;
     $smk->updatenaikjilid($con, $_POST['_idjilid'] ?? 0,$_POST['_seqnext'] ?? 0, $_POST['_idsiswa'] ?? "", $_POST['_nmsiswa'] ?? "", $_tglnaikjilid , $_POST['_jilidcur'] ?? "", $_POST['_entryby'] ?? "", $_POST['_nmjilidnext'] ?? "",  $_POST['editorcatatan'] ?? "",  $_POST['_namajilidutama'] ?? "");
   } 
   else if (isset($_POST['btnSimpanCatatan'])) {
     $smk->updateCatatannaikjilid($con, $_POST['_idsiswa'] ?? "", $_POST['editorcatatan'] ?? "");
   }
   else if (isset($_POST['btnsetupmanualjilid'])) {
+    // echo $_POST['_seqnextmanual'];exit;
     $smk->setupmanualnaikjilid($con, $_POST['_idjilidmanual'] ?? 0, $_POST['_seqnextmanual'] ?? 0, $_POST['_idsiswa'] ?? "", $_POST['_nmsiswa'] ?? "", $_tglnaikjilid,  $_POST['_nmjilidmanual'] ?? "", $_POST['_entryby'] ?? "", $_POST['_nmbagianmanual'] ?? "",  $_POST['editorcatatan'] ?? "", $_POST['_nmjilidmanual'] ?? "");
   }
   else {
@@ -389,8 +391,46 @@ else if( $akh == md5('addnaikjuz') ) {
 
   $_tglnaikjuz = date('Y-m-d', strtotime($_POST['_tglnaikjuz']));
 
-  if (isset($_POST['naikjuz'])) {
-    $smk->updatenaikjuz($con, $_POST['_idjuz'] ?? 0,$_POST['_seqnext'] ?? 0, $_POST['_idsiswa'] ?? "", $_POST['_nmsiswa'] ?? "", $_tglnaikjuz , $_POST['_juzcur'] ?? "", $_POST['_entryby'] ?? "", $_POST['_nmjuznext'] ?? "",  $_POST['editorcatatan'] ?? "",  $_POST['_juzutama'] ?? "");
+  if (isset($_POST['btnnaikjuz'])) {
+
+    if ($_POST['_setmanualjuzselect'] == 'kosong') {
+
+      // echo $_POST['_idsiswa'] . " " . $_POST['_juzcur2'] . " " . $_POST['_seqnext'] ?? 0 . " " . $_POST['_nmjuznext'] . " Manual tidak di pilih"; exit;
+      // echo "Ini idjuz NEXT : ".  $_POST['_idjuz'] . " &  Ini Seq Juz Next : " . $_POST['_seqnext'] . " & Ini Juz : " . $_POST['_juzutama'] . "  & Ini Ket Surah Next : " . $_POST['_nmjuznext'];exit;
+
+      $smk->updatenaikjuz($con, 
+        $_POST['_idjuz'] ?? 0,
+        $_POST['_seqnext'] ?? 0, 
+        $_tglnaikjuz, 
+        $_POST['_entryby'] ?? "", 
+        $_POST['_juzutama'],
+        $_POST['_nmjuznext'],  
+        $_POST['editorcatatan'] ?? "",
+        $_POST['_idsiswa'] ?? ""
+      );
+
+    } else {
+
+      // echo $_POST['_idsiswa'] . " " . $_POST['_juzcur2'] . " " . $_POST['_nmjuznext'] . " Manual di pilih"; exit;
+      // echo "Ini idjuz NEXT : ".  $_POST['_idjuzmanual'] . " & " . " Ini Seq Juz Next : " . $_POST['_seqnextmanual'] . " & Ini Juz : " . $_POST['_nmjuzmanual'] . " & Ini Ket Surah Next : " . $_POST['_nmbagianmanual'];exit;
+
+      $smk->setupmanualnaikjilid($con, 
+        $_POST['_idjuzmanual'] ?? 0, 
+        $_POST['_seqnextmanual'] ?? 0, 
+        $_POST['_idsiswa'] ?? "", 
+        $_POST['_nmsiswa'] ?? "", 
+        $_tglnaikjuz,  
+        $_POST['_nmjuzmanual'] ?? "", 
+        $_POST['_entryby'] ?? "", 
+        $_POST['_nmbagianmanual'] ?? "",  
+        $_POST['editorcatatan'] ?? "", 
+        $_POST['_nmjuzmanual'] ?? "");
+
+    }
+
+  } else if (isset($_POST['btnSimpanCatatan'])) {
+    echo "Catatan : " . $_POST['editorcatatan'] ;exit;
+    $smk->updateCatatanNaikJuz($con, $_POST['_idsiswa'] ?? "", $_POST['editorcatatan'] ?? "");
   }
 
 }
