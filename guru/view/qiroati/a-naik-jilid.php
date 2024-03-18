@@ -25,18 +25,21 @@ order by seqjilid"); ?>
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='tambah'){?>
           <div style="display: none;" class="alert alert-warning alert-dismissable">Setup Naik Jilid Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='edit'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Jilid Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='hapus'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Jilid Berhasil Dihapus
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
@@ -287,7 +290,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
             _btnsetupjilid.style.display = "none";
 
             var _btnsetupmanualjilid = document.getElementById("btnsetupmanualjilid");
-            alert("Bawah");
+            // alert("Bawah");
 
             $('#_jilidcur').val("PRA TK");
             $('#_jilidcur2').text("PRA TK");
@@ -323,7 +326,7 @@ function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjilid, idcurjilid, 
                 return response.json(); // Parse the JSON data.
             })
             .then((data) => {
-                alert("Fetch");
+                // alert("Fetch");
                 const myJSON = JSON.stringify(data.catatan);
                 const nmjilidsekarang = JSON.stringify(data.nmjilid);
                 const idjilidsekarang = JSON.stringify(data.idjilid);

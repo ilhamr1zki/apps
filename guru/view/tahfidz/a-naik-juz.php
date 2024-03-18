@@ -45,18 +45,28 @@
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='tambah'){?>
           <div style="display: none;" class="alert alert-warning alert-dismissable">Setup Naik Juz Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='edit'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='hapus'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Dihapus
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['err_warning']) && $_SESSION['err_warning'] == 'err_validation'){?>
+          <div style="display: none;" class="alert alert-danger alert-dismissable"> Mohon Cari Siswa Terlebih Dahulu
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?php unset($_SESSION['err_warning']); ?>
           </div>
         <?php } ?>
 
@@ -70,125 +80,126 @@
        
     </div>
     <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addnaikjuz'); ?>/access" method="post">
-    <div class="box-body table-responsive">
-        <input type="hidden" id="_entryby" name="_entryby" class="form-control" value="<?php echo $na['nama'] ?>">
-        <input type="hidden" id="_idsiswa" name="_idsiswa" class="form-control">
-        <input type="hidden" id="_idjuz" name="_idjuz" class="form-control">
-        <input type="hidden" id="_idjuznext" name="_idjuznext" class="form-control">
-        <input type="hidden" id="_nmjuznext" name="_nmjuznext" class="form-control">
-        <input type="hidden" id="_seqnext" name="_seqnext" class="form-control">
+        <div class="box-body table-responsive">
+            <input type="hidden" id="_entryby" name="_entryby" class="form-control" value="<?php echo $na['nama'] ?>">
+            <input type="hidden" id="_idsiswa" name="_idsiswa" class="form-control">
+            <input type="hidden" id="_idjuz" name="_idjuz" class="form-control">
+            <input type="hidden" id="_idjuznext" name="_idjuznext" class="form-control">
+            <input type="hidden" id="_nmjuznext" name="_nmjuznext" class="form-control">
+            <input type="hidden" id="_seqnext" name="_seqnext" class="form-control">
+            <input type="hidden" id="code_siswa" name="code_siswa" class="form-control">
 
-        <input type="hidden" class="form-control" id="_nmsiswa" name="_nmsiswa">
-        <input type="hidden" class="form-control" id="_juzcur" name="_juzcur"/>
-        <input type="hidden" class="form-control" id="_juzutama" name="_juzutama"/>
+            <input type="hidden" class="form-control" id="_nmsiswa" name="_nmsiswa">
+            <input type="hidden" class="form-control" id="_juzcur" name="_juzcur"/>
+            <input type="hidden" class="form-control" id="_juzutama" name="_juzutama"/>
 
-        <input type="hidden" id="_idjuzmanual" name="_idjuzmanual" class="form-control">
-        <input type="hidden" id="_seqnextmanual" name="_seqnextmanual" class="form-control">
-        <input type="hidden" id="_nmjuzmanual" name="_nmjuzmanual" class="form-control">
-        <input type="hidden" id="_nmbagianmanual" name="_nmbagianmanual" class="form-control">
+            <input type="hidden" id="_idjuzmanual" name="_idjuzmanual" class="form-control">
+            <input type="hidden" id="_seqnextmanual" name="_seqnextmanual" class="form-control">
+            <input type="hidden" id="_nmjuzmanual" name="_nmjuzmanual" class="form-control">
+            <input type="hidden" id="_nmbagianmanual" name="_nmbagianmanual" class="form-control">
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>Nama Siswa</label>
-                    <label class="form-control" id="_nmsiswa2" name="_nmsiswa2"> </label>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label>Kelas</label>
-                    <label class="form-control" id="_kelassiswa" name="_kelassiswa"></label>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Tgl Naik Juz</label>
-                    <div class="controls input-append date form_date" data-date="1998-10-14" data-date-format="dd-m-yyyy" data-link-field="dtp_input1">
-                        <input id="_tglnaikjuz" name="_tglnaikjuz" class="form-control form-select" type="text" value="<?php echo date('d-m-Y'); ?>"  required="">
-                        <span class="add-on"><i class="icon-th"></i></span>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Nama Siswa</label>
+                        <label class="form-control" id="_nmsiswa2" name="_nmsiswa2"> </label>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="row">
-
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <label>Juz Sekarang</label>
-                    <input class="form-control" type="text" name="_juzcur2" id="isijuzsekarang" readonly="">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <label class="form-control" id="_kelassiswa" name="_kelassiswa"></label>
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <label>Bagian</label>
-                    <input type="text" class="form-control" name="_bagianjuzcur2" id="_bagianjuzcur2" readonly="">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Tgl Naik Juz</label>
+                        <div class="controls input-append date form_date" data-date="1998-10-14" data-date-format="dd-m-yyyy" data-link-field="dtp_input1">
+                            <input id="_tglnaikjuz" name="_tglnaikjuz" class="form-control form-select" type="text" value="<?php echo date('d-m-Y'); ?>"  required="">
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label>Setting Manual Juz</label>
-                    <div class="input-group">
-                        <select class="form-control form-select input-group-sm" id="_setmanualjuzselect" name="_setmanualjuzselect" onchange="SelectilidChanged()">
-                            <option value="kosong">-- Pilih --</option>
-                            <?php 
-                            while($resJuz=mysqli_fetch_array($sqlJuz))
-                            {?>
-                                <option value="<?php echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
-                            <?php } ?>
-                        </select>
-                        <!-- <br><br> -->
-                       <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Manual Juz</button> -->  
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Juz Sekarang</label>
+                        <input class="form-control" type="text" name="_juzcur2" id="isijuzsekarang" readonly="">
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Bagian</label>
+                        <input type="text" class="form-control" name="_bagianjuzcur2" id="_bagianjuzcur2" readonly="">
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Setting Manual Juz</label>
+                        <div class="input-group">
+                            <select class="form-control form-select input-group-sm" id="_setmanualjuzselect" name="_setmanualjuzselect" onchange="SelectilidChanged()">
+                                <option value="kosong">-- Pilih --</option>
+                                <?php 
+                                while($resJuz=mysqli_fetch_array($sqlJuz))
+                                {?>
+                                    <option value="<?php echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
+                                <?php } ?>
+                            </select>
+                            <!-- <br><br> -->
+                           <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Manual Juz</button> -->  
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="form-group">
-                    <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->
-                    <button id="btnnaikjuz" style="display: none;" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-3">
-            <button id="btnsetupjuz" name="btnsetupjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
-            <!-- <button id="btnnaikjuz" name="btnnaikjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
-            </div>
-        </div> 
-
-        <hr/>
 
             <div class="row">
-                <div class="col-sm-12">
-                
-                <label>Histori Catatan</label>
-                <textarea id="editorcatatan" name="editorcatatan"></textarea>
-                
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <!-- <button id="btnsetupmanualjuz" style="margin-top: 15px;" name="btnsetupmanualjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan</button> -->
+                        <button id="btnnaikjuz" style="display: none;" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button> 
+                    </div>
                 </div>
             </div>
-
-            <!-- <div class="row" style="width: 85%; display: flex;">
-                <div class="col-sm-2">
-                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
-                </div>
-                <div class="col-sm-2">
-                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
-                </div>
-            </div> -->
 
             <div class="row">
-                <div class="col-sm-2">
-                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
+                <div class="col-sm-3">
+                <button id="btnsetupjuz" name="btnsetupjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Setup Juz </button> 
+                <!-- <button id="btnnaikjuz" name="btnnaikjuz" style="display:none;" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>  -->
                 </div>
-            </div>
-        
-    </div>
+            </div> 
+
+            <hr/>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                    
+                    <label>Histori Catatan</label>
+                    <textarea id="editorcatatan" name="editorcatatan"></textarea>
+                    
+                    </div>
+                </div>
+
+                <!-- <div class="row" style="width: 85%; display: flex;">
+                    <div class="col-sm-2">
+                        <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
+                    </div>
+                </div> -->
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
+                    </div>
+                </div>
+            
+        </div>
     </form>
     
 </div>
@@ -315,6 +326,20 @@ $(document).ready(function() {
     var _btnsetupjuz = document.getElementById("btnsetupjuz");
     _btnsetupjuz.style.display = "none";
 
+    // $("#btnSimpanCatatan").click(function() {
+    //     alert("Hello")
+    //     $.ajax({
+    //         url     : "../../a-guru/control.php",
+    //         type    : "POST",
+    //         data    : {
+    //             datanama : document.getElementById("_nmsiswa2").value
+    //         },
+    //         success:function(data) {
+    //             console.log(data);
+    //         }
+    //     });
+    // })
+
 });
 
     function OpenCarisiswaModal(){
@@ -324,6 +349,8 @@ $(document).ready(function() {
 
     function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjuz, idcurjuz, seqjuz, 
     nextSeq, nextnmjuz, nextidjuz, nmbagian, catatan, nextjuzutama){
+
+        // alert(kode)
 
         $('#_idsiswa').val(kode);
         $('#_nmsiswa').val(nama);
@@ -340,9 +367,11 @@ $(document).ready(function() {
             btnnaikjuz.style.display    = "block";
             btnnaikjuz.style.marginTop  = "10px";
 
-            alert("Bawah");
+            alert(`${nama} belum ada di data naik juz`);
+            document.getElementById('code_siswa').value = kode
 
             document.getElementById("isijuzsekarang").value = 30
+            document.getElementById("_setmanualjuzselect").value = "kosong"
             $('#_juzcur').val("An Nas - Al Fajr");
             $('#_bagianjuzcur2').val("An Nas - Al Fajr");
             $('#_idjuz').val(`<?= $getDataIdJuz; ?>`);
@@ -372,12 +401,12 @@ $(document).ready(function() {
             })
             .then((data) => {
                 // console.log(data.catatan)
-                alert('fetch');
+                // alert('fetch');
                 const myJSON                = JSON.stringify(data.catatan);
                 const ketjuzsurahsekarang   = JSON.stringify(data.juz);
                 const idjuzsekarang         = JSON.stringify(data.idjuz);
                 document.getElementById("isijuzsekarang").value = ketjuzsurahsekarang.slice(1, -1).trim()
-                alert(ketjuzsurahsekarang.slice(1, -1).trim())
+                // alert(ketjuzsurahsekarang.slice(1, -1).trim())
 
                 // This is where you handle what to do with the response.
                 $('#editorcatatan').summernote('pasteHTML', myJSON.slice(1, -1).trim());

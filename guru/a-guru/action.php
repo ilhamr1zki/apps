@@ -225,33 +225,35 @@ function hapusmjuz($con, $id_juz) {
 
 }
 
-function updatenaikjuz($con, $idjuz, $seqjuz, $tglnaikjuz, $entryby, $juzsekarang, $ketjuzsurah, $catatan = '', $c_siswa) {
+function updatenaikjuz($con, $idjuz, $seqjuz, $c_siswa, $nmsiswa, $_tglnaikjuz, $updateBy, $updateDate, $isiJuz, $juzketsurah, $isiCatatan) {
 
-  $akh = mysqli_query($con, 
+  mysqli_query($con,
     "
-    UPDATE sisjuz_h 
-    set 
-    idjuz         = '$idjuz',
-    seqjuz        = '$seqjuz', 
-    tglnaikjuz    = '$tglnaikjuz', 
-    updateby      = '$entryby', 
-    updatedate    = CURRENT_DATE(), 
-    juz           = '$juzsekarang', 
-    ketjuzsurah   = '$ketjuzsurah'
-    where 
-    c_siswa       = '$c_siswa' 
-    ");
-  
-  $akh2 = mysqli_query($con,
+      UPDATE sisjuz_h set 
+      idjuz       =   '$idjuz',
+      seqjuz      =   '$seqjuz', 
+      c_siswa     =   '$c_siswa',
+      nmsiswa     =   '$nmsiswa', 
+      tglnaikjuz  =   '$_tglnaikjuz', 
+      updateby    =   '$updateBy',
+      updatedate  =   '$updateDate', 
+      juz         =   '$isiJuz', 
+      ketjuzsurah =   '$juzketsurah', 
+      catatan     =   '$isiCatatan' 
+      WHERE c_siswa = '$c_siswa'
     "
-    INSERT INTO sisjuz_d 
-    set 
-    idfk         = '$idjuz', 
-    idjuz        = '$idjuz',  
-    tglnaikjuz   = '$tglnaikjuz', 
-    ketjuzsurah  = '$ketjuzsurah', 
-    c_siswa      = '$c_siswa' 
-    ");
+  );
+
+  mysqli_query($con,
+    "
+      INSERT INTO sisjuz_d set 
+      idfk        =   '$idjuz',
+      idjuz       =   '$idjuz',  
+      tglnaikjuz  =   '$_tglnaikjuz', 
+      ketjuzsurah =   '$juzketsurah', 
+      c_siswa     =   '$c_siswa' 
+    "
+  );
 
   session_start();
   $_SESSION['pesan'] = 'edit';
@@ -260,32 +262,88 @@ function updatenaikjuz($con, $idjuz, $seqjuz, $tglnaikjuz, $entryby, $juzsekaran
 
 }
 
-function setupmanualnaikjuz($con, $idjuz,$seqjuz,$c_siswa, $nmsiswa, $tglnaikjuz, $juz, $entryby, $juzketsurah, $catatan, $juzsekarang) {
+function setupmanualnaikjuz($con, $idjuz, $seqjuz, $c_siswa, $nmsiswa, $_tglnaikjuz, $entryby, $entryDateNow, $isiJuz, $juzketsurah, $isiCatatan) {
 
-  $sjh = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM sisjuz_h where c_siswa='$c_siswa' limit 1 "));
-  $ksg = "";
+  $queryFindDataSiswa = mysqli_query($con, "SELECT * FROM sisjuz_h WHERE c_siswa = '$c_siswa' ");
 
-  if($sjh != null){
-    $akh=mysqli_query($con,"UPDATE sisjuz_h set idjuz='$idjuz',seqjuz='$seqjuz', 
-    tglnaikjuz = '$tglnaikjuz', juz='$juzsekarang', updateby='$entryby', updatedate = CURRENT_DATE(), ketjuzsurah = '$juzketsurah', catatan = '$catatan' where c_siswa='$c_siswa' ");
-  }
-  else{
-    $akh=mysqli_query($con,"INSERT INTO sisjuz_h set idjuz='$idjuz',seqjuz='$seqjuz', 
-    c_siswa='$c_siswa', nmsiswa='$nmsiswa', tglnaikjuz = '$tglnaikjuz', entryby='$entryby',
-      entrydate = CURRENT_DATE(), juz='$juz', ketjuzsurah = '$juzketsurah', catatan = '$catatan' ");
+  $getDataSiswa       = mysqli_num_rows($queryFindDataSiswa);
+
+  // Jika code siswa yang di cari tidak ada di table sisjuz_h, maka code siswa tersebut di insert ke table sisjuz_h
+  if ($getDataSiswa == 0) {
+
+    mysqli_query($con,
+      "
+        INSERT INTO sisjuz_h set 
+        idjuz       =   '$idjuz',
+        seqjuz      =   '$seqjuz', 
+        c_siswa     =   '$c_siswa',
+        nmsiswa     =   '$nmsiswa', 
+        tglnaikjuz  =   '$_tglnaikjuz', 
+        entryby     =   '$entryby',
+        entrydate   =   '$entryDateNow', 
+        juz         =   '$isiJuz', 
+        ketjuzsurah =   '$juzketsurah', 
+        catatan     =   '$isiCatatan' 
+      "
+    );
     
-    $akh2=mysqli_query($con,"INSERT INTO sisjuz_d set idfk='$idjuz',idjuz='$idjuz',  tglnaikjuz= '$tglnaikjuz', juz = '$juzketsurah', c_siswa='$c_siswa' ");
+    mysqli_query($con,
+      "
+        INSERT INTO sisjuz_d set 
+        idfk        =   '$idjuz',
+        idjuz       =   '$idjuz',  
+        tglnaikjuz  =   '$_tglnaikjuz', 
+        ketjuzsurah =   '$juzketsurah', 
+        c_siswa     =   '$c_siswa' 
+      "
+    );
+
+    session_start();
+    $_SESSION['pesan'] = 'edit';
+    header('location:../../naikjuz');
+    exit;
+
   }
+
+  // Jika code siswa yang di cari ada di table sisjuz_h, maka code siswa tersebut di update ke table sisjuz_h dan table sisjuz_d
+  mysqli_query($con,
+    "
+      UPDATE sisjuz_h set 
+      idjuz       =   '$idjuz',
+      seqjuz      =   '$seqjuz', 
+      c_siswa     =   '$c_siswa',
+      nmsiswa     =   '$nmsiswa', 
+      tglnaikjuz  =   '$_tglnaikjuz', 
+      entryby     =   '$entryby',
+      entrydate   =   CURRENT_DATE(), 
+      juz         =   '$isiJuz', 
+      ketjuzsurah =   '$juzketsurah', 
+      catatan     =   '$isiCatatan' 
+      WHERE c_siswa = '$c_siswa'
+    "
+  );
+
+  mysqli_query($con,
+    "
+      INSERT INTO sisjuz_d set 
+      idfk        =   '$idjuz',
+      idjuz       =   '$idjuz',  
+      tglnaikjuz  =   '$_tglnaikjuz', 
+      ketjuzsurah =   '$juzketsurah', 
+      c_siswa     =   '$c_siswa' 
+    "
+  );
 
   session_start();
   $_SESSION['pesan']='edit';
-  header('location:../../naikjilid');
+  header('location:../../naikjuz');
   exit;
 
 }
 
-function updateCatatanNaikJuz($con,$c_siswa, $catatan){
-  $akh=mysqli_query($con,"UPDATE sisjuz_h set catatan = '$catatan' where c_siswa='$c_siswa' ");
+function updateCatatanNaikJuz($con,$c_siswa, $catatan) {
+
+  $akh = mysqli_query($con,"UPDATE sisjuz_h set catatan = '$catatan' where c_siswa='$c_siswa' ");
 
   session_start();
   $_SESSION['pesan']='edit';

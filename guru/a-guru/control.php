@@ -389,47 +389,138 @@ else if ( $akh == md5('addmjuz') ) {
 // kenaikan juz
 else if( $akh == md5('addnaikjuz') ) { 
 
-  $_tglnaikjuz = date('Y-m-d', strtotime($_POST['_tglnaikjuz']));
+  $_tglnaikjuz  = date('Y-m-d', strtotime($_POST['_tglnaikjuz']));
+  $dateNow      = date('Y-m-d');
 
   if (isset($_POST['btnnaikjuz'])) {
 
+    // Jika di combo box setting manual juz tidak di pilih
     if ($_POST['_setmanualjuzselect'] == 'kosong') {
 
       // echo $_POST['_idsiswa'] . " " . $_POST['_juzcur2'] . " " . $_POST['_seqnext'] ?? 0 . " " . $_POST['_nmjuznext'] . " Manual tidak di pilih"; exit;
       // echo "Ini idjuz NEXT : ".  $_POST['_idjuz'] . " &  Ini Seq Juz Next : " . $_POST['_seqnext'] . " & Ini Juz : " . $_POST['_juzutama'] . "  & Ini Ket Surah Next : " . $_POST['_nmjuznext'];exit;
 
+      // Cek code siswa di table sisjuz_h
+      $queryFindDataSiswa = mysqli_query($con, "SELECT * FROM sisjuz_h WHERE c_siswa = '$_POST[code_siswa]' ");
+
+      $getDataSiswa       = mysqli_num_rows($queryFindDataSiswa);
+      // echo "Atas " . $getDataSiswa;exit;
+
+      $idjuz        = $_POST['_idjuz'] ?? 0;
+      $seqjuz       = $_POST['_seqnext'] ?? 0;
+      $c_siswa      = $_POST['_idsiswa'] ?? "";
+      $nmsiswa      = $_POST['_nmsiswa'] ?? "";
+      $entryby      = $_POST['_entryby'] ?? "";
+      $updateBy     = $_POST['_entryby'] ?? "";
+      $entryDateNow = $dateNow;
+      $updateDate   = $dateNow;
+      $isiJuz       = $_POST['_juzutama'];
+      $juzketsurah  = $_POST['_nmjuznext'];
+      $isiCatatan   = $_POST['editorcatatan'] ?? "";
+
+      // Jika code siswa yang di cari tidak ada di table sisjuz_h, maka code siswa tersebut di insert ke table sisjuz_h
+      if ($getDataSiswa == 0) {
+
+        $smk->setupmanualnaikjuz($con, 
+        $idjuz, 
+        $seqjuz, 
+        $c_siswa, 
+        $nmsiswa, 
+        $_tglnaikjuz,  
+        $entryby, 
+        $entryDateNow, 
+        $isiJuz,  
+        $juzketsurah, 
+        $isiCatatan);
+        exit;
+
+      }
+
+      // Jika code siswa yang di cari ada di table sisjuz_h, maka code siswa tersebut di update ke table sisjuz_h dan table sisjuz_d
       $smk->updatenaikjuz($con, 
-        $_POST['_idjuz'] ?? 0,
-        $_POST['_seqnext'] ?? 0, 
-        $_tglnaikjuz, 
-        $_POST['_entryby'] ?? "", 
-        $_POST['_juzutama'],
-        $_POST['_nmjuznext'],  
-        $_POST['editorcatatan'] ?? "",
-        $_POST['_idsiswa'] ?? ""
+        $idjuz,
+        $seqjuz, 
+        $c_siswa, 
+        $nmsiswa, 
+        $_tglnaikjuz,
+        $updateBy,  
+        $updateDate,
+        $isiJuz,
+        $juzketsurah, 
+        $isiCatatan
       );
 
     } else {
 
+      // Jika di combo box setting manual juz di pilih
+
       // echo $_POST['_idsiswa'] . " " . $_POST['_juzcur2'] . " " . $_POST['_nmjuznext'] . " Manual di pilih"; exit;
       // echo "Ini idjuz NEXT : ".  $_POST['_idjuzmanual'] . " & " . " Ini Seq Juz Next : " . $_POST['_seqnextmanual'] . " & Ini Juz : " . $_POST['_nmjuzmanual'] . " & Ini Ket Surah Next : " . $_POST['_nmbagianmanual'];exit;
 
-      $smk->setupmanualnaikjilid($con, 
-        $_POST['_idjuzmanual'] ?? 0, 
-        $_POST['_seqnextmanual'] ?? 0, 
-        $_POST['_idsiswa'] ?? "", 
-        $_POST['_nmsiswa'] ?? "", 
+      // Cek code siswa di table sisjuz_h
+      $queryFindDataSiswa = mysqli_query($con, "SELECT * FROM sisjuz_h WHERE c_siswa = '$_POST[code_siswa]' ");
+
+      $getDataSiswa       = mysqli_num_rows($queryFindDataSiswa);
+      // echo "Bawah " . $getDataSiswa;exit;
+
+      $idjuz        = $_POST['_idjuzmanual'] ?? 0;
+      $seqjuz       = $_POST['_seqnextmanual'] ?? 0;
+      $c_siswa      = $_POST['_idsiswa'] ?? "";
+      $nmsiswa      = $_POST['_nmsiswa'] ?? "";
+      $entryby      = $_POST['_entryby'] ?? "";
+      $updateBy     = $_POST['_entryby'] ?? "";
+      $entryDateNow = $dateNow;
+      $updateDate   = $dateNow;
+      $isiJuz       = $_POST['_nmjuzmanual'];
+      $juzketsurah  = $_POST['_nmbagianmanual'];
+      $isiCatatan   = $_POST['editorcatatan'] ?? "";
+
+      // Jika code siswa yang di cari tidak ada di table sisjuz_h, maka code siswa tersebut di insert ke table sisjuz_h
+      if ($getDataSiswa == 0) {
+
+        $smk->setupmanualnaikjuz($con, 
+        $idjuz, 
+        $seqjuz, 
+        $c_siswa, 
+        $nmsiswa, 
         $_tglnaikjuz,  
-        $_POST['_nmjuzmanual'] ?? "", 
-        $_POST['_entryby'] ?? "", 
-        $_POST['_nmbagianmanual'] ?? "",  
-        $_POST['editorcatatan'] ?? "", 
-        $_POST['_nmjuzmanual'] ?? "");
+        $entryby, 
+        $entryDateNow, 
+        $isiJuz,  
+        $juzketsurah, 
+        $isiCatatan);
+        exit;
+
+      }      
+
+      // Jika code siswa yang di cari ada di table sisjuz_h, maka code siswa tersebut di update ke table sisjuz_h dan table sisjuz_d
+      $smk->updatenaikjuz($con, 
+        $idjuz,
+        $seqjuz, 
+        $c_siswa, 
+        $nmsiswa, 
+        $_tglnaikjuz,
+        $updateBy,  
+        $updateDate,
+        $isiJuz,
+        $juzketsurah, 
+        $isiCatatan
+      );
 
     }
 
   } else if (isset($_POST['btnSimpanCatatan'])) {
-    echo "Catatan : " . $_POST['editorcatatan'] ;exit;
+    // echo "Catatan : " . $_POST['editorcatatan'] ;exit;
+   
+    if (!isset($_POST['_kelassiswa']) ) {
+      
+      session_start();
+      $_SESSION['err_warning'] = 'err_validation';
+      header('location:../../naikjuz');
+      exit;
+
+    } 
+
     $smk->updateCatatanNaikJuz($con, $_POST['_idsiswa'] ?? "", $_POST['editorcatatan'] ?? "");
   }
 
