@@ -21,27 +21,33 @@ group by tj.id, tj.nmjilid, tj.seqjilid, sh.nmsiswa, sh.c_siswa
 order by tj.seqjilid) as tbl2) as tblall where coalesce(nmsiswa, '') != '' ";
 $summaryjilid  = mysqli_query($con, $strSQL);
 
-$sqlJilid=mysqli_query($con,"select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
+$sqlJuz = mysqli_query($con,
+"select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
 (
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
+    select tbl1.* from
+    (
+        select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+        left join sisjuz_h sh on tj.id = sh.idjuz 
+        left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+        on tj.parentid  = tbl1.id
+        where tj.parentid != 0
+        
+        and coalesce(sh.flag, 'N') = 'N'
+        group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+        order by tj.seqjuz
+    ) as tbl1
 union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall
-order by seqjilid"); 
+    select tbl2.* from
+    ( 
+        select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+        left join sisjuz_h sh on tj.id = sh.idjuz  
+        where tj.parentid = 0 and tj.seqjuz  > 14
+        and coalesce(sh.flag, 'N') = 'N'
+        group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+        order by tj.seqjuz
+    ) as tbl2
+) as tblall
+order by seqjuz"); 
 
 $strSQLmjilid = mysqli_query($con,"select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
 (
@@ -124,15 +130,17 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
                   if($getjilid['nmjilid'] != null)
                   { ?>
                      <option value="<?php echo $getjilid['id']; ?>"><?php echo $getjilid['nmjilidall']; ?></option>
-                  <?php } else {?> <option value="">--SEMUA--</option>    <?php } ?>
+                  <?php } else {?> <option value=""> -- SEMUA -- </option>    <?php } ?>
                   <!-- <option value="">--SEMUA--</option> -->
                         <?php 
-                        while($resJilid=mysqli_fetch_array($sqlJilid))
-                        {?>
-                           <option value="<?php  echo $resJilid['id']; ?>"> <?php echo $resJilid['nmjilidall']; ?></option>
-                        <?php } ?>
+                          while($resJuz = mysqli_fetch_array($sqlJuz)) {
+                        ?>
+                            <option value="<?php echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
+                        <?php 
+                          } 
+                        ?>
                   </select>
-                  <input type="submit" value="Search" name="submit_btn" class="btn btn-primary btn-circle">
+                  <input type="submit" value="Search" style="margin-left: 10px;" name="submit_btn" class="btn btn-primary btn-circle">
                </div>
             </div>
       </div>
