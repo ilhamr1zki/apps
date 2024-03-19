@@ -510,18 +510,19 @@ else if( $akh == md5('addnaikjuz') ) {
     }
 
   } else if (isset($_POST['btnSimpanCatatan'])) {
-    // echo "Catatan : " . $_POST['editorcatatan'] ;exit;
    
-    if (!isset($_POST['_kelassiswa']) ) {
-      
+    if ( $_POST['_nmsiswa'] == '' ) {
+  
       session_start();
       $_SESSION['err_warning'] = 'err_validation';
       header('location:../../naikjuz');
       exit;
 
-    } 
+    } else {
 
-    $smk->updateCatatanNaikJuz($con, $_POST['_idsiswa'] ?? "", $_POST['editorcatatan'] ?? "");
+      $smk->updateCatatanNaikJuz($con, $_POST['_idsiswa'] ?? "", $_POST['editorcatatan'] ?? "");
+    }
+
   }
 
 }

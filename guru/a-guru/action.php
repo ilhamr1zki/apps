@@ -346,7 +346,7 @@ function updateCatatanNaikJuz($con,$c_siswa, $catatan) {
   $akh = mysqli_query($con,"UPDATE sisjuz_h set catatan = '$catatan' where c_siswa='$c_siswa' ");
 
   session_start();
-  $_SESSION['pesan']='edit';
+  $_SESSION['pesan'] = 'edit_catatan';
   header('location:../../naikjuz');
   exit;
 }

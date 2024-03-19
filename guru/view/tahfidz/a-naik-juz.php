@@ -42,21 +42,28 @@
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
 
-        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='tambah'){?>
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'tambah'){?>
           <div style="display: none;" class="alert alert-warning alert-dismissable">Setup Naik Juz Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
              <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
-        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='edit'){?>
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'edit'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
              <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
-        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='hapus'){?>
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'edit_catatan') { ?>
+          <div style="display: none;" class="alert alert-success alert-dismissable"> Histori Catatan Berhasil Disimpan
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'hapus') {?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Dihapus
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
              <?php unset($_SESSION['pesan']); ?>
@@ -175,29 +182,29 @@
 
             <hr/>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                    
-                    <label>Histori Catatan</label>
-                    <textarea id="editorcatatan" name="editorcatatan"></textarea>
-                    
-                    </div>
+            <div class="row">
+                <div class="col-sm-12">
+                
+                <label>Histori Catatan</label>
+                <textarea id="editorcatatan" name="editorcatatan"></textarea>
+                
                 </div>
+            </div>
 
-                <!-- <div class="row" style="width: 85%; display: flex;">
-                    <div class="col-sm-2">
-                        <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
-                    </div>
-                    <div class="col-sm-2">
-                        <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
-                    </div>
-                </div> -->
-
-                <div class="row">
-                    <div class="col-sm-2">
-                        <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
-                    </div>
+            <!-- <div class="row" style="width: 85%; display: flex;">
+                <div class="col-sm-2">
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
                 </div>
+                <div class="col-sm-2">
+                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
+                </div>
+            </div>
             
         </div>
     </form>

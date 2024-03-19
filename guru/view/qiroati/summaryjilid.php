@@ -132,7 +132,7 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
                            <option value="<?php  echo $resJilid['id']; ?>"> <?php echo $resJilid['nmjilidall']; ?></option>
                         <?php } ?>
                   </select>
-                  <input type="submit" value="Search" name="submit_btn" class="btn btn-primary btn-circle">
+                  <input type="submit" value="Search" style="margin-left: 10px;" name="submit_btn" class="btn btn-primary btn-circle">
                </div>
             </div>
       </div>
@@ -181,13 +181,13 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
             <div class="modal-body" style="overflow:auto; height:60vh;">  
 
                <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-5">
                      <div class="form-group">
                            <label id="_catatantitle" name="_catatantitle"></label><br/>
                            <label id="_catatanjilid" name="_catatanjilid"></label>
                      </div>
                   </div>  
-                  <div class="col-sm-6">
+                  <div class="col-sm-7">
                   <table id="tbljiliddet" class="table table-bordered table-hover">
                      <thead>
                         <tr>

@@ -1,180 +1,239 @@
 <?php
-$strSQL = "select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, sh.c_siswa, sh.nmsiswa, tj.seqjilid, sh.tglnaikjilid, DATEDIFF(CURRENT_DATE(), sh.tglnaikjilid) jmlhari, sh.catatan from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid, sh.nmsiswa, sh.c_siswa
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian,sh.c_siswa, sh.nmsiswa, tj.seqjilid, sh.tglnaikjilid, DATEDIFF(CURRENT_DATE(), sh.tglnaikjilid) jmlhari, sh.catatan  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid, sh.nmsiswa, sh.c_siswa
-order by tj.seqjilid) as tbl2) as tblall where coalesce(nmsiswa, '') != '' ";
-$summaryjilid  = mysqli_query($con, $strSQL);
-
-$sqlJuz = mysqli_query($con,
-"select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
-(
-    select tbl1.* from
+  $strSQL = "
+    select concat(tblall.juz_atau_keterangan_ayat,' ', nmbagian) as nmjuzall, tblall.* 
+    from 
     (
+      select tbl1.* from
+        (
+          select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, sh.c_siswa, sh.nmsiswa, tj.seqjuz, sh.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sh.tglnaikjuz) jmlhari, sh.catatan from tbl_juz tj
+          left join sisjuz_h sh on tj.id = sh.idjuz 
+          left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+          on tj.parentid  = tbl1.id
+          where tj.parentid != 0
+          and coalesce(sh.flag, 'N') = 'N'
+          group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz, sh.nmsiswa, sh.c_siswa
+          order by tj.seqjuz
+        ) as tbl1
+      union 
+      select tbl2.* from
+      (
+        select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian,sh.c_siswa, sh.nmsiswa, tj.seqjuz, sh.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sh.tglnaikjuz) jmlhari, sh.catatan  from tbl_juz tj
+        left join sisjuz_h sh on tj.id = sh.idjuz  
+        where tj.parentid = 0 and tj.seqjuz  > 14
+        and coalesce(sh.flag, 'N') = 'N'
+        group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz, sh.nmsiswa, sh.c_siswa
+        order by tj.seqjuz
+      ) as tbl2
+    ) as tblall 
+    where coalesce(nmsiswa, '') != '' ";
+
+  $summaryjuz  = mysqli_query($con, $strSQL);
+
+  $sqlJuz = mysqli_query($con,
+  "select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
+  (
+      select tbl1.* from
+      (
+          select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+          left join sisjuz_h sh on tj.id = sh.idjuz 
+          left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+          on tj.parentid  = tbl1.id
+          where tj.parentid != 0
+          
+          and coalesce(sh.flag, 'N') = 'N'
+          group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+          order by tj.seqjuz
+      ) as tbl1
+  union 
+      select tbl2.* from
+      ( 
+          select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+          left join sisjuz_h sh on tj.id = sh.idjuz  
+          where tj.parentid = 0 and tj.seqjuz  > 14
+          and coalesce(sh.flag, 'N') = 'N'
+          group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+          order by tj.seqjuz
+      ) as tbl2
+  ) as tblall
+  order by seqjuz"); 
+
+  $strSQLmjuz = mysqli_query($con,"
+    select concat(tblall.juz_atau_keterangan_ayat,' ', nmbagian) as nmjuzall, tblall.* from 
+    (
+      select tbl1.* from
+      (
         select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
         left join sisjuz_h sh on tj.id = sh.idjuz 
         left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
         on tj.parentid  = tbl1.id
         where tj.parentid != 0
-        
         and coalesce(sh.flag, 'N') = 'N'
         group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
         order by tj.seqjuz
-    ) as tbl1
-union 
-    select tbl2.* from
-    ( 
+      ) as tbl1
+      union 
+      select tbl2.* from
+      (
         select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
         left join sisjuz_h sh on tj.id = sh.idjuz  
         where tj.parentid = 0 and tj.seqjuz  > 14
         and coalesce(sh.flag, 'N') = 'N'
         group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
         order by tj.seqjuz
-    ) as tbl2
-) as tblall
-order by seqjuz"); 
+      ) as tbl2
+    ) as tblall where id = 0
+    order by seqjuz  limit 1 "
+  );
 
-$strSQLmjilid = mysqli_query($con,"select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall where id = 0
-order by seqjilid  limit 1 ");
-$getjilid=mysqli_fetch_array($strSQLmjilid);
+  $getjuz = mysqli_fetch_array($strSQLmjuz);
 
 ?>
+
 <form action="" method="POST">
-   <input type="hidden" name="_jilidid" id="_jilidid" class="form-control">
-
+   <input type="hidden" name="_juzid" id="_juzid" class="form-control">
    
-   
-<?php
-   if(isset($_REQUEST['submit_btn']))
-   {
-      $_jilidid = $_POST["_jilidid"];
-      if($_jilidid != null && $_jilidid != "")
-      {
-         $strSQL = $strSQL. " and id = '$_jilidid' ";
-      }
-      $strSQL = $strSQL. " order by nmsiswa";
-      $summaryjilid  = mysqli_query($con, $strSQL);
+  <?php
+     if(isset($_REQUEST['submit_btn'])) {
 
-      $strSQLmjilid = mysqli_query($con,"select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-      (
-      select tbl1.* from
-      (select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-      left join sisjilid_h sh on tj.id = sh.idjilid 
-      left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-      on tj.parentid  = tbl1.id
-      where tj.parentid != 0
-      and coalesce(sh.flag, 'N') = 'N'
-      group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-      order by tj.seqjilid) as tbl1
-      union 
-      select tbl2.* from
-      (
-      select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-      left join sisjilid_h sh on tj.id = sh.idjilid  
-      where tj.parentid = 0 and tj.seqjilid  > 14
-      and coalesce(sh.flag, 'N') = 'N'
-      group by tj.id, tj.nmjilid, tj.seqjilid
-      order by tj.seqjilid) as tbl2) as tblall where id = '$_jilidid' limit 1 ");
-      $getjilid=mysqli_fetch_array($strSQLmjilid);
-   }
-?>
+        $_juzid = $_POST["_juzid"];
 
-<div class="box box-info">
-    <div class="box-header with-border">
-        <h3 class="box-title"> <i class="glyphicon glyphicon-new-window"></i> SUMMARY JUZ</h3>
-    </div>
-   <div class="box-body table-responsive">
-  
-   <div class="row">
-      <div class="col-md-8">
-            <div class="form-group">
-               <label>Filter Juz</label>
-               <div class="input-group">
-                  <select class="form-control form-select input-group-sm" style="width:70%;" id="_setmanualjilidselect" name="_setmanualjilidselect" onchange="SelectilidChanged()">
-                  
-                 <?php
-                  if($getjilid['nmjilid'] != null)
-                  { ?>
-                     <option value="<?php echo $getjilid['id']; ?>"><?php echo $getjilid['nmjilidall']; ?></option>
-                  <?php } else {?> <option value=""> -- SEMUA -- </option>    <?php } ?>
-                  <!-- <option value="">--SEMUA--</option> -->
-                        <?php 
-                          while($resJuz = mysqli_fetch_array($sqlJuz)) {
-                        ?>
-                            <option value="<?php echo $resJuz['id']; ?>"> <?php echo $resJuz['nmjuzall']; ?></option>
-                        <?php 
-                          } 
-                        ?>
-                  </select>
-                  <input type="submit" value="Search" style="margin-left: 10px;" name="submit_btn" class="btn btn-primary btn-circle">
-               </div>
-            </div>
+        echo $_POST['_juzid'];
+
+        if($_juzid != null && $_juzid != "")
+        {
+           $strSQL = $strSQL. " and id = '$_juzid' ";
+        }
+        $strSQL = $strSQL. " order by nmsiswa";
+        $summaryjuz  = mysqli_query($con, $strSQL);
+
+        $strSQLmjuz = mysqli_query($con,"
+          select concat('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
+          (
+            select tbl1.* from
+            (
+              select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+              left join sisjuz_h sh on tj.id = sh.idjuz 
+              left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+              on tj.parentid  = tbl1.id
+              where tj.parentid != 0
+              and coalesce(sh.flag, 'N') = 'N'
+              group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+              order by tj.seqjuz
+            ) as tbl1
+            union 
+            select tbl2.* from
+            (
+              select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+              left join sisjuz_h sh on tj.id = sh.idjuz  
+              where tj.parentid = 0 and tj.seqjuz  > 14
+              and coalesce(sh.flag, 'N') = 'N'
+              group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+              order by tj.seqjuz
+            ) as tbl2
+          ) as tblall 
+          where id = '$_juzid' limit 1 "
+        );
+
+        $getjuz = mysqli_fetch_array($strSQLmjuz);
+     }
+  ?>
+
+  <div class="box box-info">
+      <div class="box-header with-border">
+          <h3 class="box-title"> <i class="glyphicon glyphicon-new-window"></i> SUMMARY JUZ</h3>
       </div>
-   </div>
+     <div class="box-body table-responsive">
+    
+     <div class="row">
+        <div class="col-md-8">
+              <div class="form-group">
+                 <label>Filter Juz</label>
+                 <div class="input-group">
+                    <select class="form-control form-select input-group-sm" style="width:83%;" id="_setmanualjuzselect" data-id="<?= $getjuz['id']; ?>" name="_setmanualjuzselect" onchange="SelectjuzChanged(this.value)">
+                      <option value=""> -- SEMUA -- </option>
 
-      <table id="example1" class="table table-bordered table-hover">
-         <thead>
-            <tr>
-               <th width="5%">NO</th>
-               <th>Nama</th>
-               <th>Juz</th>
-               <th>Tgl Naik</th>
-               <th> Jml Hari </th>
-            </tr>
-         </thead>
-         <tbody>
+                      <?php if (isset($_POST['_juzid'])): ?>
 
-               <?php
-               $vr=1;
-               while($akh=mysqli_fetch_array($summaryjilid)){?>
-               <tr>
-                  <td><?php echo $vr; ?></td>
-                  <td><a style="cursor:pointer;" onclick="OpenCatatan('<?php echo $akh['catatan'] ?>', '<?php echo $akh['nmsiswa']; ?>', '<?php echo $akh['c_siswa']; ?>')"><?php echo $akh['nmsiswa']; ?></a></td>
-                  <td><?php echo $akh['nmjilidall']; ?></td>
-                  <td><?php echo tgl($akh['tglnaikjilid']); ?></td>
-                  <td><?php echo $akh['jmlhari']; ?></td>
-                </tr>
-               <?php $vr++;
-                        }?>
-         </tbody>
+                        <?php foreach ($sqlJuz as $getjuz) : ?>
+                        
+                          <option value="<?= $getjuz['id']; ?>" <?=($getjuz['id'] == $_POST['_juzid'] )?'selected="selected"':''?> > <?= $getjuz['nmjuzall']; ?> </option>
+                        
+                        <?php endforeach; ?>
 
-      </table>
-   </div>
-</div>
+                     z<?php else: ?>
+
+                        <?php foreach ($sqlJuz as $getjuz) : ?>
+                          
+                          <option value="<?= $getjuz['id']; ?>" > <?= $getjuz['nmjuzall']; ?> </option>
+                          
+                        <?php endforeach; ?>
+
+                      <?php endif ?>
+
+                    <!-- <?php
+                      if($getjuz['juz_atau_keterangan_ayat'] != null) { 
+                    ?>
+                       <option value="<?= $getjuz['id']; ?>" <?=($getjuz['id'] == $_POST['_juzid'] )?'selected="selected"':''?> > <?= $getjuz['nmjuzall']; ?> </option>
+
+                    <?php 
+
+                      } else {
+
+                    ?> 
+
+                      <option value=""> -- SEMUA -- </option>    
+
+                    <?php 
+                      } 
+                    ?>
+
+                    <?php 
+                      while($resJuz = mysqli_fetch_array($sqlJuz)) {
+                    ?>
+                      <option value="<?= $resJuz['id']; ?>" <?=($getjuz['id'] == $_POST['_juzid'] )?'selected="selected"':''?> > <?= $resJuz['nmjuzall']; ?></option>
+
+                    <?php 
+                      } 
+                    ?> -->
+
+                    </select>
+                    <input type="submit" value="Search" style="margin-left: 10px;" name="submit_btn" class="btn btn-primary btn-circle">
+                 </div>
+              </div>
+        </div>
+     </div>
+
+        <table id="example1" class="table table-bordered table-hover">
+           <thead>
+              <tr>
+                 <th width="5%">NO</th>
+                 <th style="text-align: center;">Nama</th>
+                 <th style="text-align: center;">Juz</th>
+                 <th style="text-align: center;">Bagian</th>
+                 <th style="text-align: center;">Tgl Naik</th>
+                 <th style="text-align: center;"> Jml Hari </th>
+              </tr>
+           </thead>
+           <tbody>
+
+                 <?php
+                 $vr=1;
+                 while($akh=mysqli_fetch_array($summaryjuz)){?>
+                 <tr>
+                    <td style="text-align: center;"><?= $vr; ?></td>
+                    <td style="text-align: center;"><a style="cursor:pointer;" onclick="OpenCatatan('<?= $akh['catatan'] ?>', '<?= $akh['nmsiswa']; ?>', '<?= $akh['c_siswa']; ?>')"><?= $akh['nmsiswa']; ?></a></td>
+                    <td style="text-align: center;"><?= $akh['juz_atau_keterangan_ayat']; ?></td>
+                    <td style="text-align: center;"><?= $akh['nmbagian']; ?></td>
+                    <td style="text-align: center;"><?= tgl($akh['tglnaikjuz']); ?></td>
+                    <td style="text-align: center;"><?= $akh['jmlhari']; ?></td>
+                  </tr>
+                 <?php $vr++;
+                          }?>
+           </tbody>
+
+        </table>
+     </div>
+  </div>
 
 </form>
 
@@ -189,18 +248,19 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
             <div class="modal-body" style="overflow:auto; height:60vh;">  
 
                <div class="row">
-                  <div class="col-sm-6">
+                  <div class="col-sm-5">
                      <div class="form-group">
                            <label id="_catatantitle" name="_catatantitle"></label><br/>
-                           <label id="_catatanjilid" name="_catatanjilid"></label>
+                           <label id="_catatanjuz" name="_catatanjuz"></label>
                      </div>
                   </div>  
-                  <div class="col-sm-6">
-                  <table id="tbljiliddet" class="table table-bordered table-hover">
+                  <div class="col-sm-7">
+                  <table id="tbljuzdet" class="table table-bordered table-hover">
                      <thead>
                         <tr>
-                           <th>Juz</th>
-                           <th>Tgl Naik</th>
+                           <th style="text-align: center;">Juz</th>
+                           <th style="text-align: center;">Bagian</th>
+                           <th style="text-align: center;">Tgl Naik</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -219,37 +279,66 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
 </div>
 
 <script language="javascript" type="text/javascript">
-$(document).ready(function() {
-        
-});
+  $(document).ready(function() {
+          
+  });
 
-function OpenCatatan(catatan, nmsiswa, kdsiswa) {
-         $('#_catatantitle').text("Catatan" + " - " + nmsiswa);
-       
-        //var teks = document.write(catatan);
-      //$('#_catatanjilid').text(teks);
-      document.getElementById("_catatanjilid").innerHTML = catatan;
+  function OpenCatatan(catatan, nmsiswa, kdsiswa) {
+           $('#_catatantitle').text("Catatan" + " - " + nmsiswa);
+         
+          //var teks = document.write(catatan);
+        //$('#_catatanjilid').text(teks);
+        document.getElementById("_catatanjuz").innerHTML = catatan;
 
-      $('#tbljiliddet').dataTable( {
-         destroy: true,
-            ajax: {
-                url: "view/qiroati/apiservicesisjilid_d.php?c_siswa=" + kdsiswa,
-                dataSrc: ""
-            },
-            columns: [
-                    { "data": "nmjilidall" },
-                    { "data": "tglnaikjilid" }
-              
-                ]
-        } );
+        let tgl = "19 Maret 2024"
 
-       
+        fetch("view/tahfidz/apiservicesisjuztgl_d.php?c_siswa=" + kdsiswa)
+          .then((response) => {
+              if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
+                  throw new Error("Terjadi kesalahan!");
+              }
+
+              return response.json(); // Parse the JSON data.
+          })
+          .then((data) => {
+
+            let tglSkrng = data.tglnaikjuz
+
+            console.log("Hayo " + tglSkrng)
+
+            $('#tbljuzdet').dataTable( {
+              columnDefs : [{
+                targets: 2,
+                "defaultContent" : tglSkrng,
+              }],
+              destroy: true,
+              ajax: {
+                  url: "view/tahfidz/apiservicesisjuz_d.php?c_siswa=" + kdsiswa,
+                  dataSrc: ""
+              },
+
+              columns: [
+                { "data": "juz_atau_keterangan_ayat" },
+                { "data": "nmbagian" },
+                { "data": tglSkrng }
+              ]
+            
+            });
+
+          })
+          .catch((error) => {
+              // This is where you handle errors.
+          });
+
+
         $('#historicatatan').modal("show");
-    }
+      }
 
-function SelectilidChanged(jilidval) {
-   $('#_jilidid').val($('#_setmanualjilidselect').val());
-}
+  function SelectjuzChanged(juzval) {
+
+     $('#_juzid').val(juzval);
+
+  }
 
 </script>
 
