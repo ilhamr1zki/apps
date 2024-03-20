@@ -1,72 +1,59 @@
 <?php
-$namajilid  = mysqli_query($con, "select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall
-order by seqjilid");
+$namajuz  = mysqli_query($con, 
+    "select concat('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
+    (
+        select tbl1.* from
+        (
+            select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz 
+            left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+            on tj.parentid  = tbl1.id
+            where tj.parentid != 0
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl1
+        union 
+        select tbl2.* from
+        (
+            select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz  
+            where tj.parentid = 0 and tj.seqjuz  > 14
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl2
+    ) as tblall
+    order by seqjuz"
+);
 
-$queryNya = "
-select concat(tblall.nmjilid,' ', nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall
-order by seqjilid";
-
-$juzdanketerangansurah = mysqli_query($con, $queryNya);
-
-$jmlsisjilid  = mysqli_query($con, "select concat(tblall.nmjilid, nmbagian) as nmjilidall, tblall.* from 
-(
-select tbl1.* from
-(select tj.id, tbl1.nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid 
-left join (select distinct tj2.id, tj2.nmjilid from tbl_jilid tj2 ) as tbl1 
-on tj.parentid  = tbl1.id
-where tj.parentid != 0
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tbl1.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl1
-union 
-select tbl2.* from
-(
-select tj.id, '' nmjilid, tj.nmjilid as nmbagian, count(sh.c_siswa) as jml, tj.seqjilid  from tbl_jilid tj
-left join sisjilid_h sh on tj.id = sh.idjilid  
-where tj.parentid = 0 and tj.seqjilid  > 14
-and coalesce(sh.flag, 'N') = 'N'
-group by tj.id, tj.nmjilid, tj.seqjilid
-order by tj.seqjilid) as tbl2) as tblall
-order by seqjilid");
+$jmlsisjuz  = mysqli_query($con, 
+    "select concat(tblall.juz_atau_keterangan_ayat, nmbagian) as nmjuzall, tblall.* from 
+    (
+        select tbl1.* from
+        (
+            select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz 
+            left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+            on tj.parentid  = tbl1.id
+            where tj.parentid != 0
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl1
+        union 
+        select tbl2.* from
+        (
+            select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz  
+            where tj.parentid = 0 and tj.seqjuz  > 14
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl2
+    ) as tblall
+    order by seqjuz"
+);
 
 ?>
 
@@ -92,9 +79,9 @@ order by seqjilid");
             </tr>
             </thead>
             <tbody>
-            <?php $smk2=mysqli_query($con,"select sj.idjilid, sj.nmjilid, sj.c_siswa, s.nama, 
-                            s.nisn, sj.tglnaikjilid, DATEDIFF(CURRENT_DATE(), sj.tglnaikjilid) jmlhari  from sisjilid_h sj
-                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjilid) <= 30 ");
+            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.c_siswa, s.nama, 
+                            s.nisn, sj.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) jmlhari from sisjuz_h sj
+                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) <= 30 ");
             $vr=1;
             while($akh=mysqli_fetch_array($smk2)){?>
                 <tr>
@@ -103,9 +90,9 @@ order by seqjilid");
                     <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?>
                 </td>
                   <td>
-                  <?php echo $akh['nmjilid']; ?>
+                  <?php echo $akh['juz']; ?>
                 </td>
-                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjilid'])) ; ?></td>
+                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjuz'])) ; ?></td>
                   <td><?php echo $akh['jmlhari']; ?></td>
                 </tr>
             <?php $vr++;
@@ -122,16 +109,16 @@ order by seqjilid");
             <thead>
             <tr>
                 <th width="5%">No</th>
-                <th>NAMA-NISN</th>
+                <th>NAMA - NISN</th>
                 <th>Kelas</th>
                 <th>Tgl. Naik</th>
                 <th>Lama Tidak Naik(Hari)</th>
             </tr>
             </thead>
             <tbody>
-            <?php $smk2=mysqli_query($con,"select sj.idjilid, sj.nmjilid, sj.c_siswa, s.nama, 
-                            s.nisn, sj.tglnaikjilid, DATEDIFF(CURRENT_DATE(), sj.tglnaikjilid) jmlhari  from sisjilid_h sj
-                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjilid) >= 40 ");
+            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.c_siswa, s.nama, 
+                            s.nisn, sj.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) jmlhari  from sisjuz_h sj
+                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) >= 40 ");
             $vr=1;
             while($akh=mysqli_fetch_array($smk2)){?>
                 <tr>
@@ -140,9 +127,9 @@ order by seqjilid");
                     <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?>
                 </td>
                   <td>
-                  <?php echo $akh['nmjilid']; ?>
+                  <?php echo $akh['juz']; ?>
                 </td>
-                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjilid'])) ; ?></td>
+                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjuz'])) ; ?></td>
                   <td><?php echo $akh['jmlhari']; ?></td>
                 </tr>
             <?php $vr++;
@@ -166,8 +153,8 @@ order by seqjilid");
                     labels: 
                     [
                         <?php 
-                            while ($b = mysqli_fetch_array($namajilid)) { 
-                                echo '"' . $b['nmjilidall'] . '",';
+                            while ($b = mysqli_fetch_array($namajuz)) { 
+                                echo '"' . $b['nmjuzall'] . '",';
                             }
                         ?>
                     ],
@@ -175,7 +162,7 @@ order by seqjilid");
                             label: '# Jumlah Murid Per Juz',
                             data: [
                                 <?php 
-                                    while ($p = mysqli_fetch_array($jmlsisjilid) ) { 
+                                    while ($p = mysqli_fetch_array($jmlsisjuz) ) { 
                                         echo '"' . $p['jml'] . '",';
                                     }
                                 ?>
