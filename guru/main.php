@@ -102,6 +102,10 @@
       text-align: center !important;
     }
 
+    #tbljuzdet .even {
+      text-align: center !important;
+    }
+
     @media only screen and (max-width: 600px) {
       
       .select2-container {

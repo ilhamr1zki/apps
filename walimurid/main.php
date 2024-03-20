@@ -1,4 +1,31 @@
-<?php require '../php/config.php'; require '../php/function.php'; session_start(); if(empty($_SESSION['c_walimurid'])){header('location:../login');} /*walimurid*/$wali=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM walimurid where c_walimurid='$_SESSION[c_walimurid]' ")); /*siswa*/$siswa=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM siswa where c_siswa='$wali[c_siswa]' ")); /*kelas*/$kelas=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM kelas where c_kelas='$siswa[c_kelas]' ")); /*walikelas*/ $walikel=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM walikelas where c_kelas='$kelas[c_kelas]' "));/*guru*/ $guru=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where c_guru='$walikel[c_guru]' ")); ?>
+<?php 
+
+  require '../php/config.php'; 
+  require '../php/function.php'; 
+
+  session_start(); 
+
+  if(empty($_SESSION['c_walimurid'])) {
+    header('location:../login');
+  } 
+
+  /*walimurid*/
+  $wali = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM walimurid where c_walimurid='$_SESSION[c_walimurid]' ")); 
+
+  /*siswa*/
+  $siswa = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM siswa where c_siswa='$wali[c_siswa]' ")); 
+
+  /*kelas*/
+  $kelas = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM kelas where c_kelas='$siswa[c_kelas]' ")); 
+
+  /*walikelas*/ 
+  $walikel = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM walikelas where c_kelas='$kelas[c_kelas]' "));
+
+  /*guru*/ 
+  $guru = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where c_guru='$walikel[c_guru]' ")); 
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

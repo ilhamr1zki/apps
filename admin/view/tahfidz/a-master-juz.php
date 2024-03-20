@@ -116,18 +116,21 @@
     <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='tambah'){?>
           <div style="display: none;" class="alert alert-warning alert-dismissable">Data Juz Berhasil Disimpan
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='edit'){?>
           <div style="display: none;" class="alert alert-info alert-dismissable">Data Juz Berhasil Diedit
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 
         <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan']=='hapus'){?>
-          <div style="display: none;" class="alert alert-info alert-dismissable">Data Juz Berhasil Dihapus
+          <div style="display: none;" class="alert alert-success alert-dismissable">Data Juz Berhasil Dihapus
              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
           </div>
         <?php } ?>
 

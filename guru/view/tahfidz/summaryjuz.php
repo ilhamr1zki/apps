@@ -283,6 +283,10 @@
           
   });
 
+  let hrIni = new Date("19 March 2024");
+  let bln = hrIni.getMonth()
+  console.log(bln)
+
   function OpenCatatan(catatan, nmsiswa, kdsiswa) {
            $('#_catatantitle').text("Catatan" + " - " + nmsiswa);
          
@@ -320,7 +324,7 @@
               columns: [
                 { "data": "juz_atau_keterangan_ayat" },
                 { "data": "nmbagian" },
-                { "data": tglSkrng }
+                { "data": "tglnaikjuz" }
               ]
             
             });
