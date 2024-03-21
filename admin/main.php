@@ -369,13 +369,18 @@ oncontextmenu="return false">
             <i class="glyphicon glyphicon-calendar"></i> <span>Tahun Akademik</span>
           </a>
         </li>
-        <li >
+        
+        <li>
           <a href="<?php echo $basead; ?>jenisnilai">
             <i class="glyphicon glyphicon-wrench"></i> <span>Jenis Nilai</span>
           </a>
         </li>
 
-        
+        <li>
+          <a href="<?php echo $basead; ?>jenisnilai">
+            <i class="glyphicon glyphicon-usd"></i> <span> SPP </span>
+          </a>
+        </li>        
         
       </ul>
     </section>

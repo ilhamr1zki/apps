@@ -284,7 +284,6 @@ oncontextmenu="return false">
           <li ><a href="<?php echo $basegu; ?>summaryjuz"><i class="glyphicon glyphicon-record text-primary"></i> Summary Juz </a></li>
 
           <li ><a href="<?php echo $basegu; ?>performansikelastahfidz"><i class="glyphicon glyphicon-stats text-primary"></i> Performansi Kelas</a></li>
-          <li ><a href="<?php echo $basegu; ?>dataimtas"><i class="glyphicon glyphicon-star text-primary"></i> Data IMTAS</a></li>
         </ul>
       </li>
 
