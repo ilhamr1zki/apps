@@ -202,7 +202,7 @@
 
             <div class="row">
                 <div class="col-sm-2">
-                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button>
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Hanya Catatan </button>
                 </div>
             </div>
             
