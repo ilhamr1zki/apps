@@ -294,45 +294,21 @@
         //$('#_catatanjilid').text(teks);
         document.getElementById("_catatanjuz").innerHTML = catatan;
 
-        let tgl = "19 Maret 2024"
+        $('#tbljuzdet').dataTable( {
+          order: [[0, 'desc'], [2, 'asc']],
+          destroy: true,
+          ajax: {
+              url: "view/tahfidz/apiservicesisjuz_d.php?c_siswa=" + kdsiswa,
+              dataSrc: ""
+          },
 
-        fetch("view/tahfidz/apiservicesisjuztgl_d.php?c_siswa=" + kdsiswa)
-          .then((response) => {
-              if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
-                  throw new Error("Terjadi kesalahan!");
-              }
-
-              return response.json(); // Parse the JSON data.
-          })
-          .then((data) => {
-
-            let tglSkrng = data.tglnaikjuz
-
-            console.log("Hayo " + tglSkrng)
-
-            $('#tbljuzdet').dataTable( {
-              columnDefs : [{
-                targets: 2,
-                "defaultContent" : tglSkrng,
-              }],
-              destroy: true,
-              ajax: {
-                  url: "view/tahfidz/apiservicesisjuz_d.php?c_siswa=" + kdsiswa,
-                  dataSrc: ""
-              },
-
-              columns: [
-                { "data": "juz_atau_keterangan_ayat" },
-                { "data": "nmbagian" },
-                { "data": "tglnaikjuz" }
-              ]
-            
-            });
-
-          })
-          .catch((error) => {
-              // This is where you handle errors.
-          });
+          columns: [
+            { "data": "juz_atau_keterangan_ayat" },
+            { "data": "nmbagian" },
+            { "data": "tglnaikjuz" }
+          ]
+        
+        });
 
 
         $('#historicatatan').modal("show");
