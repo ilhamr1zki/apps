@@ -71,29 +71,27 @@ $jmlsisjuz  = mysqli_query($con,
             <table id="example1" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th width="5%">No</th>
-                <th>NAMA-NISN</th>
-                <th>Kelas</th>
-                <th>Tgl. Naik</th>
-                <th>Jumlah Hari</th>
+                <th style="text-align: center;" width="5%">No</th>
+                <th style="text-align: center;" width="10%">NAMA-NISN</th>
+                <th style="text-align: center;">JUZ</th>
+                <th style="text-align: center;">Bagian</th>
+                <th style="text-align: center;">Tgl. Naik</th>
+                <th style="text-align: center;">Jumlah Hari</th>
             </tr>
             </thead>
             <tbody>
-            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.c_siswa, s.nama, 
+            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.ketjuzsurah bagian, sj.c_siswa, s.nama, 
                             s.nisn, sj.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) jmlhari from sisjuz_h sj
                             inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) <= 30 ");
             $vr=1;
             while($akh=mysqli_fetch_array($smk2)){?>
                 <tr>
-                  <td><?php echo $vr; ?></td>
-                  <td>
-                    <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?>
-                </td>
-                  <td>
-                  <?php echo $akh['juz']; ?>
-                </td>
-                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjuz'])) ; ?></td>
-                  <td><?php echo $akh['jmlhari']; ?></td>
+                  <td style="text-align: center;"> <?php echo $vr; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['juz']; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['bagian']; ?> </td>
+                  <td style="text-align: center;"> <?php echo date('d-m-Y',strtotime($akh['tglnaikjuz'])) ; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['jmlhari']; ?> </td>
                 </tr>
             <?php $vr++;
             }?>
@@ -108,29 +106,27 @@ $jmlsisjuz  = mysqli_query($con,
             <table id="example1" class="table table-bordered table-hover">
             <thead>
             <tr>
-                <th width="5%">No</th>
-                <th>NAMA - NISN</th>
-                <th>Kelas</th>
-                <th>Tgl. Naik</th>
-                <th>Lama Tidak Naik(Hari)</th>
+                <th style="text-align: center;" width="5%">No</th>
+                <th style="text-align: center;">NAMA - NISN</th>
+                <th style="text-align: center;">JUZ</th>
+                <th style="text-align: center;"> Bagian </th>
+                <th style="text-align: center;">Tgl. Naik</th>
+                <th style="text-align: center;">Lama Tidak Naik(Hari)</th>
             </tr>
             </thead>
             <tbody>
-            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.c_siswa, s.nama, 
+            <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.ketjuzsurah bagian, sj.c_siswa, s.nama, 
                             s.nisn, sj.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) jmlhari  from sisjuz_h sj
                             inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) >= 40 ");
             $vr=1;
             while($akh=mysqli_fetch_array($smk2)){?>
                 <tr>
-                  <td><?php echo $vr; ?></td>
-                  <td>
-                    <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?>
-                </td>
-                  <td>
-                  <?php echo $akh['juz']; ?>
-                </td>
-                  <td><?php echo date('Y-m-d',strtotime($akh['tglnaikjuz'])) ; ?></td>
-                  <td><?php echo $akh['jmlhari']; ?></td>
+                  <td style="text-align: center;"> <?php echo $vr; ?></td>
+                  <td style="text-align: center;"> <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['juz']; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['bagian']; ?> </td>
+                  <td style="text-align: center;"> <?php echo date('d-m-Y',strtotime($akh['tglnaikjuz'])) ; ?> </td>
+                  <td style="text-align: center;"> <?php echo $akh['jmlhari']; ?> </td>
                 </tr>
             <?php $vr++;
             }?>
