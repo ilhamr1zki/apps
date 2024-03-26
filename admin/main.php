@@ -100,6 +100,10 @@
       font-family:arial;
     }
 
+    hr.new1 {
+      border-top: 1px solid black;
+    }
+
     .judul {
       width: 100%; 
       background-color: #FFF; 
@@ -119,8 +123,53 @@
       width: 60%;
     }
 
+    .flex-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .flex-container > div {
+      background-color: #f1f1f1;
+      border: 1px solid black;
+      margin: 10px;
+      width: 50%;
+      padding: 20px;
+    }
+
+    #total {
+      float: right;
+    }
+
+    #forLabel {
+      margin-top: 2px;
+    }
+    
+    #jun22 {
+      margin-left: 180px;
+    }
+
     @media only screen and (max-width: 600px) {
       
+      #jun22 {
+        margin-left: 180px;
+      }      
+
+      .flex-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .flex-container > div {
+        background-color: #f1f1f1;
+        border: 1px solid black;
+        margin: 10px;
+        width: 100%;
+        padding: 20px;
+      }
+
       .select2-container {
         width: 100% !important;
       }
@@ -313,6 +362,93 @@ oncontextmenu="return false">
           </ul>
         </li>
 
+        <!-- SPP -->
+        <li>
+          <a href="#">
+            <i class="glyphicon glyphicon-usd"></i> <span> SPP </span>
+          </a>
+          <ul class="treeview-menu">
+            
+            <li>
+              <a href="#"><i class="glyphicon glyphicon-plus text-primary"></i> Input Data </a>
+              <ul class="treeview-menu">
+                
+                <li> <small> <a href="<?php echo $basead; ?>checkpembayarandaninputdata"><i class="glyphicon glyphicon glyphicon-check"></i> <span style="margin-left: 5px;"> </span> Check Pembayaran & Input Data </a> </small> </li>
+                <li> <small> <a href=""><i class="glyphicon glyphicon glyphicon-zoom-in"></i> <span style="margin-left: 5px;"> </span> Check Input Data </a> </small> </li>
+
+              </ul>
+            </li>
+
+            <li>
+              <a href="<?php echo $basead; ?>setting"><i class="glyphicon glyphicon-bullhorn text-primary"></i> Laporan 2 </a>
+              <ul class="treeview-menu">
+                <li>
+                  <small> 
+                    <a href=""> <i class="glyphicon glyphicon-modal-window"></i> <span style="margin-left: 8px;"> </span> Kuitansi </a>
+                  </small> 
+                </li>
+                <li>
+                  <small>
+                    <a href=""> <i class="glyphicon glyphicon-flag"></i> <span style="margin-left: 8px;"> </span> Check Pangkal </a>
+                  </small>
+                </li>
+                <li>
+                  <small>
+                    <a href=""> <i class="glyphicon glyphicon-sd-video"></i> <span style="margin-left: 8px;"> </span> Check SPP </a>
+                  </small>
+                </li>
+                <li>
+                  <small>
+                    <a href=""> <i class="glyphicon glyphicon-list-alt"></i> <span style="margin-left: 8px;"> </span> Check Daftar Ulang </a>
+                  </small>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="<?php echo $basead; ?>setting"><i class="glyphicon glyphicon-check text-primary"></i> Koreksi </a>
+              <ul class="treeview-menu">
+                <li> 
+                  <small> 
+                    <a href=""> <i class="glyphicon glyphicon-copy"></i> <span style="margin-left: 8px;"> </span> Koreksi Sequence ID </a>
+                  </small>
+                </li>
+                <li> 
+                  <small>
+                    <a href=""> <i class="glyphicon glyphicon-ok-sign"></i> <span style="margin-left: 8px;"> </span> Koreksi Data Murid </a>
+                  </small>
+                </li>
+                <li>
+                  <small>
+                    <a href=""> <i class="glyphicon glyphicon-floppy-saved"></i> <span style="margin-left: 8px;"> </span> Koreksi Input Data </a>
+                  </small>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </li>
+
+        <!-- Try Layout -->
+        <li>
+          <a href="#">
+            <i class="glyphicon glyphicon-usd"></i> <span> Try Layout </span>
+          </a>
+          <ul class="treeview-menu">
+            
+            <li>
+              <a href="#"><i class="glyphicon glyphicon-plus text-primary"></i> Input Data </a>
+              <ul class="treeview-menu">
+                
+                <li> <small> <a href="<?php echo $basead; ?>trylayout"><i class="glyphicon glyphicon glyphicon-check"></i> <span style="margin-left: 5px;"> </span> Check Pembayaran & Input Data </a> </small> </li>
+                <li> <small> <a href=""><i class="glyphicon glyphicon glyphicon-zoom-in"></i> <span style="margin-left: 5px;"> </span> Check Input Data </a> </small> </li>
+
+              </ul>
+            </li>
+
+          </ul>
+        </li>        
+
         <li>
           <a href="<?php echo $basead; ?>">
             <i class="glyphicon glyphicon-th"></i> <span>Dashboard</span>
@@ -375,12 +511,6 @@ oncontextmenu="return false">
             <i class="glyphicon glyphicon-wrench"></i> <span>Jenis Nilai</span>
           </a>
         </li>
-
-        <li>
-          <a href="<?php echo $basead; ?>jenisnilai">
-            <i class="glyphicon glyphicon-usd"></i> <span> SPP </span>
-          </a>
-        </li>        
         
       </ul>
     </section>
@@ -501,6 +631,16 @@ oncontextmenu="return false">
     }
 
     #endregion tahfidz
+
+    #region spp
+    else if ($act == 'checkpembayarandaninputdata') {
+      require 'view/spp/input_data/check_pembayaran_dan_inputdata.php';
+    }
+
+    #region try layout
+    else if ($act == 'trylayout') {
+      require 'view/spp/input_data/trylayout.php';
+    }
 
     else{
       require 'view/404.php';
