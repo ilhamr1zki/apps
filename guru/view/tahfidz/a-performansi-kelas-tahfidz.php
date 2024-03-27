@@ -82,7 +82,7 @@ $jmlsisjuz  = mysqli_query($con,
             <tbody>
             <?php $smk2=mysqli_query($con,"select sj.idjuz, sj.juz, sj.ketjuzsurah bagian, sj.c_siswa, s.nama, 
                             s.nisn, sj.tglnaikjuz, DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) jmlhari from sisjuz_h sj
-                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) <= 30 ");
+                            inner join siswa s on sj.c_siswa = s.c_siswa where DATEDIFF(CURRENT_DATE(), sj.tglnaikjuz) <= 30 ORDER BY jmlhari ASC");
             $vr=1;
             while($akh=mysqli_fetch_array($smk2)){?>
                 <tr>
@@ -90,7 +90,7 @@ $jmlsisjuz  = mysqli_query($con,
                   <td style="text-align: center;"> <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['juz']; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['bagian']; ?> </td>
-                  <td style="text-align: center;"> <?php echo date('d-m-Y',strtotime($akh['tglnaikjuz'])) ; ?> </td>
+                  <td style="text-align: center;"> <?= tgl($akh['tglnaikjuz']) ; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['jmlhari']; ?> </td>
                 </tr>
             <?php $vr++;

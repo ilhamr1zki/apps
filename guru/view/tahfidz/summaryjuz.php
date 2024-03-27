@@ -97,8 +97,6 @@
 
         $_juzid = $_POST["_juzid"];
 
-        echo $_POST['_juzid'];
-
         if($_juzid != null && $_juzid != "")
         {
            $strSQL = $strSQL. " and id = '$_juzid' ";
