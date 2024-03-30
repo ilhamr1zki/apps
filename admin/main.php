@@ -129,10 +129,21 @@
     }
 
     .flex-container > div {
-      background-color: #f1f1f1;
       border: 1px solid black;
       margin: 10px;
       width: 50%;
+      padding: 20px;
+    }
+
+    .flex-containers {
+      display: flex;
+      justify-content: center;
+    }
+
+    .flex-containers > div {
+      border: 1px solid black;
+      margin: 10px;
+      width: 100%;
       padding: 20px;
     }
 
@@ -163,6 +174,22 @@
       }
 
       .flex-container > div {
+        background-color: #f1f1f1;
+        border: 1px solid black;
+        margin: 10px;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .flex-containers {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .flex-containers > div {
         background-color: #f1f1f1;
         border: 1px solid black;
         margin: 10px;
@@ -441,7 +468,7 @@ oncontextmenu="return false">
               <ul class="treeview-menu">
                 
                 <li> <small> <a href="<?php echo $basead; ?>trylayout"><i class="glyphicon glyphicon glyphicon-check"></i> <span style="margin-left: 5px;"> </span> Check Pembayaran & Input Data </a> </small> </li>
-                <li> <small> <a href=""><i class="glyphicon glyphicon glyphicon-zoom-in"></i> <span style="margin-left: 5px;"> </span> Check Input Data </a> </small> </li>
+                <li> <small> <a href="<?php echo $basead; ?>checkinputdata"><i class="glyphicon glyphicon glyphicon-zoom-in"></i> <span style="margin-left: 5px;"> </span> Check Input Data </a> </small> </li>
 
               </ul>
             </li>
@@ -640,6 +667,8 @@ oncontextmenu="return false">
     #region try layout
     else if ($act == 'trylayout') {
       require 'view/spp/input_data/trylayout.php';
+    } else if ($act == 'checkinputdata') {
+      require 'view/spp/input_data/checkinputdata.php';
     }
 
     else{

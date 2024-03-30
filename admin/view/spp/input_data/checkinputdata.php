@@ -1,0 +1,558 @@
+<?php 
+
+    $sqlJuz = mysqli_query($con,
+    "select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
+    (
+        select tbl1.* from
+        (
+            select tj.id, tbl1.juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz 
+            left join (select distinct tj2.id, tj2.juz_atau_keterangan_ayat from tbl_juz tj2 ) as tbl1 
+            on tj.parentid  = tbl1.id
+            where tj.parentid != 0
+            
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tbl1.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl1
+    union 
+        select tbl2.* from
+        ( 
+            select tj.id, '' juz_atau_keterangan_ayat, tj.juz_atau_keterangan_ayat as nmbagian, count(sh.c_siswa) as jml, tj.seqjuz  from tbl_juz tj
+            left join sisjuz_h sh on tj.id = sh.idjuz  
+            where tj.parentid = 0 and tj.seqjuz  > 14
+            and coalesce(sh.flag, 'N') = 'N'
+            group by tj.id, tj.juz_atau_keterangan_ayat, tj.seqjuz
+            order by tj.seqjuz
+        ) as tbl2
+   ) as tblall
+   order by seqjuz"); 
+
+    $queryGetDataSeqJuz1 = mysqli_query($con, 
+        "SELECT id, juz_atau_keterangan_ayat, seqjuz FROM tbl_juz WHERE seqjuz = '1' "
+    );
+
+    $getDataArr = mysqli_fetch_array($queryGetDataSeqJuz1);
+    
+    $getDataIdJuz  = $getDataArr['id'];
+    $getDataSeqJuz = $getDataArr['seqjuz'];
+
+?>
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'tambah'){?>
+          <div style="display: none;" class="alert alert-warning alert-dismissable">Setup Naik Juz Berhasil Disimpan
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'edit'){?>
+          <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Disimpan
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'edit_catatan') { ?>
+          <div style="display: none;" class="alert alert-success alert-dismissable"> Histori Catatan Berhasil Disimpan
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['pesan']) && $_SESSION['pesan'] == 'hapus') {?>
+          <div style="display: none;" class="alert alert-info alert-dismissable">Data Naik Juz Berhasil Dihapus
+             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+             <?php unset($_SESSION['pesan']); ?>
+          </div>
+        <?php } ?>
+
+        <?php if(isset($_SESSION['err_warning']) && $_SESSION['err_warning'] == 'err_validation'){?>
+          <div style="display: none;" class="alert alert-danger alert-dismissable"> Mohon Cari Siswa Terlebih Dahulu
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?php unset($_SESSION['err_warning']); ?>
+          </div>
+        <?php } ?>
+
+    </div>
+</div>
+
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title"> <i class="glyphicon glyphicon-new-window"></i> Data Pembayaran </h3><span style="float:right;"><a class="btn btn-primary" onclick="OpenCarisiswaModal()"><i class="glyphicon glyphicon-plus"></i> Cari Siswa</a></span>
+       
+    </div>
+    <form action="<?php echo $basegu; ?>a-guru/<?php echo md5('addnaikjuz'); ?>/access" method="post">
+        <div class="box-body table-responsive">
+            <input type="hidden" id="_entryby" name="_entryby" class="form-control" value="<?php echo $na['nama'] ?>">
+            <input type="hidden" id="_idsiswa" name="_idsiswa" class="form-control">
+            <input type="hidden" id="_idjuz" name="_idjuz" class="form-control">
+            <input type="hidden" id="_idjuznext" name="_idjuznext" class="form-control">
+            <input type="hidden" id="_nmjuznext" name="_nmjuznext" class="form-control">
+            <input type="hidden" id="_seqnext" name="_seqnext" class="form-control">
+            <input type="hidden" id="code_siswa" name="code_siswa" class="form-control">
+
+            <input type="hidden" class="form-control" id="_nmsiswa" name="_nmsiswa">
+            <input type="hidden" class="form-control" id="_juzcur" name="_juzcur"/>
+            <input type="hidden" class="form-control" id="_juzutama" name="_juzutama"/>
+
+            <input type="hidden" id="_idjuzmanual" name="_idjuzmanual" class="form-control">
+            <input type="hidden" id="_seqnextmanual" name="_seqnextmanual" class="form-control">
+            <input type="hidden" id="_nmjuzmanual" name="_nmjuzmanual" class="form-control">
+            <input type="hidden" id="_nmbagianmanual" name="_nmbagianmanual" class="form-control">
+
+            <div class="row">
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" name="" value="4739" readonly="" class="form-control" value="MUHAMMAD ELVARO RAFARDHAN" id="_nmsiswa2" name="_nmsiswa2" />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>NIS</label>
+                        <input type="text" class="form-control" id="_kelassiswa" value="202302002" name="_kelassiswa" />
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                        <label>NAMA</label>
+                        <input type="text" name="" value="ZILLJIZAN" class="form-control" value="MUHAMMAD ELVARO RAFARDHAN" id="_nmsiswa2" name="_nmsiswa2" />
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>PANGGILAN</label>
+                        <input type="text" name="" value="JIZAN" class="form-control" value="MUHAMMAD ELVARO RAFARDHAN" id="_nmsiswa2" name="_nmsiswa2" />
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label>Kelas</label>
+                        <input type="text" name="" value="1 SD" class="form-control" value="MUHAMMAD ELVARO RAFARDHAN" id="_nmsiswa2" name="_nmsiswa2" />
+                    </div>
+                </div>
+            </div> 
+
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>TANGGAL</label>
+                        <input type="text" class="form-control" value="26-Feb-24" name="_bagianjuzcur2" id="_bagianjuzcur2" readonly="">
+                    </div>
+                </div>
+                
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>BULAN</label>
+                        <select class="form-control">
+                            <option> APRIl 2021 </option>
+                            <option> MEI 2021 </option>
+                            <option> JUNI 2021 </option>
+                            <option> APRIl 2022 </option>
+                            <option> MEI 2022 </option>
+                            <option selected=""> JUNI 2024 </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>TX</label>
+                        <select class="form-control">
+                            <option> TRANSFER </option>
+                            <option> CASH  </option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="new1" />
+
+            <div class="flex-containers">
+
+                <!-- SPP -->
+                <div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 15px;"> UANG SPP </label>
+                            <input type="text" style="width: 20%;" value="Rp. 1.000.000" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: flex;">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 16px;"> JUL 21 </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: flex;">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 12px;"> AUG 21 </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-right: 5px;">  </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: flex;">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 14px;"> SEP 21 </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-right: 9px;">  </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: flex;">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 13px;"> OCT 21 </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-right: 8px;"> </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" style="display: flex;">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 12px;"> NOV 21 </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                        <div class="form-group">
+                            <label style="margin-right: 10px;">  </label>
+                            <input type="text" style="width: 50%;" name="">
+                        </div>
+                    </div>
+
+                </div>  
+
+            </div>
+            
+            <!-- <div class="row" style="width: 85%; display: flex;">
+                <div class="col-sm-2">
+                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
+                </div>
+                <div class="col-sm-2">
+                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
+                </div>
+            </div> -->
+            
+        </div>
+    </form>
+    
+</div>
+
+<div id="datamassiswa" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"> <i class="glyphicon glyphicon-calendar"></i> Data Siswa</h4>
+            </div>
+            <div class="modal-body"> 
+                <div class="box-body table-responsive">
+                <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th width="5%">NO</th>
+                <?php 
+                    if(empty($_GET['q'])) {
+                        echo '<th width="12%">KELAS</th>';
+                    } 
+                ?>
+                  <th>NISN</th>
+                  <th>NAMA</th>
+                  <th>GENDER</th>
+                </tr>
+                </thead>
+                <tbody>
+<?php
+    
+    if(isset($_GET['q'])) {
+      $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
+    } else {
+      $smk=mysqli_query($con,"SELECT * FROM siswa order by nama asc ");
+    }  
+
+    $vr = 1;
+
+    while($akh=mysqli_fetch_array($smk)) { 
+
+        $kk  = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
+        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjuz_h where c_siswa='$akh[c_siswa]' limit 1 "));
+
+        // var_dump($sjh);
+        
+        if($sjh != null) {
+            $nextSeq = $sjh['seqjuz'] + 1;
+            $idjuzselected = $sjh['idjuz'];
+
+            if($idjuzselected != "23") { 
+                //juz finish
+                $nextmjuz       = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where seqjuz = '$nextSeq' limit 1 ")); 
+                $nextjuzutama   = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id = '$nextmjuz[parentid]' limit 1 ")); 
+            }
+            
+            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id='$idjuzselected' limit 1 ")); 
+        }
+
+?>                
+        <tr onclick="OnSiswaSelectedModal('<?php echo $akh['c_siswa']; ?>', 
+            '<?php echo $akh['nama']; ?>', 
+            '<?php echo $kk['kelas']; ?>', 
+            '<?php echo $sjh['c_siswa'] ?? ''; ?>',
+            '<?php echo $sjh['juz'] ?? ''; ?>', 
+            '<?php echo $sjh['idjuz'] ?? 0; ?>',
+            '<?php echo $sjh['seqjuz'] ?? 0; ?>',
+            '<?php echo $nextSeq ?? 0; ?>', 
+            '<?php echo $nextmjuz['juz_atau_keterangan_ayat'] ?? ''; ?>',
+            '<?php echo $nextmjuz['id'] ?? 0; ?>',
+            '<?php echo $sjh['ketjuzsurah'] ?? '';?> ',
+            '<p><br/></p>',
+            '<?php echo $nextjuzutama['juz_atau_keterangan_ayat'] ?? '';?> '
+            )">
+            <td> <?php echo $vr; ?> </td>
+            <?php 
+                if(empty($_GET['q'])) {
+                    echo '<td>' . $kk['kelas'] . '</td>';
+                }
+            ?>
+            <td> <?php echo $akh['nisn']; ?> </td>
+            <td> <?php echo $akh['nama']; ?> </td>
+            <td> 
+                <?php 
+                    if($akh['jk'] == 'L') {
+                        echo 'Laki - Laki';
+                    } elseif ($akh['jk'] == 'P') {
+                        echo 'Perempuan';
+                    } 
+                ?>
+            </td>
+        </tr>
+
+<?php 
+    $vr++; 
+    
+    } 
+
+?>
+</tbody>
+</table>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
+
+<script language="javascript" type="text/javascript">
+
+$(document).ready(function() {
+
+    $('#_idsiswa').val("");
+    $('#_nmsiswa').val("");
+    $('#_nmsiswa2').text("");
+    $('#_kelassiswa').text("");
+
+    $('#editorcatatan').summernote({
+        placeholder: 'Isi Catatan',
+        tabsize: 2,
+        height: 150
+      });
+
+    var _btnsetupjuz = document.getElementById("btnsetupjuz");
+    _btnsetupjuz.style.display = "none";
+
+    // $("#btnSimpanCatatan").click(function() {
+    //     alert("Hello")
+    //     $.ajax({
+    //         url     : "../../a-guru/control.php",
+    //         type    : "POST",
+    //         data    : {
+    //             datanama : document.getElementById("_nmsiswa2").value
+    //         },
+    //         success:function(data) {
+    //             console.log(data);
+    //         }
+    //     });
+    // })
+
+});
+
+    function OpenCarisiswaModal(){
+
+        $('#datamassiswa').modal("show");
+    }
+
+    function OnSiswaSelectedModal(kode, nama, kelas, c_siswa, curjuz, idcurjuz, seqjuz, 
+    nextSeq, nextnmjuz, nextidjuz, nmbagian, catatan, nextjuzutama){
+
+        // alert(kode)
+
+        $('#_idsiswa').val(kode);
+        $('#_nmsiswa').val(nama);
+        $('#_nmsiswa2').text(nama);
+        $('#_kelassiswa').text(kelas);
+
+        //$('#editorcatatan').summernote('reset');
+        $('#editorcatatan').summernote('code', '<p><br></p>');
+
+        // Jika code siswa tidak ada di tabel sisjuz_h
+        if(c_siswa == undefined || c_siswa == null || c_siswa == '') {
+
+            let btnnaikjuz              = document.getElementById("btnnaikjuz");
+            btnnaikjuz.style.display    = "block";
+            btnnaikjuz.style.marginTop  = "10px";
+
+            alert(`${nama} belum ada di data naik juz`);
+            document.getElementById('code_siswa').value = kode
+
+            document.getElementById("isijuzsekarang").value = 30
+            document.getElementById("_setmanualjuzselect").value = "kosong"
+            $('#_juzcur').val("An Nas - Al Fajr");
+            $('#_bagianjuzcur2').val("An Nas - Al Fajr");
+            $('#_idjuz').val(`<?= $getDataIdJuz; ?>`);
+            $('#_seqnext').val(`<?= $getDataSeqJuz; ?>`);
+            
+        } else {
+
+            // Jika code siswa ada di table sisjuz_h tetapi di kolom juz dan kolom ketjuzsurah tidak ada data nya
+            let btnnaikjuz              = document.getElementById("btnnaikjuz");
+            btnnaikjuz.style.display    = "block";
+            btnnaikjuz.style.marginTop  = "10px";
+
+            $('#_idjuz').val(nextidjuz);
+            $('#_seqnext').val(nextSeq);
+            $('#_bagianjuzcur2').val(nmbagian ?? "");
+            $('#_nmjuznext').val(nextnmjuz ?? "");
+            
+            $('#_juzutama').val(nextjuzutama ?? "");
+            
+            fetch("view/tahfidz/singledatajuz_h.php?c_siswa=" + c_siswa)
+            .then((response) => {
+                if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
+                    throw new Error("Terjadi kesalahan!");
+                }
+
+                return response.json(); // Parse the JSON data.
+            })
+            .then((data) => {
+                // console.log(data.catatan)
+                // alert('fetch');
+                const myJSON                = JSON.stringify(data.catatan);
+                const ketjuzsurahsekarang   = JSON.stringify(data.juz);
+                const idjuzsekarang         = JSON.stringify(data.idjuz);
+                document.getElementById("isijuzsekarang").value = ketjuzsurahsekarang.slice(1, -1).trim()
+                // alert(ketjuzsurahsekarang.slice(1, -1).trim())
+
+                // This is where you handle what to do with the response.
+                $('#editorcatatan').summernote('pasteHTML', myJSON.slice(1, -1).trim());
+                $('#_juzcur').val(ketjuzsurahsekarang.slice(1, -1).trim());
+
+                if(idjuzsekarang.slice(1, -1).trim() == "23")
+                {
+                    _btnnaikjuz.style.display = "none";
+                }
+
+            })
+            .catch((error) => {
+                // This is where you handle errors.
+            });
+
+        }
+
+        $('#datamassiswa').modal("hide");
+    }
+
+    function SelectilidChanged(juzval) {
+
+        if($('#_idsiswa').val() == null || $('#_idsiswa').val() == "")
+        {
+            alert("Silahkan pilih siswa");
+            return $('#_setmanualjuzselect').val("");
+        }
+
+        fetch("view/tahfidz/apiservicemasterjuz.php?idjuz=" + $('#_setmanualjuzselect').val())
+            .then((response) => {
+                if(!response.ok){ // Before parsing (i.e. decoding) the JSON data,// check for any errors.// In case of an error, throw.
+                    throw new Error("Terjadi kesalahan!");
+                }
+
+                return response.json(); // Parse the JSON data.
+            })
+            .then((data) => {
+                var valjuz = JSON.stringify(data.nmjuz2);
+                var valnmbagian = JSON.stringify(data.nmbagian);
+                var valseq = JSON.stringify(data.seqjuz);
+
+                $('#_idjuzmanual').val($('#_setmanualjuzselect').val());
+                $('#_seqnextmanual').val(valseq.slice(1, -1).trim());
+                $('#_nmjuzmanual').val(valjuz.slice(1, -1).trim());
+                $('#_nmbagianmanual').val(valnmbagian.slice(1, -1).trim());
+
+
+                //alert("id: " + $('#_setmanualjuzselect').val() + "- jilid: " + valjuz + "- bagian: " + valnmbagian);
+            })
+            .catch((error) => {
+                // This is where you handle errors.
+            });
+
+    } 
+
+</script>
+
+<!-- jQuery 2.2.3 -->
+
+<script type="text/javascript" src="<?php echo $base; ?>theme/datetime/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="<?php echo $base; ?>theme/datetime/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+        showMeridian: 1
+    });
+  $('.form_date').datetimepicker({
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0
+    });
+  $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0
+    });
+</script>
+
+
+
+
