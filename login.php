@@ -74,6 +74,7 @@ no-repeat center center fixed; background-size: cover;
         </select>
       </div>
         <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat" style="font-size: 15px;">Login <i class="glyphicon glyphicon-log-in"></i></button>
+        <button type="submit" name="submit" class="btn btn-warning btn-block btn-flat" style="font-size: 15px;">Lupa Password  <i class="glyphicon glyphicon-wrench"></i></button>
     </form>
   </div>
   <!-- /.login-box-body -->

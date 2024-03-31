@@ -181,16 +181,17 @@
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 15px;"> UANG SPP </label>
-                            <input type="text" style="width: 20%;" value="Rp. 1.000.000" name="">
+                            <label style="margin-right: 55px;"> UANG SPP </label>
+                            <input type="text" style="width: 20%; margin-right: 10px;" value="Rp. 1.000.000" name="">
                             <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
-                    <div class="row" style="display: flex;">
+                    <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 16px;"> JUL 21 </label>
-                            <input type="text" style="width: 50%;" name="">
+                            <label style="margin-right: 15px;"> UANG PANGKAL </label>
+                            <input type="text" style="width: 20%; margin-right: 10px;" value="Rp. 1.000.000" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
