@@ -37,6 +37,8 @@ else if(isset($_SESSION['c_walimurid'])){ header('location:walimurid/'); }
   <![endif]-->
   
 </head>
+
+
 <?php ?>
 <body style="background:url(imgstatis/back1.jpg)
 no-repeat center center fixed; background-size: cover;
@@ -74,7 +76,7 @@ no-repeat center center fixed; background-size: cover;
         </select>
       </div>
         <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat" style="font-size: 15px;">Login <i class="glyphicon glyphicon-log-in"></i></button>
-        <button type="submit" name="submit" class="btn btn-warning btn-block btn-flat" style="font-size: 15px;">Lupa Password  <i class="glyphicon glyphicon-wrench"></i></button>
+
     </form>
   </div>
   <!-- /.login-box-body -->
@@ -100,6 +102,7 @@ no-repeat center center fixed; background-size: cover;
       increaseArea: '20%' // optional
     });
   });
+
 </script>
 <script>
 //angka 500 dibawah ini artinya pesan akan muncul dalam 0,5 detik setelah document ready

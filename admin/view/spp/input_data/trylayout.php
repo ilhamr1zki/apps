@@ -448,6 +448,73 @@
                 </div>  
 
             </div>
+
+            <hr class="new1" />
+
+            <div class="flex-containers">
+
+                <!-- SPP -->
+                <div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 213px;"> UANG SPP </label>
+                            <input type="text" id="spp1" value="Rp. 1.000.000" name="">
+                            <input type="text" id="spp2" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 174px;"> UANG PANGKAL </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 62px;"> UANG REGISTRASI/Daftar Ulang </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 171px;"> UANG SERAGAM </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 203px;"> UANG BUKU </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 172px;"> UANG KEGIATAN </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 10px;"> LAIN2/INFAQ/Sumbangan/Antar Jemput </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
+                        </div>
+                    </div>
+
+                </div>  
+
+            </div>
             
             <!-- <div class="row" style="width: 85%; display: flex;">
                 <div class="col-sm-2">

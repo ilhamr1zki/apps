@@ -181,61 +181,57 @@
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 55px;"> UANG SPP </label>
-                            <input type="text" style="width: 20%; margin-right: 10px;" value="Rp. 1.000.000" name="">
+                            <label style="margin-right: 213px;"> UANG SPP </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="Rp. 1.000.000" name="">
                             <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 15px;"> UANG PANGKAL </label>
-                            <input type="text" style="width: 20%; margin-right: 10px;" value="Rp. 1.000.000" name="">
+                            <label style="margin-right: 174px;"> UANG PANGKAL </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
                             <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
-                    <div class="row" style="display: flex;">
+                    <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 12px;"> AUG 21 </label>
-                            <input type="text" style="width: 50%;" name="">
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-right: 5px;">  </label>
-                            <input type="text" style="width: 50%;" name="">
+                            <label style="margin-right: 62px;"> UANG REGISTRASI/Daftar Ulang </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
-                    <div class="row" style="display: flex;">
+                    <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 14px;"> SEP 21 </label>
-                            <input type="text" style="width: 50%;" name="">
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-right: 9px;">  </label>
-                            <input type="text" style="width: 50%;" name="">
+                            <label style="margin-right: 171px;"> UANG SERAGAM </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
-                    <div class="row" style="display: flex;">
+                    <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 13px;"> OCT 21 </label>
-                            <input type="text" style="width: 50%;" name="">
-                        </div>
-                        <div class="form-group">
-                            <label style="margin-right: 8px;"> </label>
-                            <input type="text" style="width: 50%;" name="">
+                            <label style="margin-right: 203px;"> UANG BUKU </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
-                    <div class="row" style="display: flex;">
+                    <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 12px;"> NOV 21 </label>
-                            <input type="text" style="width: 50%;" name="">
+                            <label style="margin-right: 172px;"> UANG KEGIATAN </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
-                        <div class="form-group">
-                            <label style="margin-right: 10px;">  </label>
-                            <input type="text" style="width: 50%;" name="">
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" style="margin-left: 15px;">
+                            <label style="margin-right: 10px;"> LAIN2/INFAQ/Sumbangan/Antar Jemput </label>
+                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
+                            <input type="text" style="width: 25%;" name="">
                         </div>
                     </div>
 
@@ -363,7 +359,18 @@
 
 <script language="javascript" type="text/javascript">
 
+
 $(document).ready(function() {
+
+    let nonEmptyChildren = document.querySelectorAll('#example1_wrapper .row');
+    if (nonEmptyChildren.length) {
+        nonEmptyChildren[0].classList.remove("col-sm-6")
+        // nonEmptyChildren[0].style.backgroundColor = 'green'; // do whatever you want to the zeroth element.
+    }
+
+    const getElementByIdDataSiswa = document.querySelector("#example1_wrapper .row .col-sm-6")
+    getElementByIdDataSiswa
+  console.log(getElementByIdDataSiswa)
 
     $('#_idsiswa').val("");
     $('#_nmsiswa').val("");

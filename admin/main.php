@@ -104,6 +104,16 @@
       border-top: 1px solid black;
     }
 
+    #spp1 {
+      width: 20%;
+      margin-right: 10px;
+      text-align: end;
+    }
+
+    #spp2 {
+      width: 25%;
+    }
+
     .judul {
       width: 100%; 
       background-color: #FFF; 
@@ -164,6 +174,16 @@
       #jun22 {
         margin-left: 180px;
       }      
+
+      #spp1 {
+        width: 30%;
+        margin-right: 10px;
+        text-align: end;
+      }
+
+      #spp2 {
+        width: 63%;
+      }
 
       .flex-container {
         display: flex;
@@ -329,6 +349,7 @@ oncontextmenu="return false">
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
+                  <a href="<?php echo $basead; ?>a-control/<?php echo md5('logout'); ?>/access" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-pencil"></i> Ganti Password </a>
                   <a href="<?php echo $basead; ?>a-control/<?php echo md5('logout'); ?>/access" class="btn btn-default btn-flat"><i class="glyphicon glyphicon-off"></i> Sign out</a>
                 </div>
               </li>
@@ -735,6 +756,7 @@ oncontextmenu="return false">
       "autoWidth": false
     });
   });
+
 </script>
 <script src="<?php echo $base; ?>theme/plugins/iCheck/icheck.min.js"></script>
 <script>
