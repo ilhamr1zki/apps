@@ -37,6 +37,21 @@
     $getDataIdJuz  = $getDataArr['id'];
     $getDataSeqJuz = $getDataArr['seqjuz'];
 
+    $dataBulan = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    ];
+
 ?>
 
 <div class="row">
@@ -150,13 +165,18 @@
                     <div class="form-group">
                         <label>BULAN</label>
                         <select class="form-control">
-                            <option> APRIl 2021 </option>
-                            <option> MEI 2021 </option>
-                            <option> JUNI 2021 </option>
-                            <option> APRIl 2022 </option>
-                            <option> MEI 2022 </option>
-                            <option selected=""> JUNI 2024 </option>
+                            <option> -- PILIH -- </option>
+                            <?php foreach ($dataBulan as $bln) : ?>
+                                <option value="<?= $bln; ?>"> <?= $bln; ?> </option>
+                            <?php endforeach; ?>
                         </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>TAHUN</label>
+                        <input type="text" name="isi_tahun" class="form-control">
                     </div>
                 </div>
 
@@ -182,56 +202,69 @@
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
                             <label style="margin-right: 213px;"> UANG SPP </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="Rp. 1.000.000" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <input type="text" id="rupiah_spp" class="uang_spp" value="0" name="">
+                            <input type="text" class="ket_uang_spp" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
                             <label style="margin-right: 174px;"> UANG PANGKAL </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <input type="text" id="rupiah_pangkal" class="uang_pangkal" value="0" name="">
+                            <input type="text" class="ket_uang_pangkal" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 62px;"> UANG REGISTRASI/Daftar Ulang </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <label style="margin-right: 69px;"> UANG REGISTRASI/Daftar Ulang </label>
+                            <input type="text" id="rupiah_regis" class="uang_regis" value="0" name="">
+                            <input type="text" class="ket_uang_regis" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
                             <label style="margin-right: 171px;"> UANG SERAGAM </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <input type="text" id="rupiah_seragam" class="uang_seragam" value="0" name="">
+                            <input type="text" class="ket_uang_seragam" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
                             <label style="margin-right: 203px;"> UANG BUKU </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <input type="text" id="rupiah_buku" class="uang_buku" value="0" name="">
+                            <input type="text" class="ket_uang_buku" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
                             <label style="margin-right: 172px;"> UANG KEGIATAN </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <input type="text" id="rupiah_kegiatan" class="uang_kegiatan" value="0" name="">
+                            <input type="text" class="ket_uang_kegiatan" name="">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 10px;"> LAIN2/INFAQ/Sumbangan/Antar Jemput </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
+                            <label style="margin-right: 22px;"> LAIN2/INFAQ/Sumbangan/Antar Jemput </label>
+                            <input type="text" id="rupiah_lain" class="lain2" value="100000" name="">
+                            <input type="text" class="ket_lain2" name="">
+                        </div>
+                    </div>
+
+                    <div class="row" id="tombol">
+                        <div class="col-sm-6">
+                            <div class="form-group" style="margin-left: 15px;">
+                                <button id="save_record" class="btn btn-warning btn-circle"> Save Record </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" style="margin-left: 15px;">
+                                <button id="cek_pembayaran" class="btn btn-primary btn-circle"> Cek Pembayaran </button>
+                            </div>
                         </div>
                     </div>
 
@@ -359,18 +392,217 @@
 
 <script language="javascript" type="text/javascript">
 
+    /* Format Rupiah SPP */
+    let rupiah_spp = document.getElementById('rupiah_spp');
 
-$(document).ready(function() {
+    rupiah_spp.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_spp.value = formatRupiah(this.value, 'Rp. ');
+    });
 
-    let nonEmptyChildren = document.querySelectorAll('#example1_wrapper .row');
-    if (nonEmptyChildren.length) {
-        nonEmptyChildren[0].classList.remove("col-sm-6")
-        // nonEmptyChildren[0].style.backgroundColor = 'green'; // do whatever you want to the zeroth element.
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_spp          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_spp += separator + ribuan.join('.');
+        }
+
+        rupiah_spp = split[1] != undefined ? rupiah_spp + ',' + split[1] : rupiah_spp;
+        return prefix == undefined ? rupiah_spp : (rupiah_spp ? 'Rp. ' + rupiah_spp : '');
     }
 
-    const getElementByIdDataSiswa = document.querySelector("#example1_wrapper .row .col-sm-6")
-    getElementByIdDataSiswa
-  console.log(getElementByIdDataSiswa)
+    /* Akhir Format Rupiah SPP */
+
+    /* Format Rupiah Pangkal */
+    let rupiah_pangkal = document.getElementById('rupiah_pangkal');
+
+    rupiah_pangkal.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_pangkal.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_pangkal          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_pangkal += separator + ribuan.join('.');
+        }
+
+        rupiah_pangkal = split[1] != undefined ? rupiah_pangkal + ',' + split[1] : rupiah_pangkal;
+        return prefix == undefined ? rupiah_pangkal : (rupiah_pangkal ? 'Rp. ' + rupiah_pangkal : '');
+    }
+
+    /* Akhir Format Rupiah Pangkal */
+
+    /* Format Rupiah Regis */
+    let rupiah_regis = document.getElementById('rupiah_regis');
+
+    rupiah_regis.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_regis.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_regis          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_regis += separator + ribuan.join('.');
+        }
+
+        rupiah_regis = split[1] != undefined ? rupiah_regis + ',' + split[1] : rupiah_regis;
+        return prefix == undefined ? rupiah_regis : (rupiah_regis ? 'Rp. ' + rupiah_regis : '');
+    }
+
+    /* Akhir Format Rupiah Regis */
+
+    /* Format Rupiah Seragam */
+    let rupiah_seragam = document.getElementById('rupiah_seragam');
+
+    rupiah_seragam.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_seragam.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_seragam          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_seragam += separator + ribuan.join('.');
+        }
+
+        rupiah_seragam = split[1] != undefined ? rupiah_seragam + ',' + split[1] : rupiah_seragam;
+        return prefix == undefined ? rupiah_seragam : (rupiah_seragam ? 'Rp. ' + rupiah_seragam : '');
+    }
+
+    /* Akhir Format Rupiah Seragam */
+
+    /* Format Rupiah Buku */
+    let rupiah_buku = document.getElementById('rupiah_buku');
+
+    rupiah_buku.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_buku.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_buku          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_buku += separator + ribuan.join('.');
+        }
+
+        rupiah_buku = split[1] != undefined ? rupiah_buku + ',' + split[1] : rupiah_buku;
+        return prefix == undefined ? rupiah_buku : (rupiah_buku ? 'Rp. ' + rupiah_buku : '');
+    }
+
+    /* Akhir Format Rupiah Buku */
+
+    /* Format Rupiah Kegiatan */
+    let rupiah_kegiatan = document.getElementById('rupiah_kegiatan');
+
+    rupiah_kegiatan.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_kegiatan.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_kegiatan          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_kegiatan += separator + ribuan.join('.');
+        }
+
+        rupiah_kegiatan = split[1] != undefined ? rupiah_kegiatan + ',' + split[1] : rupiah_kegiatan;
+        return prefix == undefined ? rupiah_kegiatan : (rupiah_kegiatan ? 'Rp. ' + rupiah_kegiatan : '');
+    }
+
+    /* Akhir Format Rupiah Kegiatan */
+
+    /* Format Rupiah Lain */
+    let rupiah_lain = document.getElementById('rupiah_lain');
+
+    rupiah_lain.addEventListener('keyup', function(e){
+        // tambahkan 'Rp.' pada saat form di ketik
+        // alert("ok")
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah_lain.value = formatRupiah(this.value, 'Rp. ');
+    });
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split           = number_string.split(','),
+        sisa            = split[0].length % 3,
+        rupiah_lain          = split[0].substr(0, sisa),
+        ribuan          = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah_lain += separator + ribuan.join('.');
+        }
+
+        rupiah_lain = split[1] != undefined ? rupiah_lain + ',' + split[1] : rupiah_lain;
+        return prefix == undefined ? rupiah_lain : (rupiah_lain ? 'Rp. ' + rupiah_lain : '');
+    }
+
+    /* Akhir Format Rupiah Lain */
+
+$(document).ready(function() {
 
     $('#_idsiswa').val("");
     $('#_nmsiswa').val("");
@@ -382,9 +614,6 @@ $(document).ready(function() {
         tabsize: 2,
         height: 150
       });
-
-    var _btnsetupjuz = document.getElementById("btnsetupjuz");
-    _btnsetupjuz.style.display = "none";
 
     // $("#btnSimpanCatatan").click(function() {
     //     alert("Hello")

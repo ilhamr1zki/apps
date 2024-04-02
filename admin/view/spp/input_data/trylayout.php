@@ -37,6 +37,21 @@
     $getDataIdJuz  = $getDataArr['id'];
     $getDataSeqJuz = $getDataArr['seqjuz'];
 
+    $dataBulan = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    ];
+
 ?>
 
 <div class="row">

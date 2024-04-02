@@ -110,6 +110,28 @@
       text-align: end;
     }
 
+    .uang_spp, 
+    .uang_pangkal, 
+    .uang_regis,
+    .uang_seragam,
+    .uang_buku,
+    .uang_kegiatan,
+    .lain2 {
+      width: 20%;
+      margin-right: 10px; 
+      text-align: end;
+    }
+
+    .ket_uang_spp, 
+    .ket_uang_pangkal, 
+    .ket_uang_regis,
+    .ket_uang_seragam,
+    .ket_uang_buku,
+    .ket_uang_kegiatan,
+    .ket_lain2 {
+      width: 25%;
+    }
+
     #spp2 {
       width: 25%;
     }
@@ -169,8 +191,49 @@
       margin-left: 180px;
     }
 
-    @media only screen and (max-width: 600px) {
+    #tombol {
+      width: 20%;
+      margin-left: -30px;
+    }
+
+    @media only screen and (max-width: 768px) {
+
+      .uang_spp, 
+      .uang_pangkal, 
+      .uang_regis,
+      .uang_seragam,
+      .uang_buku,
+      .uang_kegiatan,
+      .lain2 {
+        width: 40%;
+        margin-right: 10px; 
+        text-align: end;
+      }
+
+      .ket_uang_spp, 
+      .ket_uang_pangkal, 
+      .ket_uang_regis,
+      .ket_uang_seragam,
+      .ket_uang_buku,
+      .ket_uang_kegiatan,
+      .ket_lain2 {
+        width: 53%;
+      }
       
+      #tombol {
+        width: 100%;
+      }
+
+      #save_record {
+        width: 100%;
+        margin-left: 29px;
+      }
+
+      #cek_pembayaran {
+        width: 100%;
+        margin-left: 29px;
+      }
+
       #jun22 {
         margin-left: 180px;
       }      
