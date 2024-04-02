@@ -256,14 +256,19 @@
                     </div>
 
                     <div class="row" id="tombol">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group" style="margin-left: 15px;">
                                 <button id="save_record" class="btn btn-warning btn-circle"> Save Record </button>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group" style="margin-left: 15px;">
                                 <button id="cek_pembayaran" class="btn btn-primary btn-circle"> Cek Pembayaran </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="margin-left: 44px; width: 145%;">
+                                <button id="cek_pembayaran" class="btn btn-success btn-circle"> Cetak Kuitansi <span class="glyphicon glyphicon-print"> </button>
                             </div>
                         </div>
                     </div>

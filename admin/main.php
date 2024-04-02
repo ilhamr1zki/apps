@@ -192,7 +192,7 @@
     }
 
     #tombol {
-      width: 20%;
+      width: 30%;
       margin-left: -30px;
     }
 
