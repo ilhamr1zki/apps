@@ -70,6 +70,7 @@ no-repeat center center fixed; background-size: cover;
         <label>*Login Sebagai</label>
         <select name="sebagai" class="form-control form-select" id="select2">
           <option value="admin">ADMINISTRATOR</option> 
+          <option value="accounting">ACCOUNTING</option> 
           <option value="walikelas">WALI KELAS</option>
           <option value="guru">GURU</option>
           <option value="walimurid">WALI MURID</option>
