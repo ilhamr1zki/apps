@@ -456,7 +456,7 @@ oncontextmenu="return false">
               <a href="#"><i class="glyphicon glyphicon-plus text-primary"></i> Input Data </a>
               <ul class="treeview-menu">
                 
-                <li> <small> <a href="<?php echo $basead; ?>checkpembayarandaninputdata"><i class="glyphicon glyphicon glyphicon-check"></i> <span style="margin-left: 5px;"> </span> Check Pembayaran & Input Data </a> </small> </li>
+                <li> <small> <a href="<?php echo $baseac; ?>checkpembayarandaninputdata"><i class="glyphicon glyphicon glyphicon-check"></i> <span style="margin-left: 5px;"> </span> Check Pembayaran & Input Data </a> </small> </li>
                 <li> <small> <a href=""><i class="glyphicon glyphicon glyphicon-zoom-in"></i> <span style="margin-left: 5px;"> </span> Check Input Data </a> </small> </li>
 
               </ul>
@@ -550,6 +550,12 @@ oncontextmenu="return false">
       require 'view/a-kelas.php';
     }
 
+
+    #region checkpembayaraninputdata
+    else if ($act == 'checkpembayarandaninputdata') {
+      require 'view/spp/input_data/check_pembayaran_dan_inputdata.php';
+    }
+
     #region try layout
     else if ($act == 'trylayout') {
       require 'view/spp/input_data/trylayout.php';
@@ -613,6 +619,14 @@ oncontextmenu="return false">
       "autoWidth": false
     });
     $('#example3').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": false,
+      "info": false,
+      "autoWidth": false
+    });
+    $('#tabelCariSiswaCheckPembayarans').DataTable({
       "paging": true,
       "lengthChange": true,
       "searching": true,

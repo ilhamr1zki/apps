@@ -270,9 +270,14 @@
                                 <button id="cek_pembayaran" class="btn btn-primary btn-circle"> Cek Pembayaran </button>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <div class="form-group" style="margin-left: 44px; width: 145%;">
                                 <button id="cek_pembayaran" class="btn btn-success btn-circle"> Cetak Kuitansi <span class="glyphicon glyphicon-print"> </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group" style="margin-left: 44px; width: 145%;">
+                                <button id="cek_pembayaran" class="btn btn-success btn-circle"> Slip Kuitansi <span class="glyphicon glyphicon-print"> </button>
                             </div>
                         </div>
                     </div>
@@ -307,7 +312,6 @@
                               <th style="text-align: center;">NIS</th>
                               <th style="text-align: center;">NAMA</th>
                               <th style="text-align: center;">GENDER</th>
-                              <th style="text-align: center;"> ACTION </th>
                             </tr>
                         </thead>
                         <?php
@@ -341,10 +345,6 @@
                                 <?php else: ?>
                                     <td style="text-align: center;"> Perempuan </td>
                                 <?php endif; ?>
-                                <td style="text-align: center;">  
-                                    <button class="btn btn-success btn-sm"> Tambah </button> |
-                                    <button class="btn btn-primary btn-sm"> Edit </button> 
-                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

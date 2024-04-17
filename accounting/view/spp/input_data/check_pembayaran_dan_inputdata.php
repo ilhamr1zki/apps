@@ -1,4 +1,6 @@
 <?php 
+    
+    $code_accounting = $_SESSION['c_accounting'];
 
     $sqlJuz = mysqli_query($con,
     "select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
@@ -173,10 +175,11 @@
 
             <hr class="new1" />
 
-            <div class="flex-container">
+            <!-- 3 Table -->
+            <!-- <div class="flex-container"> -->
 
                 <!-- SPP -->
-                <div style="background-color: yellow;">
+                <!-- <div style="background-color: yellow;">
                 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -264,10 +267,10 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- Pangkal -->
-                <div style="background-color: #F4CC70;">
+                <!-- <div style="background-color: #F4CC70;">
 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -381,10 +384,10 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- Registrasi -->
-                <div style="background-color: #E6DF44;">
+                <!-- <div style="background-color: #E6DF44;">
 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -472,15 +475,51 @@
                         </div>
                     </div>
 
-                </div>  
+                </div> -->  
 
-            </div>
+            <!-- </div> -->
+
+            <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                     <th width="5%">NO</th>
+                     <th style="text-align: center;">Nama</th>
+                     <th style="text-align: center;">Juz</th>
+                     <th style="text-align: center;">Bagian</th>
+                     <th style="text-align: center;">Tgl Naik</th>
+                     <th style="text-align: center;"> Jml Hari </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td style="text-align: center;"> 1 </td>
+                        <td style="text-align: center;"><a style="cursor:pointer;"> NISWA </a> </td>
+                        <td style="text-align: center;"> lorem </td>
+                        <td style="text-align: center;"> ipsum </td>
+                        <td style="text-align: center;"> test </td>
+                        <td style="text-align: center;"> lorem ipsum </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: center;"> 2 </td>
+                        <td style="text-align: center;"><a style="cursor:pointer;"> GATHAN </a> </td>
+                        <td style="text-align: center;"> Bekasi </td>
+                        <td style="text-align: center;"> 16 Desember 2002 </td>
+                        <td style="text-align: center;"> Trisakti </td>
+                        <td style="text-align: center;"> English </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
             
         </div>
     </form>
     
 </div>
 
+<!-- Modal Cari Siswa -->
 <div id="datamassiswa" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -490,98 +529,61 @@
             </div>
             <div class="modal-body"> 
                 <div class="box-body table-responsive">
-                <table id="example1" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th width="5%">NO</th>
-                <?php 
-                    if(empty($_GET['q'])) {
-                        echo '<th width="12%">KELAS</th>';
-                    } 
-                ?>
-                  <th>NISN</th>
-                  <th>NAMA</th>
-                  <th>GENDER</th>
-                </tr>
-                </thead>
-                <tbody>
-<?php
-    
-    if(isset($_GET['q'])) {
-      $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
-    } else {
-      $smk=mysqli_query($con,"SELECT * FROM siswa order by nama asc ");
-    }  
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                              <th style="text-align: center;" width="5%">NO</th>
+                            <?php 
+                                if(empty($_GET['q'])) {
+                                    echo '<th style="text-align: center;" width="12%">KELAS</th>';
+                                } 
+                            ?>
+                              <th style="text-align: center;">NIS</th>
+                              <th style="text-align: center;">NAMA</th>
+                              <th style="text-align: center;">GENDER</th>
+                            </tr>
+                        </thead>
+                        <?php
 
-    $vr = 1;
+                            $no = 1;
+                            
+                            if(isset($_GET['q'])) {
+                              $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
+                            } else {
 
-    while($akh=mysqli_fetch_array($smk)) { 
+                                if ($code_accounting == 'accounting1') {
+                                    $queryGetAllDataSiswa      = "SELECT * FROM data_murid_sd ORDER BY KELAS asc ";
+                                    $execqueryGetAllDataSiswa  = mysqli_query($con, $queryGetAllDataSiswa);
+                                } else {
+                                    $queryGetAllDataSiswa      = "SELECT * FROM data_murid_tk";
+                                    $execqueryGetAllDataSiswa  = mysqli_query($con, $queryGetAllDataSiswa);
+                                }
 
-        $kk  = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
-        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjuz_h where c_siswa='$akh[c_siswa]' limit 1 "));
+                            } 
 
-        // var_dump($sjh);
-        
-        if($sjh != null) {
-            $nextSeq = $sjh['seqjuz'] + 1;
-            $idjuzselected = $sjh['idjuz'];
-
-            if($idjuzselected != "23") { 
-                //juz finish
-                $nextmjuz       = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where seqjuz = '$nextSeq' limit 1 ")); 
-                $nextjuzutama   = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id = '$nextmjuz[parentid]' limit 1 ")); 
-            }
-            
-            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id='$idjuzselected' limit 1 ")); 
-        }
-
-?>                
-        <tr onclick="OnSiswaSelectedModal('<?php echo $akh['c_siswa']; ?>', 
-            '<?php echo $akh['nama']; ?>', 
-            '<?php echo $kk['kelas']; ?>', 
-            '<?php echo $sjh['c_siswa'] ?? ''; ?>',
-            '<?php echo $sjh['juz'] ?? ''; ?>', 
-            '<?php echo $sjh['idjuz'] ?? 0; ?>',
-            '<?php echo $sjh['seqjuz'] ?? 0; ?>',
-            '<?php echo $nextSeq ?? 0; ?>', 
-            '<?php echo $nextmjuz['juz_atau_keterangan_ayat'] ?? ''; ?>',
-            '<?php echo $nextmjuz['id'] ?? 0; ?>',
-            '<?php echo $sjh['ketjuzsurah'] ?? '';?> ',
-            '<p><br/></p>',
-            '<?php echo $nextjuzutama['juz_atau_keterangan_ayat'] ?? '';?> '
-            )">
-            <td> <?php echo $vr; ?> </td>
-            <?php 
-                if(empty($_GET['q'])) {
-                    echo '<td>' . $kk['kelas'] . '</td>';
-                }
-            ?>
-            <td> <?php echo $akh['nisn']; ?> </td>
-            <td> <?php echo $akh['nama']; ?> </td>
-            <td> 
-                <?php 
-                    if($akh['jk'] == 'L') {
-                        echo 'Laki - Laki';
-                    } elseif ($akh['jk'] == 'P') {
-                        echo 'Perempuan';
-                    } 
-                ?>
-            </td>
-        </tr>
-
-<?php 
-    $vr++; 
-    
-    } 
-
-?>
-</tbody>
-</table>
+                        ?>
+                        <tbody>
+                            <?php foreach ($execqueryGetAllDataSiswa as $data): ?>
+                            <tr>
+                                <td style="text-align: center;"> <?= $no++; ?> </td>
+                                <td style="text-align: center;"> <?= $data['KELAS']; ?> </td>
+                                <td style="text-align: center;"> <?= $data['NIS']; ?> </td>
+                                <td style="text-align: center;"> <?= $data['Nama']; ?> </td>
+                                <?php if ($data['jk'] == 'L'): ?>
+                                    <td style="text-align: center;"> Laki - Laki </td>
+                                <?php else: ?>
+                                    <td style="text-align: center;"> Perempuan </td>
+                                <?php endif; ?>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>    
 </div>
+<!-- Akhir Modal Cari Siswa -->
 
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
 

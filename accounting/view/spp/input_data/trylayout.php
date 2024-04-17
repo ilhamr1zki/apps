@@ -1,4 +1,46 @@
 <?php 
+    
+    function penyebut($nilai) {
+        $nilai = abs($nilai);
+        $huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+        $temp = "";
+        if ($nilai < 12) {
+            $temp = " ". $huruf[$nilai];
+        } else if ($nilai <20) {
+            $temp = penyebut($nilai - 10). " belas";
+        } else if ($nilai < 100) {
+            $temp = penyebut($nilai/10)." puluh". penyebut($nilai % 10);
+        } else if ($nilai < 200) {
+            $temp = " seratus" . penyebut($nilai - 100);
+        } else if ($nilai < 1000) {
+            $temp = penyebut($nilai/100) . " ratus" . penyebut($nilai % 100);
+        } else if ($nilai < 2000) {
+            $temp = " seribu" . penyebut($nilai - 1000);
+        } else if ($nilai < 1000000) {
+            $temp = penyebut($nilai/1000) . " ribu" . penyebut($nilai % 1000);
+        } else if ($nilai < 1000000000) {
+            $temp = penyebut($nilai/1000000) . " juta" . penyebut($nilai % 1000000);
+        } else if ($nilai < 1000000000000) {
+            $temp = penyebut($nilai/1000000000) . " milyar" . penyebut(fmod($nilai,1000000000));
+        } else if ($nilai < 1000000000000000) {
+            $temp = penyebut($nilai/1000000000000) . " trilyun" . penyebut(fmod($nilai,1000000000000));
+        }     
+        return $temp;
+    }
+ 
+    function terbilang($nilai) {
+        if($nilai<0) {
+            $hasil = "minus ". trim(penyebut($nilai));
+        } else {
+            $hasil = trim(penyebut($nilai));
+        }           
+        return $hasil;
+    }
+
+    $angka = 3999999 . " Rupiah";
+    echo ucwords(terbilang($angka));
+
+    $code_accounting = $_SESSION['c_accounting'];
 
     $sqlJuz = mysqli_query($con,
     "select CONCAT('Juz ', tblall.juz_atau_keterangan_ayat,' Surah ', nmbagian) as nmjuzall, tblall.* from 
@@ -51,6 +93,18 @@
         'November',
         'Desember'
     ];
+
+    $pwBuatBuDian = password_hash('dian', PASSWORD_DEFAULT);
+    $pwBuatBuRani = password_hash('rani', PASSWORD_DEFAULT);
+
+    // echo "Bu Dian : " . $pwBuatBuDian . "<br>" . "Bu Rani : " . $pwBuatBuRani;exit;
+
+    $sqlGetUser         = "SELECT * FROM accounting WHERE username = 'rani' ";
+    $execQueryGetUser   = mysqli_query($con, $sqlGetUser);
+
+    $getData = mysqli_fetch_array($execQueryGetUser);
+
+    $dataPassword = $getData['password'];
 
 ?>
 
@@ -161,10 +215,11 @@
 
             <hr class="new1" />
 
-            <div class="flex-container">
+            <!-- 3 Table -->
+            <!-- <div class="flex-container"> -->
 
                 <!-- SPP -->
-                <div style="background-color: yellow;">
+                <!-- <div style="background-color: yellow;">
                 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -252,10 +307,10 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- Pangkal -->
-                <div style="background-color: #F4CC70;">
+                <!-- <div style="background-color: #F4CC70;">
 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -369,10 +424,10 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
 
                 <!-- Registrasi -->
-                <div style="background-color: #E6DF44;">
+                <!-- <div style="background-color: #E6DF44;">
 
                     <div style="background-color: #DE7A22; color: white; padding: 5px;">
 
@@ -460,91 +515,180 @@
                         </div>
                     </div>
 
-                </div>  
+                </div> -->  
 
-            </div>
+            <!-- </div> -->
 
-            <hr class="new1" />
+            <?php  
 
-            <div class="flex-containers">
+                $no = 1;
 
-                <!-- SPP -->
-                <div>
+                if ($code_accounting == 'accounting1') {
+                    
+                    // histori input data sd
+                    $queryGetAllDataHistori     = "SELECT * FROM input_data_sd limit 10";
+                    $execQueryGetAllDataHistori = mysqli_query($con, $queryGetAllDataHistori);
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 213px;"> UANG SPP </label>
-                            <input type="text" id="spp1" value="Rp. 1.000.000" name="">
-                            <input type="text" id="spp2" name="">
-                        </div>
-                    </div>
+                } else {
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 174px;"> UANG PANGKAL </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+                    // histori input data tk
+                    $queryGetAllDataHistori     = "SELECT * FROM input_data_tk";
+                    $execQueryGetAllDataHistori = mysqli_query($con, $queryGetAllDataHistori);
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 62px;"> UANG REGISTRASI/Daftar Ulang </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+                }
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 171px;"> UANG SERAGAM </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+            ?>
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 203px;"> UANG BUKU </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+            <?php if ($code_accounting == 'accounting1'): ?>
+                
+                <div style="overflow-x:auto;">
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                             <th style="text-align: center;"> ID </th>
+                             <th style="text-align: center;"> NIS </th>
+                             <th style="text-align: center;"> DATE </th>
+                             <th style="text-align: center;"> BULAN </th>
+                             <th style="text-align: center;"> KELAS </th>
+                             <th style="text-align: center;"> NAMA KELAS</th>
+                             <th style="text-align: center;"> NAMA </th>
+                             <th style="text-align: center;"> PANGGILAN </th>
+                             <th style="text-align: center;"> TRANSAKSI </th>
+                             <th style="text-align: center;"> SPP SET </th>
+                             <th style="text-align: center;"> PANGKAL SET </th>
+                             <th style="text-align: center;"> SPP  </th>
+                             <th style="text-align: center;"> KET SPP </th>
+                             <th style="text-align: center;"> KEGIATAN </th>
+                             <th style="text-align: center;"> KET KEGIATAN </th>
+                             <th style="text-align: center;"> BUKU </th>
+                             <th style="text-align: center;"> KET BUKU </th>
+                             <th style="text-align: center;"> SERAGAM </th>
+                             <th style="text-align: center;"> KET SERAGAM </th>
+                             <th style="text-align: center;"> REGISTRASI </th>
+                             <th style="text-align: center;"> KET REGISTRASI </th>
+                             <th style="text-align: center;"> LAIN </th>
+                             <th style="text-align: center;"> KET LAIN </th>
+                             <th style="text-align: center;"> DI INPUT OLEH </th>
+                             <th style="text-align: center;"> STAMP </th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 172px;"> UANG KEGIATAN </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+                            <?php foreach ($execQueryGetAllDataHistori as $data_histori) : ?>
+                                <tr>
+                                    <td style="text-align: center;"> <?= $data_histori['ID']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['NIS']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['DATE']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BULAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KELAS']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['NAMA_KELAS']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['NAMA']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGGILAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['TRANSAKSI']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP_SET']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL_SET']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KEGIATAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KEGIATAN_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BUKU']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BUKU_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SERAGAM']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SERAGAM_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['REGISTRASI']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['REGISTRASI_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['LAIN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['LAIN_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['INPUTER']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['STAMP']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
 
-                    <div class="row">
-                        <div class="form-group" style="margin-left: 15px;">
-                            <label style="margin-right: 10px;"> LAIN2/INFAQ/Sumbangan/Antar Jemput </label>
-                            <input type="text" style="width: 20%; margin-right: 10px; text-align: end;" value="0" name="">
-                            <input type="text" style="width: 25%;" name="">
-                        </div>
-                    </div>
+                        </tbody>
 
-                </div>  
-
-            </div>
-            
-            <!-- <div class="row" style="width: 85%; display: flex;">
-                <div class="col-sm-2">
-                    <button id="btnSimpanCatatan" name="btnSimpanCatatan" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-ok"></i> Simpan Catatan </button> 
+                    </table>
                 </div>
-                <div class="col-sm-2">
-                    <button id="btnnaikjuz" name="btnnaikjuz" class="btn btn-warning btn-circle"><i class="glyphicon glyphicon-ok"></i> Naik Juz </button>
+
+            <?php else: ?>
+
+                <div style="overflow-x:auto;">
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                             <th style="text-align: center;"> ID </th>
+                             <th style="text-align: center;"> NIS </th>
+                             <th style="text-align: center;"> DATE </th>
+                             <th style="text-align: center;"> BULAN </th>
+                             <th style="text-align: center;"> KELAS </th>
+                             <th style="text-align: center;"> NAMA </th>
+                             <th style="text-align: center;"> PANGGILAN </th>
+                             <th style="text-align: center;"> TRANSAKSI </th>
+                             <th style="text-align: center;"> SPP SET </th>
+                             <th style="text-align: center;"> PANGKAL SET </th>
+                             <th style="text-align: center;"> SPP  </th>
+                             <th style="text-align: center;"> KET SPP </th>
+                             <th style="text-align: center;"> KEGIATAN </th>
+                             <th style="text-align: center;"> KET KEGIATAN </th>
+                             <th style="text-align: center;"> BUKU </th>
+                             <th style="text-align: center;"> KET BUKU </th>
+                             <th style="text-align: center;"> SERAGAM </th>
+                             <th style="text-align: center;"> KET SERAGAM </th>
+                             <th style="text-align: center;"> REGISTRASI </th>
+                             <th style="text-align: center;"> KET REGISTRASI </th>
+                             <th style="text-align: center;"> LAIN </th>
+                             <th style="text-align: center;"> KET LAIN </th>
+                             <th style="text-align: center;"> DI INPUT OLEH </th>
+                             <th style="text-align: center;"> STAMP </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                            <?php foreach ($execQueryGetAllDataHistori as $data_histori) : ?>
+                                <tr>
+                                    <td style="text-align: center;"> <?= $data_histori['ID']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['NIS']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['DATE']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BULAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KELAS']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['NAMA']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGGILAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['TRANSAKSI']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP_SET']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL_SET']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SPP_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['PANGKAL_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KEGIATAN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['KEGIATAN_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BUKU']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['BUKU_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SERAGAM']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['SERAGAM_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['REGISTRASI']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['REGISTRASI_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['LAIN']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['LAIN_txt']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['INPUTER']; ?> </td>
+                                    <td style="text-align: center;"> <?= $data_histori['STAMP']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        </tbody>
+
+                    </table>
                 </div>
-            </div> -->
-            
+
+            <?php endif ?>
+
         </div>
     </form>
     
 </div>
 
+<!-- Modal Cari Siswa -->
 <div id="datamassiswa" class="modal"  data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -554,98 +698,61 @@
             </div>
             <div class="modal-body"> 
                 <div class="box-body table-responsive">
-                <table id="example1" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th width="5%">NO</th>
-                <?php 
-                    if(empty($_GET['q'])) {
-                        echo '<th width="12%">KELAS</th>';
-                    } 
-                ?>
-                  <th>NISN</th>
-                  <th>NAMA</th>
-                  <th>GENDER</th>
-                </tr>
-                </thead>
-                <tbody>
-<?php
-    
-    if(isset($_GET['q'])) {
-      $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
-    } else {
-      $smk=mysqli_query($con,"SELECT * FROM siswa order by nama asc ");
-    }  
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                              <th style="text-align: center;" width="5%">NO</th>
+                            <?php 
+                                if(empty($_GET['q'])) {
+                                    echo '<th style="text-align: center;" width="12%">KELAS</th>';
+                                } 
+                            ?>
+                              <th style="text-align: center;">NIS</th>
+                              <th style="text-align: center;">NAMA</th>
+                              <th style="text-align: center;">GENDER</th>
+                            </tr>
+                        </thead>
+                        <?php
 
-    $vr = 1;
+                            $no = 1;
+                            
+                            if(isset($_GET['q'])) {
+                              $smk=mysqli_query($con,"SELECT * FROM siswa where c_kelas='$_GET[q]' order by nama asc ");
+                            } else {
 
-    while($akh=mysqli_fetch_array($smk)) { 
+                                if ($code_accounting == 'accounting1') {
+                                    $queryGetAllDataSiswa      = "SELECT * FROM data_murid_sd ORDER BY KELAS asc ";
+                                    $execqueryGetAllDataSiswa  = mysqli_query($con, $queryGetAllDataSiswa);
+                                } else {
+                                    $queryGetAllDataSiswa      = "SELECT * FROM data_murid_tk";
+                                    $execqueryGetAllDataSiswa  = mysqli_query($con, $queryGetAllDataSiswa);
+                                }
 
-        $kk  = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM kelas where c_kelas='$akh[c_kelas]' ")); 
-        $sjh = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM sisjuz_h where c_siswa='$akh[c_siswa]' limit 1 "));
+                            } 
 
-        // var_dump($sjh);
-        
-        if($sjh != null) {
-            $nextSeq = $sjh['seqjuz'] + 1;
-            $idjuzselected = $sjh['idjuz'];
-
-            if($idjuzselected != "23") { 
-                //juz finish
-                $nextmjuz       = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where seqjuz = '$nextSeq' limit 1 ")); 
-                $nextjuzutama   = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id = '$nextmjuz[parentid]' limit 1 ")); 
-            }
-            
-            $curbagian = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM tbl_juz where id='$idjuzselected' limit 1 ")); 
-        }
-
-?>                
-        <tr onclick="OnSiswaSelectedModal('<?php echo $akh['c_siswa']; ?>', 
-            '<?php echo $akh['nama']; ?>', 
-            '<?php echo $kk['kelas']; ?>', 
-            '<?php echo $sjh['c_siswa'] ?? ''; ?>',
-            '<?php echo $sjh['juz'] ?? ''; ?>', 
-            '<?php echo $sjh['idjuz'] ?? 0; ?>',
-            '<?php echo $sjh['seqjuz'] ?? 0; ?>',
-            '<?php echo $nextSeq ?? 0; ?>', 
-            '<?php echo $nextmjuz['juz_atau_keterangan_ayat'] ?? ''; ?>',
-            '<?php echo $nextmjuz['id'] ?? 0; ?>',
-            '<?php echo $sjh['ketjuzsurah'] ?? '';?> ',
-            '<p><br/></p>',
-            '<?php echo $nextjuzutama['juz_atau_keterangan_ayat'] ?? '';?> '
-            )">
-            <td> <?php echo $vr; ?> </td>
-            <?php 
-                if(empty($_GET['q'])) {
-                    echo '<td>' . $kk['kelas'] . '</td>';
-                }
-            ?>
-            <td> <?php echo $akh['nisn']; ?> </td>
-            <td> <?php echo $akh['nama']; ?> </td>
-            <td> 
-                <?php 
-                    if($akh['jk'] == 'L') {
-                        echo 'Laki - Laki';
-                    } elseif ($akh['jk'] == 'P') {
-                        echo 'Perempuan';
-                    } 
-                ?>
-            </td>
-        </tr>
-
-<?php 
-    $vr++; 
-    
-    } 
-
-?>
-</tbody>
-</table>
+                        ?>
+                        <tbody>
+                            <?php foreach ($execqueryGetAllDataSiswa as $data): ?>
+                            <tr>
+                                <td style="text-align: center;"> <?= $no++; ?> </td>
+                                <td style="text-align: center;"> <?= $data['KELAS']; ?> </td>
+                                <td style="text-align: center;"> <?= $data['NIS']; ?> </td>
+                                <td style="text-align: center;"> <?= $data['Nama']; ?> </td>
+                                <?php if ($data['jk'] == 'L'): ?>
+                                    <td style="text-align: center;"> Laki - Laki </td>
+                                <?php else: ?>
+                                    <td style="text-align: center;"> Perempuan </td>
+                                <?php endif; ?>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>    
 </div>
+<!-- Akhir Modal Cari Siswa -->
 
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script> -->
 
