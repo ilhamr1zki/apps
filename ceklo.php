@@ -88,16 +88,43 @@ if(isset($_POST['username']) and isset($_POST['password'])){
     }
   }
   else if($_POST['sebagai']=='guru'){
-    $cek2=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM guru where username='$_POST[username]' and password='$_POST[password]' "));
-    if($cek2==NULL){
+    
+    $username = strtolower($_POST['username']);
+
+    // Cek Data User Accounting
+    $sqlGetUser         = "SELECT * FROM guru WHERE username = '$username' ";
+    $execQueryGetUser   = mysqli_query($con, $sqlGetUser);
+
+    $countData          = mysqli_num_rows($execQueryGetUser);
+
+    if ($countData == 1) {
+
+      $getData      = mysqli_fetch_array($execQueryGetUser);
+
+      $dataPassword = $getData['password'];
+
+      if (password_verify($_POST['password'], $dataPassword)) {
+
+          session_start();
+          $_SESSION['c_guru']       = $getData['c_guru'];
+          // echo $_SESSION['c_accounting'];exit;
+          header('location:guru/');
+          exit;
+
+      } else {
+        session_start();
+        $_SESSION['pesan'] = 'gagal';
+        header('location:login');
+        exit;
+      }
+
+    } else {
       session_start();
-      $_SESSION['pesan']='gagal';
+      $_SESSION['pesan'] = 'gagal';
       header('location:login');
-    }else{
-      session_start();
-      $_SESSION['c_guru']=$cek2['c_guru'];
-      header('location:guru/');
+      exit;
     }
+
   }
   else if($_POST['sebagai']=='walimurid'){
     $cek4=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM walimurid where username='$_POST[username]' and password='$_POST[password]' "));

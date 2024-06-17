@@ -134,6 +134,13 @@ order by seqjilid");
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.min.js" crossorigin="anonymous"></script>
 <script>
+    $(document).ready(function() {
+        $("#list_qiroati").click();
+        $("#perform_kelas").css({
+            "background-color" : "#ccc",
+            "color" : "black"
+        });
+    });
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
                 type: 'bar',

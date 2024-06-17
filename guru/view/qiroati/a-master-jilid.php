@@ -1,5 +1,14 @@
 <?php $smk=mysqli_query($con,"SELECT * FROM tbl_jilid where parentid = 0 order by seqjilid, id asc "); ?>
 <script language="javascript" type="text/javascript">
+
+    $(document).ready(function(){
+        $("#list_qiroati").click();
+        $("#data_jilid").css({
+            "background-color" : "#ccc",
+            "color" : "black"
+        });
+    })
+
     var _id = 0;
     function OpenEdit(id, nm, seq, parentval, parennm) {
         _id = id;

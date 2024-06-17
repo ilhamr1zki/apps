@@ -125,6 +125,16 @@
 ?>
 
 <script language="javascript" type="text/javascript">
+
+    $(document).ready(function(){
+        $("#list_tahfidz").click();
+        $("#data_juz").css({
+            "background-color" : "#ccc",
+            "color" : "black"
+        });
+
+    })
+
     var _id = 0;
 
     function OpenEdit(id, nm, seq, parentval, parennm) {

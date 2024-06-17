@@ -125,7 +125,7 @@ $jmlsisjuz  = mysqli_query($con,
                   <td style="text-align: center;"> <?php echo $akh['nama'] . ' - ' ; echo $akh['nisn']; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['juz']; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['bagian']; ?> </td>
-                  <td style="text-align: center;"> <?php echo date('d-m-Y',strtotime($akh['tglnaikjuz'])) ; ?> </td>
+                  <td style="text-align: center;"> <?php echo tgl(date('d-m-Y',strtotime($akh['tglnaikjuz']))) ; ?> </td>
                   <td style="text-align: center;"> <?php echo $akh['jmlhari']; ?> </td>
                 </tr>
             <?php $vr++;
@@ -142,6 +142,14 @@ $jmlsisjuz  = mysqli_query($con,
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.bundle.min.js" crossorigin="anonymous"></script>
 <script>
+
+    $(document).ready(function() {
+        $("#list_tahfidz").click();
+        $("#perform_kelas1").css({
+            "background-color" : "#ccc",
+            "color" : "black"
+        });
+    });
             var ctx = document.getElementById("myChart").getContext("2d");
             var myChart = new Chart(ctx, {
                 type: 'bar',

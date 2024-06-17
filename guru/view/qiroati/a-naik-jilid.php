@@ -239,6 +239,12 @@ if($sjh != null){
 <script language="javascript" type="text/javascript">
 
 $(document).ready(function() {
+
+    $("#list_qiroati").click();
+    $("#naik_jilid").css({
+        "background-color" : "#ccc",
+        "color" : "black"
+    });
     
     $('#_idsiswa').val("");
     $('#_nmsiswa').val("");

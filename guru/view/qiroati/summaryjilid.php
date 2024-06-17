@@ -212,7 +212,11 @@ $getjilid=mysqli_fetch_array($strSQLmjilid);
 
 <script language="javascript" type="text/javascript">
 $(document).ready(function() {
-        
+  $("#list_qiroati").click();
+   $("#summary_jilid").css({
+      "background-color" : "#ccc",
+      "color" : "black"
+   });
 });
 
 function OpenCatatan(catatan, nmsiswa, kdsiswa) {

@@ -278,7 +278,11 @@
 
 <script language="javascript" type="text/javascript">
   $(document).ready(function() {
-          
+    $("#list_tahfidz").click();
+    $("#summary_juz").css({
+        "background-color" : "#ccc",
+        "color" : "black"
+    });
   });
 
   let hrIni = new Date("19 March 2024");

@@ -473,13 +473,12 @@ oncontextmenu="return false">
           </ul>
         </li>
 
-        
-
-        <li>
+        <!-- <li>
           <a href="<?php echo $basead; ?>">
             <i class="glyphicon glyphicon-th"></i> <span>Dashboard</span>
           </a>
         </li>
+
         <li >
           <a href="#">
             <i class="glyphicon glyphicon-menu-hamburger"></i>
@@ -490,6 +489,7 @@ oncontextmenu="return false">
             <li ><a href="<?php echo $basead; ?>backup"><i class="glyphicon glyphicon-download-alt"></i> Backup Database</a></li>
           </ul>
         </li>
+        
         <li >
           <a href="#">
             <i class="glyphicon glyphicon-log-in"></i>
@@ -536,7 +536,7 @@ oncontextmenu="return false">
           <a href="<?php echo $basead; ?>jenisnilai">
             <i class="glyphicon glyphicon-wrench"></i> <span>Jenis Nilai</span>
           </a>
-        </li>
+        </li> -->
         
       </ul>
     </section>

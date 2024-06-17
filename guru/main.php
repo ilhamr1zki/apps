@@ -23,7 +23,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>GURU AIIS-APPS</title>
+  <title>GURU AIIS-Qiroati-Tahfidz</title>
   <link rel="icon" href="favicon.ico">
   <link rel="shortcut icon" href="<?php echo $base; ?>imgstatis/favicon.jpg">
   <script type="text/javascript" src="<?php echo $base; ?>jquery.js"></script> 
@@ -106,6 +106,15 @@
       text-align: center !important;
     }
 
+    #iniKonten {
+        min-height:250px !important;
+        padding: 0 !important;
+        margin-right:auto !important;
+        margin-left:auto !important;
+        padding-left:15px !important;
+        padding-right:15px !important;
+    }
+
     @media only screen and (max-width: 600px) {
       
       .select2-container {
@@ -166,6 +175,7 @@
     }
 
   </style>
+
   <link rel="stylesheet" href="<?php echo $base; ?>theme/dist/css/overridecss.css">
 </head>
 <body class="skin-blue hold-transition " 
@@ -180,7 +190,7 @@ oncontextmenu="return false">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>AKH</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Guru AIIS-APPS</b></span>
+      <span class="logo-lg"><b style="font-size: 15px;">AIIS-TAHSIN-TAHFIDZ</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -209,13 +219,13 @@ oncontextmenu="return false">
       
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="<?php echo $base; ?>imgstatis/avatar1.png" class="user-image" alt="User Image">
+            <img src="<?php echo $base; ?>imgstatis/logo2.png" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $na['nama'] ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo $base; ?>imgstatis/avatar1.png" class="img-circle" alt="User Image">
+                <img src="<?php echo $base; ?>imgstatis/logo2.png" class="img-circle" alt="User Image">
                 <p>
                   <?php echo $na['nama']; ?>
                   <p><?php echo $ata['tahun']; ?> Semester <?php echo $ata['semester']; ?></p>
@@ -242,10 +252,14 @@ oncontextmenu="return false">
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?php echo $base; ?>imgstatis/avatar1.png" class="img-circle" alt="User Image">
+          <img src="<?php echo $base; ?>imgstatis/logo2.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $na['nama']; ?></p>
+          <?php if (strlen($na['nama']) > 18): ?>
+            <p style="font-size: 12px;"><?php echo $na['nama']; ?></p>
+          <?php else: ?>
+            <p><?php echo strlen($na['nama']); ?></p>
+          <?php endif ?>
           <i class="glyphicon glyphicon-time"></i> <?php echo tgl(date('d-m-Y')); ?>
         </div>
       </div>
@@ -255,44 +269,55 @@ oncontextmenu="return false">
       </form>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-
+        <li class="header">MAIN NAVIGATION</li>
       <li >
-        <a href="#">
+        <a href="#" id="list_qiroati">
           <i class="glyphicon glyphicon-menu-hamburger"></i>
           <span>Qiroati</span>
         </a>
         <ul class="treeview-menu">
-          <li ><a href="<?php echo $basegu; ?>masterjilid"><i class="glyphicon glyphicon-star text-primary"></i> Data Jilid</a></li>
-          <li ><a href="<?php echo $basegu; ?>naikjilid"><i class="glyphicon glyphicon-record text-primary"></i> Naik Jilid</a></li>
+          <li ><a href="<?php echo $basegu; ?>masterjilid" id="data_jilid"><i class="glyphicon glyphicon-star text-primary"></i> Data Jilid</a></li>
+          <li ><a href="<?php echo $basegu; ?>naikjilid" id="naik_jilid"><i class="glyphicon glyphicon-record text-primary"></i> Naik Jilid</a></li>
 
-          <li ><a href="<?php echo $basegu; ?>summaryjilid"><i class="glyphicon glyphicon-record text-primary"></i> Summary Jilid</a></li>
+          <li ><a href="<?php echo $basegu; ?>summaryjilid" id="summary_jilid"><i class="glyphicon glyphicon-record text-primary"></i> Summary Jilid</a></li>
 
-          <li ><a href="<?php echo $basegu; ?>performansikelas"><i class="glyphicon glyphicon-stats text-primary"></i> Performansi Kelas</a></li>
-          <li ><a href="<?php echo $basegu; ?>dataimtas"><i class="glyphicon glyphicon-star text-primary"></i> Data IMTAS</a></li>
+          <li ><a href="<?php echo $basegu; ?>performansikelas" id="perform_kelas"><i class="glyphicon glyphicon-stats text-primary"></i> Performansi Kelas</a></li>
+          <li ><a href="<?php echo $basegu; ?>dataimtas" id="data_imtas"><i class="glyphicon glyphicon-star text-primary"></i> Data IMTAS</a></li>
         </ul>
       </li>
 
       <li >
-        <a href="#">
+        <a href="#" id="list_tahfidz">
           <i class="glyphicon glyphicon-book"></i>
           <span>Tahfidz</span>
         </a>
         <ul class="treeview-menu">
-          <li ><a href="<?php echo $basegu; ?>masterjuz"><i class="glyphicon glyphicon-star text-primary"></i> Data Juz </a></li>
-          <li ><a href="<?php echo $basegu; ?>naikjuz"><i class="glyphicon glyphicon-record text-primary"></i> Naik Juz </a></li>
+          <li ><a href="<?php echo $basegu; ?>masterjuz" id="data_juz"><i class="glyphicon glyphicon-star text-primary"></i> Data Juz </a></li>
+          <li ><a href="<?php echo $basegu; ?>naikjuz" id="naik_juz"><i class="glyphicon glyphicon-record text-primary"></i> Naik Juz </a></li>
 
-          <li ><a href="<?php echo $basegu; ?>summaryjuz"><i class="glyphicon glyphicon-record text-primary"></i> Summary Juz </a></li>
+          <li ><a href="<?php echo $basegu; ?>summaryjuz" id="summary_juz"><i class="glyphicon glyphicon-record text-primary"></i> Summary Juz </a></li>
 
-          <li ><a href="<?php echo $basegu; ?>performansikelastahfidz"><i class="glyphicon glyphicon-stats text-primary"></i> Performansi Kelas</a></li>
+          <li ><a href="<?php echo $basegu; ?>performansikelastahfidz" id="perform_kelas1"><i class="glyphicon glyphicon-stats text-primary"></i> Performansi Kelas</a></li>
         </ul>
       </li>
 
-      <li>
+      <li >
+        <a href="#" id="list_setting">
+          <i class="glyphicon glyphicon-cog"></i>
+          <span>Setting</span>
+        </a>
+        <ul class="treeview-menu">
+          <li ><a href="<?php echo $basegu; ?>set_tahunajaran" id="setTahunAjaran"><i class="glyphicon glyphicon-wrench text-primary"></i> Tahun Ajaran </a></li>
+          <li ><a href="<?php echo $basegu; ?>ubahpassword" id="ubah_password"><i class="glyphicon glyphicon-wrench text-primary"></i> Ubah Password </a></li>
+        </ul>
+      </li>
+
+      <!-- <li>
         <a href="<?php echo $basegu; ?>">
           <i class="glyphicon glyphicon-th"></i> <span>Dashboard</span>
         </a>
-      </li>
-        <li class="header" style="color:#fff;">MATA PELAJARAN</li>
+      </li> -->
+        <!-- <li class="header" style="color:#fff;">MATA PELAJARAN</li> -->
         <?php 
           $lkel=mysqli_query($con,"SELECT * FROM kelas order by kelas asc ");
           while($hlkel=mysqli_fetch_array($lkel)) { 
@@ -352,7 +377,7 @@ $presentase=number_format($hjn*$persenan);
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" id="iniKonten">
 
 <?php
   if(empty($_GET['on'])){require 'view/home.php';}
@@ -400,6 +425,12 @@ $presentase=number_format($hjn*$persenan);
     }
 
     #endregion tahfidz
+
+    #ganti password
+    elseif ($act == 'ubahpassword') {
+      require 'view/password/index.php';
+    }
+    #akhir ganti password
 
     else{
       require 'view/404.php';

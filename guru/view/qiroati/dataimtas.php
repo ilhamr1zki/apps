@@ -1,4 +1,12 @@
 <script language="javascript" type="text/javascript">
+    $(document).ready(function() {
+        $("#list_qiroati").click();
+        $("#data_imtas").css({
+            "background-color" : "#ccc",
+            "color" : "black"
+        });
+    });
+    
 function OpenCarisiswaModal(){
     $('#datamassiswa').modal("show");
 }

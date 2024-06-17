@@ -319,6 +319,12 @@
 
 $(document).ready(function() {
 
+    $("#list_tahfidz").click();
+    $("#naik_juz").css({
+        "background-color" : "#ccc",
+        "color" : "black"
+    });
+
     $('#_idsiswa').val("");
     $('#_nmsiswa').val("");
     $('#_nmsiswa2').text("");

@@ -9,7 +9,7 @@ else if(isset($_SESSION['c_walimurid'])){ header('location:walimurid/'); }
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Login AIIS APPS</title>
+  <title>AIIS Qiroati-Tahfidz</title>
   <link rel="icon" href="favicon.ico">
   <link rel="shortcut icon" href="imgstatis/favicon.jpg">
   <script type="text/javascript" src="jquery.js"></script> 
@@ -47,7 +47,7 @@ no-repeat center center fixed; background-size: cover;
  <div class="row">
 <div class="login-box">
   <div class="login-logo">
-    <h3 style="color:#fff;">AIIS-APPS<br><p><?php echo $aplikasi['namasek']; ?></p></h3>
+    <h3 style="color:#fff;">AIIS-Qiroati-Tahfidz<br><p><?php echo $aplikasi['namasek']; ?></p></h3>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -70,10 +70,10 @@ no-repeat center center fixed; background-size: cover;
         <label>*Login Sebagai</label>
         <select name="sebagai" class="form-control form-select" id="select2">
           <option value="admin">ADMINISTRATOR</option> 
-          <option value="accounting">ACCOUNTING</option> 
-          <option value="walikelas">WALI KELAS</option>
+          <!-- <option value="accounting">ACCOUNTING</option> 
+          <option value="walikelas">WALI KELAS</option> -->
           <option value="guru">GURU</option>
-          <option value="walimurid">WALI MURID</option>
+          <!-- <option value="walimurid">WALI MURID</option> -->
         </select>
       </div>
         <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat" style="font-size: 15px;">Login <i class="glyphicon glyphicon-log-in"></i></button>
